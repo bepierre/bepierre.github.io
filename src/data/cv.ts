@@ -1,63 +1,69 @@
 export const experiences = [
 	{
-		company: '',
-		time: '',
-		title: '',
+		company: 'University of Bern, Institute for Philosophy',
+		time: '2023 - 2025',
+		title: 'Research Assistant, Philosophy of AI',
 		location: '',
 		description: '',
 	},
-	// {
-	// 	company: 'Radium Institute (Institut du Radium)',
-	// 	time: '1914 - 1934',
-	// 	title: 'Director',
-	// 	location: 'Paris, France',
-	// 	description: 'Led groundbreaking studies on radioactivity and mentored future Nobel Prize laureates.',
-	// },
+	{
+		company: 'EPFL LSIR Lab',
+		time: '2019 - 2021',
+		title: 'Research Engineer, 50%',
+		location: '',
+		description: '',
+	},
+	{
+		company: 'Logitech Lausanne',
+		time: '2019',
+		title: 'Research Engineering Intern',
+		location: '',
+		description: '',
+	},
+	{
+		company: 'Disney Research Zurich (DRZ)',
+		time: '2018 - 2019',
+		title: 'Master Thesis and Semester Project',
+		location: '',
+		description: '',
+	}
 ];
 
 export const education = [
 	{
-		school: '',
-		time: '',
-		degree: '',
+		school: 'EPFL - IDIAP',
+		time: '2025 - Now',
+		degree: 'PhD Student',
 		location: '',
 		description: '',
 	},
-	// {
-	// 	school: 'University of Paris',
-	// 	time: '1891 - 1895',
-	// 	degree: 'Master’s in Physics and Mathematics',
-	// 	location: 'Paris, France',
-	// 	description: 'Graduated at the top of her class in physics and second in mathematics.',
-	// },
+	{
+		school: 'UNIL Lausanne',
+		time: '2019 - 2023',
+		degree: 'M.A. Philosophy',
+		location: '',
+		description: '',
+	},
+	{
+		school: 'ETH Zurich',
+		time: '2016 - 2019',
+		degree: 'M.Sc. Computational Sciences and Engineering',
+		location: '',
+		description: '',
+	},
+	{
+		school: 'EPFL Lausanne',
+		time: 'Sept. 2013 - July 2016',
+		degree: 'B.Sc. Life Sciences and Technologies',
+		location: '',
+		description: '',
+	},
 ];
 
 export const skills = [
-	{
-		title: '',
-		description: '',
-	},
-	// {
-	// 	title: 'Experimental Techniques',
-	// 	description: 'Spectroscopy, Isolation of Radioactive Elements, Radiation Measurement',
-	// },
+
 ];
 
 export const publications = [
-	{
-		title: '',
-		authors: '',
-		journal: '',
-		time: '',
-		link: '',
-		abstract: '',
-	},
-	// {
-	// 	title: 'The Radiation of Uranium Compounds',
-	// 	authors: 'Marie Curie',
-	// 	journal: 'Comptes Rendus de l’Académie des Sciences',
-	// 	time: '1898',
-	// 	link: '#',
-	// 	abstract: 'Early research leading to the identification of uranium’s radioactive properties.',
-	// },
+	// Publications are now displayed on the separate Papers page
 ];

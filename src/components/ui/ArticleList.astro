@@ -1,25 +1,102 @@
 ---
+import { Image } from 'astro:assets'
+
 interface Props {
   listTitle: string;
   listItems: {
     title: string;
+    authors: string;
     journal: string;
     time: string;
+    link?: string;
+    image?: any;
+    description?: string;
+    section?: string;
   }[];
 }
 const {listTitle, listItems} = Astro.props
 ---
 
-<h2 class='text-3xl font-bold mb-8'>Recent Publications</h2>
-		<div class='space-y-6'>
+<h2 class='text-3xl font-bold mb-8'>{listTitle}</h2>
+		<div class='space-y-8'>
 			{
-				listItems.map(item => (
-					<div class='p-6 rounded-lg text-base-content bg-base-200'>
-						<h3 class='text-xl font-semibold mb-2'>{item.title}</h3>
-						<p >
-							{item.journal} • {item.time}
-						</p>
-					</div>
-				))
+				listItems.map((item, index) => {
+					// Only show section headers if there are items with sections AND we're not showing "Recent Publications"
+					const hasSections = listItems.some(item => item.section);
+					const showSectionHeader = hasSections && listTitle !== 'Recent Publications' && item.section && (index === 0 || listItems[index - 1].section !== item.section);
+					return (
+						<div>
+							{showSectionHeader && (
+								<div class="mb-6">
+									<h3 class="text-xl font-semibold text-base-content mb-2">{item.section}</h3>
+									{item.section === 'Deep learning for speech (2019-2023)' && (
+										<p class="text-sm text-base-content/60 italic">Previous research in deep learning for speech - no longer active in this field</p>
+									)}
+								</div>
+							)}
+							<div class={`p-6 rounded-lg text-base-content bg-base-200 ${item.link ? 'cursor-pointer hover:bg-base-300 transition-colors' : ''}`}>
+								<div class="flex gap-4">
+									{item.image && listTitle === 'Recent Publications' && (
+										<div class="flex-shrink-0 w-96 h-48">
+											{item.image.toString().endsWith('.pdf') ? (
+												<a href={item.image} target="_blank" rel="noopener noreferrer" class="block">
+													<div class="w-full h-full bg-red-100 border-2 border-red-300 rounded-lg flex items-center justify-center hover:bg-red-200 transition-colors">
+														<div class="text-center">
+															<svg class="w-8 h-8 mx-auto text-red-600 mb-1" fill="currentColor" viewBox="0 0 20 20">
+																<path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+															</svg>
+															<span class="text-xs text-red-600 font-medium">PDF</span>
+														</div>
+													</div>
+												</a>
+											) : (
+												<Image 
+													src={item.image} 
+													alt={`Figure from ${item.title}`}
+													class="w-full h-full object-cover rounded-lg"
+													width={384}
+													height={192}
+												/>
+											)}
+										</div>
+									)}
+									<div class="flex-1">
+										{item.link ? (
+											<a href={item.link} target="_blank" rel="noopener noreferrer" class="block no-underline">
+												<h3 class='text-xl font-semibold mb-2 text-base-content hover:text-accent no-underline'>{item.title}</h3>
+												<p class="text-sm text-base-content/70 mb-1">
+													{item.authors}
+												</p>
+												<p class="text-sm text-base-content/70 mb-2">
+													{item.journal} • {item.time}
+												</p>
+												{item.description && listTitle === 'Recent Publications' && (
+													<p class="text-sm text-base-content/80 leading-relaxed">
+														{item.description}
+													</p>
+												)}
+											</a>
+										) : (
+											<>
+												<h3 class='text-xl font-semibold mb-2 text-base-content'>{item.title}</h3>
+												<p class="text-sm text-base-content/70 mb-1">
+													{item.authors}
+												</p>
+												<p class="text-sm text-base-content/70 mb-2">
+													{item.journal} • {item.time}
+												</p>
+												{item.description && listTitle === 'Recent Publications' && (
+													<p class="text-sm text-base-content/80 leading-relaxed">
+														{item.description}
+													</p>
+												)}
+											</>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					);
+				})
 			}
 		</div>
