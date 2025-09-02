@@ -32,7 +32,7 @@ export const template = {
 	darkTheme: 'dark', // DaisyUI dark theme
 	excerptLength: 200, // Length of blog post excerpts
 	postPerPage: 5, // Number of blog posts per page
-    	base: '/pierre-beckmann-website/' // Replace REPOSITORY_NAME with your actual repository name
+    	base: '' // Empty for username.github.io domain
 }
 
 export const seo = {
