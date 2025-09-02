@@ -7,7 +7,7 @@ const {fullName, title, institute, profilePicture, bio} = Astro.props
   <h1 class='text-4xl font-bold mb-4 text-base-content'>
     {fullName}
   </h1>
-  <p class='text-xl text-gray-600 mb-4'>{title}{institute ? ` at ${institute}` : ''}</p>
+  {title && <p class='text-xl text-gray-600 mb-4'>{title}{institute ? ` at ${institute}` : ''}</p>}
   <p class='text-lg mb-6' set:html={bio}>
   </p>
 </div>

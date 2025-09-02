@@ -1,6 +1,6 @@
 export const profile = {
 	fullName: 'Pierre Beckmann', // Replace with your full name
-	title: 'PhD Student', // e.g., "PhD Student", "Research Scientist", "Professor"
+	title: '', // e.g., "PhD Student", "Research Scientist", "Professor"
 	institute: 'EPFL and IDIAP', // e.g., "University of Example"
 	author_name: 'Pierre Beckmann', // Author name to be highlighted in the papers section
 	bio: 'I am a researcher working in Philosophy of AI and Philosophically-motivated AI. I am currently a PhD student in the <a href="https://www.idiap.ch/en/scientific-research/neuro-symbolic-ai" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline">Neuro-Symbolic AI group</a> of Idiap and EPFL, working for the <a href="https://www.dsi.uzh.ch/en/research/projects/third-party/m-rational.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline">M-RATIONAL project</a>. I also keep close ties to the institute for philosophy of Bern where I worked as a research assistant.',
