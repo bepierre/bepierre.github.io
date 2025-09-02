@@ -25,14 +25,14 @@ export const social = {
 }
 
 export const template = {
-	website_url: 'https://localhost:4321', // Change this to your actual domain when deploying
+	website_url: 'https://bepierre.github.io', // Change this to your actual domain when deploying
 	menu_left: false, // Set to true if you want left-aligned menu
 	transitions: true, // Enable page transitions
 	lightTheme: 'light', // DaisyUI light theme
 	darkTheme: 'dark', // DaisyUI dark theme
 	excerptLength: 200, // Length of blog post excerpts
 	postPerPage: 5, // Number of blog posts per page
-    base: '' // Leave empty unless deploying to a subdirectory
+    	base: '/pierre-beckmann-website/' // Replace REPOSITORY_NAME with your actual repository name
 }
 
 export const seo = {
