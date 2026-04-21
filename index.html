@@ -66,6 +66,38 @@
           <tr>
             <td style="padding:16px;width:30%;vertical-align:middle">
               <div class="carousel" onclick="cycleImage(this)" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
+                <img src="images/where_mind/figures/emergent_misalignment.png" width="100%" style="display:block;">
+                <img src="images/where_mind/figures/persona_space.png" width="100%" style="display:none;">
+                <img src="images/where_mind/figures/streams.png" width="100%" style="display:none;">
+                <img src="images/where_mind/figures/streams_MJ.png" width="100%" style="display:none;">
+                <img src="images/where_mind/figures/Aura_discussion.png" width="100%" style="display:none;">
+                <img src="images/where_mind/figures/character_persistence.png" width="100%" style="display:none;">
+                <img src="images/where_mind/figures/Features_sliders.png" width="100%" style="display:none;">
+                <img src="images/where_mind/figures/mini_exp1_original.png" width="100%" style="display:none;">
+              </div>
+            </td>
+            <td style="padding:20px;width:65%;vertical-align:middle">
+              <a href="https://arxiv.org/abs/2604.17031">
+                <span class="papertitle">Where is the Mind? Persona Vectors and LLM Individuation</span>
+              </a>
+              <br>
+              <strong>Pierre Beckmann</strong>,
+              <a href="https://patrickbutlin.com/">Patrick Butlin</a>
+              <br>
+              <em>arXiv preprint</em>
+              <br>
+              <a href="https://arxiv.org/abs/2604.17031">arXiv</a> /
+              <a href="https://x.com/BeckmannPierre/status/2046257633137443291">thread</a>
+              <p></p>
+              <p>
+                We argue that the strongest candidates for minds in LLMs are the virtual instance view and two novel persona-based views, drawing on mechanistic interpretability and persona vectors.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px;width:30%;vertical-align:middle">
+              <div class="carousel" onclick="cycleImage(this)" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
                 <img src="images/mechanistic/othello_final.png" width="100%" style="display:block;">
                 <img src="images/mechanistic/attention_final.png" width="100%" style="display:none;">
                 <img src="images/mechanistic/latent_spaces_final.png" width="100%" style="display:none;">
@@ -79,16 +111,16 @@
               </div>
             </td>
             <td style="padding:20px;width:65%;vertical-align:middle">
-              <a href="https://arxiv.org/abs/2507.08017">
+              <a href="https://link.springer.com/article/10.1007/s11098-026-02513-1">
                 <span class="papertitle">Mechanistic Indicators of Understanding in Large Language Models</span>
               </a>
               <br>
               <strong>Pierre Beckmann</strong>,
               <a href="https://www.matthieuqueloz.com/">Matthieu Queloz</a>
               <br>
-              <em>Philosophical Studies</em>, forthcoming
+              <em>Philosophical Studies</em>, 2026
               <br>
-              <a href="https://arxiv.org/abs/2507.08017">arXiv</a>
+              <a href="https://link.springer.com/article/10.1007/s11098-026-02513-1">paper</a>
               <p></p>
               <p>
                 Building on mechanistic interpretability, we argue that LLMs exhibit signs of understanding &mdash; across three tiers: conceptual, state-of-the-world, and principled understanding.
@@ -337,10 +369,15 @@
 
     (function() {
       var angle = 0;
+      var cooldown = false;
       var pic = document.querySelector('.profile-pic');
+      pic.style.transition = 'transform 0.4s';
       pic.addEventListener('mouseenter', function() {
+        if (cooldown) return;
+        cooldown = true;
         angle += 90;
         pic.style.transform = 'rotate(' + angle + 'deg)';
+        setTimeout(function() { cooldown = false; }, 1000);
       });
     })();
     </script>
