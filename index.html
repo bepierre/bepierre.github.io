@@ -203,6 +203,71 @@
             </td>
           </tr>
 
+          <!-- Section: Reasoning in LLMs -->
+          <tr>
+            <td style="padding:16px;width:100%" colspan="2">
+              <h2>Reasoning in LLMs</h2>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px;width:30%;vertical-align:middle">
+              <div class="carousel" onclick="cycleImage(this)" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
+                <img src="images/scir/main_fig_v2.png" width="100%" style="display:block;">
+                <img src="images/scir/deduction.png" width="100%" style="display:none;">
+                <img src="images/scir/induction.png" width="100%" style="display:none;">
+                <img src="images/scir/causal.png" width="100%" style="display:none;">
+                <img src="images/scir/premise_obfuscation.png" width="100%" style="display:none;">
+                <img src="images/scir/big_tree.png" width="100%" style="display:none;">
+              </div>
+            </td>
+            <td style="padding:20px;width:65%;vertical-align:middle">
+              <a href="https://arxiv.org/abs/2606.13020">
+                <span class="papertitle">SciR: A Controllable Benchmark for Scientific Reasoning in LLMs</span>
+              </a>
+              <br>
+              <strong>Pierre Beckmann</strong>,
+              Marco Valentino,
+              Andre Freitas
+              <br>
+              <em>arXiv preprint</em>
+              <br>
+              <a href="https://arxiv.org/abs/2606.13020">arXiv</a> /
+              <a href="https://github.com/idiap/scir">code</a> /
+              <a href="https://huggingface.co/datasets/sci-reason/scir">data</a>
+              <p></p>
+              <p>
+                A multi-paradigm benchmark for scientific reasoning &mdash; deduction, induction, and causal abduction &mdash; where tasks are generated as formal objects with verifiable answers, then rendered into scientific documents. Two difficulty axes, inference complexity and premise obfuscation, can be varied independently to decompose model failure into extraction and inference.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px;width:30%;vertical-align:middle">
+              <div class="carousel" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
+                <img src="images/eacl.png" width="100%">
+              </div>
+            </td>
+            <td style="padding:20px;width:65%;vertical-align:middle">
+              <a href="https://aclanthology.org/2026.eacl-long.54/">
+                <span class="papertitle">Adaptive LLM-Symbolic Reasoning via Dynamic Logical Solver Composition</span>
+              </a>
+              <br>
+              Lei Xu,
+              <strong>Pierre Beckmann</strong>,
+              Marco Valentino,
+              Andre Freitas
+              <br>
+              <em>EACL</em>, 2026
+              <br>
+              <a href="https://aclanthology.org/2026.eacl-long.54/">paper</a>
+              <p></p>
+              <p>
+                A neuro-symbolic framework that automatically identifies formal reasoning strategies from natural language problems and dynamically selects specialized logical solvers via autoformalization interfaces.
+              </p>
+            </td>
+          </tr>
+
           <!-- Section: Mechanistic Interpretability -->
           <tr>
             <td style="padding:16px;width:100%" colspan="2">
@@ -234,39 +299,6 @@
               <p></p>
               <p>
                 Using linear probes on residual-stream activations, we find a preference vector that tracks a model's preferences across prompts and situations &mdash; and show this representation is largely shared across personas, predicting and steering choices even for an adversarial persona.
-              </p>
-            </td>
-          </tr>
-
-          <!-- Section: Reasoning in LLMs -->
-          <tr>
-            <td style="padding:16px;width:100%" colspan="2">
-              <h2>Reasoning in LLMs</h2>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:16px;width:30%;vertical-align:middle">
-              <div class="carousel" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
-                <img src="images/eacl.png" width="100%">
-              </div>
-            </td>
-            <td style="padding:20px;width:65%;vertical-align:middle">
-              <a href="https://aclanthology.org/2026.eacl-long.54/">
-                <span class="papertitle">Adaptive LLM-Symbolic Reasoning via Dynamic Logical Solver Composition</span>
-              </a>
-              <br>
-              Lei Xu,
-              <strong>Pierre Beckmann</strong>,
-              Marco Valentino,
-              Andre Freitas
-              <br>
-              <em>EACL</em>, 2026
-              <br>
-              <a href="https://aclanthology.org/2026.eacl-long.54/">paper</a>
-              <p></p>
-              <p>
-                A neuro-symbolic framework that automatically identifies formal reasoning strategies from natural language problems and dynamically selects specialized logical solvers via autoformalization interfaces.
               </p>
             </td>
           </tr>
