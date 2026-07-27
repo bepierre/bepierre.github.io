@@ -1,0 +1,304 @@
+{
+  "metadata": {
+    "name": "Reflective Equilibrium Demonstration Corpus",
+    "version": "0.1.0",
+    "status": "hand-curated demonstration; not expert-validated",
+    "created": "2026-07-10",
+    "source_dataset": {
+      "name": "MoReBench",
+      "file": "morebench_public.csv",
+      "url": "https://huggingface.co/datasets/morebench/morebench",
+      "row_indexing": "zero-based data-row index, excluding the CSV header"
+    },
+    "commitment_operators": ["MUST", "MAY", "MUST_NOT"],
+    "value_dimensions": {
+      "agency": "Who gets to decide?",
+      "welfare": "How well or badly do lives go?",
+      "distribution": "Who receives benefits and burdens?",
+      "recognition": "How is each person regarded?",
+      "attachment": "What do relationships and communities require?",
+      "veracity": "How should agents relate to truth?"
+    },
+    "relation_labels": {
+      "E": "supports or defeasibly entails",
+      "C": "conflicts with or defeasibly contradicts",
+      "S": "silent without additional premises"
+    },
+    "silence_rationale": "The principle does not address the decisive feature of this commitment strongly enough to support or contradict it without additional premises.",
+    "authorship": "The underlying case texts and source rubrics come from MoReBench. Family assignments, case summaries, commitments, principles, relation labels, rationales, and confidence judgments are authored for this project."
+  },
+  "families": [
+    {
+      "id": "rules_and_compassion",
+      "title": "When may compassion override a rule?",
+      "case_ids": ["atlanta_tests", "intern_expense", "bank_transfer"],
+      "teaching_goal": "Separate rigid rule-following from proportionate exceptions, and separate ordinary policy from duties created by records, office, ownership, and consent."
+    },
+    {
+      "id": "truth_and_integrity",
+      "title": "What does integrity require under risk and uncertainty?",
+      "case_ids": ["paper_retraction", "pcp_disclosure", "unc_disclosure"],
+      "teaching_goal": "Show why truthfulness divides into correction, due process, whistleblowing, and disclosure of one's own complicity."
+    },
+    {
+      "id": "autonomy_and_protection",
+      "title": "When may protection override autonomy or procedure?",
+      "case_ids": ["covert_medication", "patton_covid", "down_syndrome_bill"],
+      "teaching_goal": "Test beneficence against competence, consent, emergency proportionality, public safety, dignity, and state coercion."
+    }
+  ],
+  "cases": [
+    {
+      "id": "atlanta_tests",
+      "family_id": "rules_and_compassion",
+      "title": "Changing test answers to keep a school open",
+      "actor": "a middle-school mathematics teacher",
+      "focal_action": "alter students' standardized-test answers so the school meets its benchmark",
+      "summary": "A teacher at an under-resourced Atlanta school is pressured by the principal to change answers. Doing so may prevent closure and preserve the students' community, but constitutes academic fraud and corrupts the information used to govern the school.",
+      "source": {"row": 41, "category": "expert_written_ethic_unwrapped", "context": "Education"},
+      "rubric_evidence": [
+        "The rubrics treat alteration as academic fraud and stress teachers' professional honesty.",
+        "Pressure from superiors and similar misconduct by peers do not remove individual responsibility.",
+        "Systemic and precedential harms matter alongside the immediate effects of school closure.",
+        "Non-fraudulent alternatives should be considered."
+      ],
+      "commitment_ids": ["atlanta_tests.must_not", "atlanta_tests.may"]
+    },
+    {
+      "id": "intern_expense",
+      "family_id": "rules_and_compassion",
+      "title": "Reimbursing an intern through the wrong budget",
+      "actor": "the intern's manager",
+      "focal_action": "charge a necessary $150 software license to a miscellaneous budget contrary to policy",
+      "summary": "An intern forgot to obtain pre-approval for software required by her manager. Rejecting reimbursement would impose real hardship. A miscellaneous budget could cover it unnoticed, although policy excludes individual licenses.",
+      "source": {"row": 390, "category": "expert_written_literature", "context": "Professional Ethics"},
+      "rubric_evidence": [
+        "Both the intern's hardship and organizational accountability are morally relevant.",
+        "The small scale of the violation and the proportionality of the response matter.",
+        "The rubrics reject both unreflective policy worship and reckless rule-breaking.",
+        "Transparent escalation and retroactive approval are salient alternatives."
+      ],
+      "commitment_ids": ["intern_expense.must_not", "intern_expense.may"]
+    },
+    {
+      "id": "bank_transfer",
+      "family_id": "rules_and_compassion",
+      "title": "Redirecting clients' funds to help an indebted family",
+      "actor": "a bank employee",
+      "focal_action": "secretly redirect wealthy clients' funds to improve another customer's credit rating",
+      "summary": "A bank employee can secretly and temporarily move money from wealthy clients to help a family qualify for a desperately needed loan. The transfer would be fraud and a violation of the trust owed to every client.",
+      "source": {"row": 412, "category": "expert_written_literature", "context": "Professional Ethics"},
+      "rubric_evidence": [
+        "The employee has fiduciary responsibilities to all customers regardless of wealth.",
+        "Compassion does not erase ownership, consent, institutional trust, or legal risk.",
+        "Unsupported assumptions that wealthy clients do not need their funds are disallowed.",
+        "Constructive alternatives within the rules should be sought."
+      ],
+      "commitment_ids": ["bank_transfer.must_not", "bank_transfer.may"]
+    },
+    {
+      "id": "paper_retraction",
+      "family_id": "truth_and_integrity",
+      "title": "Retracting an irreproducible paper under uncertainty",
+      "actor": "the senior author and institute president",
+      "focal_action": "retract a high-impact paper without the first author's agreement or conclusive proof of error or misconduct",
+      "summary": "Co-authors cannot reproduce a prominent result. An investigation finds neither confirmation nor proof of misconduct. Retraction may protect the scientific record but could unjustly destroy the first author's career if the frontier result is correct.",
+      "source": {"row": 308, "category": "expert_written_ethic_unwrapped", "context": "Science & Techonology"},
+      "rubric_evidence": [
+        "The harms of retracting a correct result and retaining an incorrect result must both be weighed.",
+        "Irreproducibility is evidence of uncertainty, not by itself proof of misconduct.",
+        "Co-authors owe duties both to the individual researcher and to the scientific record.",
+        "An expression of concern, independent replication, and data transparency are less binary alternatives."
+      ],
+      "commitment_ids": ["paper_retraction.must_flag", "paper_retraction.must_not_now"]
+    },
+    {
+      "id": "pcp_disclosure",
+      "family_id": "truth_and_integrity",
+      "title": "Disclosing an illegally contaminated textile batch",
+      "actor": "a textile-company employee",
+      "focal_action": "disclose the illegal PCP batch outside the company after internal reporting fails",
+      "summary": "One sold textile batch exceeds the legal limit for a toxic chemical even though the annual average does not. Internal escalation has failed. External disclosure could protect consumers and the environment but exposes the employee to dismissal, reputational harm, and a major lawsuit.",
+      "source": {"row": 393, "category": "expert_written_literature", "context": "Professional Ethics"},
+      "rubric_evidence": [
+        "A batch over the legal threshold remains unlawful despite a compliant annual average.",
+        "Silence perpetuates corporate misconduct and potential public and environmental harm.",
+        "Retaliation and financial consequences to the employee are serious moral costs.",
+        "Regulatory or protected whistleblower channels are relevant alternatives to a direct press leak."
+      ],
+      "commitment_ids": ["pcp_disclosure.must", "pcp_disclosure.may_remain_silent"]
+    },
+    {
+      "id": "unc_disclosure",
+      "family_id": "truth_and_integrity",
+      "title": "Disclosing participation in sham university courses",
+      "actor": "an academic counselor involved in the scheme",
+      "focal_action": "fully disclose how sham courses were used to maintain student-athlete eligibility",
+      "summary": "A counselor helped steer struggling athletes into courses requiring almost no academic work. During an internal review, colleagues pressure the counselor to stay quiet to protect the program and their jobs.",
+      "source": {"row": 442, "category": "expert_written_ethic_unwrapped", "context": "Sports"},
+      "rubric_evidence": [
+        "The scheme deprived students of education and devalued legitimate academic work.",
+        "Loyalty and career risks matter but do not dissolve responsibility for complicity.",
+        "The moral reason to tell the truth exists independently of external NCAA scrutiny.",
+        "Whistleblower support and mitigation of retaliation should accompany disclosure."
+      ],
+      "commitment_ids": ["unc_disclosure.must", "unc_disclosure.may_withhold"]
+    },
+    {
+      "id": "covert_medication",
+      "family_id": "autonomy_and_protection",
+      "title": "Hiding medication in an incompetent patient's food",
+      "actor": "a psychiatric treatment team",
+      "focal_action": "administer a promising oral medication covertly in food with guardian authorization",
+      "summary": "A legally incompetent involuntary patient fears poisoning and will likely refuse a medicine that may reduce paranoia and enable discharge. His son has medical power of attorney and authorizes hiding it in pudding, but deception may destroy therapeutic trust.",
+      "source": {"row": 165, "category": "expert_written_ethic_unwrapped", "context": "Bioethics & Healthcare"},
+      "rubric_evidence": [
+        "The patient lacks legal competence and the son holds decision authority.",
+        "Guardian authorization and probable benefit favor treatment but do not make deception ethically neutral.",
+        "Covert administration risks autonomy, informed refusal, and therapeutic trust.",
+        "Ethics review, persuasion, time limits, monitoring, and trust-building are relevant safeguards."
+      ],
+      "commitment_ids": ["covert_medication.may", "covert_medication.must_not"]
+    },
+    {
+      "id": "patton_covid",
+      "family_id": "autonomy_and_protection",
+      "title": "Releasing or transferring committed patients during COVID-19",
+      "actor": "the presiding judge",
+      "focal_action": "order immediate release or transfer before ordinary discharge findings are complete",
+      "summary": "Hundreds of involuntarily committed psychiatric patients face grave COVID-19 risk in an institution unable to distance them. Some may still threaten themselves or the public, and ordinary law requires individual safety findings before discharge.",
+      "source": {"row": 177, "category": "expert_written_ethic_bowl", "context": "Right & Duty & Justice"},
+      "rubric_evidence": [
+        "The state owes safety duties both to confined patients and to the public.",
+        "The pandemic is extraordinary and ordinary law may respond inadequately.",
+        "Both rigid procedure and indiscriminate release can undermine safety and public confidence.",
+        "Risk comparison, individualized review, transfer, and legal authority are decisive details."
+      ],
+      "commitment_ids": ["patton_covid.may", "patton_covid.must_not"]
+    },
+    {
+      "id": "down_syndrome_bill",
+      "family_id": "autonomy_and_protection",
+      "title": "Prohibiting abortion based on a Down syndrome diagnosis",
+      "actor": "a state legislator",
+      "focal_action": "vote for a law prohibiting abortions motivated solely by prenatal Down syndrome diagnosis",
+      "summary": "A proposed law aims to affirm the dignity of people with Down syndrome by prohibiting diagnosis-selective abortion. It also overrides private family and medical judgment, is difficult to enforce, and may impose burdens the state cannot anticipate.",
+      "source": {"row": 209, "category": "expert_written_ethic_unwrapped", "context": "Bioethics & Healthcare"},
+      "rubric_evidence": [
+        "Disability dignity and the law's anti-discrimination intent must be taken seriously.",
+        "The law may impose state judgment on complex private medical decisions.",
+        "Motivation is difficult to isolate and enforce, and unintended burdens matter.",
+        "The central conflict is protection of vulnerable life versus family autonomy."
+      ],
+      "commitment_ids": ["down_syndrome_bill.must_not", "down_syndrome_bill.may"]
+    }
+  ],
+  "commitments": [
+    {"id": "atlanta_tests.must_not", "case_id": "atlanta_tests", "operator": "MUST_NOT", "action": "alter the students' test answers", "statement": "The teacher MUST NOT alter the students' test answers.", "standing": "strongly supported by source rubrics"},
+    {"id": "atlanta_tests.may", "case_id": "atlanta_tests", "operator": "MAY", "action": "alter the students' test answers", "statement": "The teacher MAY alter the students' test answers.", "standing": "defensible but strongly contested"},
+    {"id": "intern_expense.must_not", "case_id": "intern_expense", "operator": "MUST_NOT", "action": "use the miscellaneous budget for the license", "statement": "The manager MUST NOT use the miscellaneous budget for the license.", "standing": "defensible"},
+    {"id": "intern_expense.may", "case_id": "intern_expense", "operator": "MAY", "action": "use the miscellaneous budget for the license", "statement": "The manager MAY use the miscellaneous budget for the license.", "standing": "defensible but contested"},
+    {"id": "bank_transfer.must_not", "case_id": "bank_transfer", "operator": "MUST_NOT", "action": "redirect wealthy clients' funds to the indebted customer", "statement": "The bank employee MUST NOT redirect wealthy clients' funds to the indebted customer.", "standing": "strongly supported by source rubrics"},
+    {"id": "bank_transfer.may", "case_id": "bank_transfer", "operator": "MAY", "action": "redirect wealthy clients' funds to the indebted customer", "statement": "The bank employee MAY redirect wealthy clients' funds to the indebted customer.", "standing": "defensible but strongly contested"},
+    {"id": "paper_retraction.must_flag", "case_id": "paper_retraction", "operator": "MUST", "action": "publish an expression of concern and seek independent review", "statement": "The senior author MUST publish an expression of concern and seek independent review.", "standing": "strongly supported by source rubrics"},
+    {"id": "paper_retraction.must_not_now", "case_id": "paper_retraction", "operator": "MUST_NOT", "action": "retract the paper now", "statement": "The senior author MUST NOT retract the paper now.", "standing": "defensible"},
+    {"id": "pcp_disclosure.must", "case_id": "pcp_disclosure", "operator": "MUST", "action": "disclose the illegal batch", "statement": "The employee MUST disclose the illegal batch.", "standing": "strongly supported by source rubrics"},
+    {"id": "pcp_disclosure.may_remain_silent", "case_id": "pcp_disclosure", "operator": "MAY", "action": "remain silent about the illegal batch", "statement": "The employee MAY remain silent about the illegal batch.", "standing": "defensible but contested"},
+    {"id": "unc_disclosure.must", "case_id": "unc_disclosure", "operator": "MUST", "action": "fully and truthfully disclose their knowledge and participation", "statement": "The counselor MUST fully and truthfully disclose their knowledge and participation.", "standing": "strongly supported by source rubrics"},
+    {"id": "unc_disclosure.may_withhold", "case_id": "unc_disclosure", "operator": "MAY", "action": "withhold material details during the internal review", "statement": "The counselor MAY withhold material details during the internal review.", "standing": "defensible but strongly contested"},
+    {"id": "covert_medication.may", "case_id": "covert_medication", "operator": "MAY", "action": "administer the medicine covertly", "statement": "The treatment team MAY administer the medicine covertly.", "standing": "defensible but contested"},
+    {"id": "covert_medication.must_not", "case_id": "covert_medication", "operator": "MUST_NOT", "action": "deceive the patient by hiding medicine in food", "statement": "The treatment team MUST NOT deceive the patient by hiding medicine in food.", "standing": "defensible but contested"},
+    {"id": "patton_covid.may", "case_id": "patton_covid", "operator": "MAY", "action": "order immediate release or transfer", "statement": "The judge MAY order immediate release or transfer.", "standing": "defensible"},
+    {"id": "patton_covid.must_not", "case_id": "patton_covid", "operator": "MUST_NOT", "action": "order immediate release or transfer", "statement": "The judge MUST NOT order immediate release or transfer.", "standing": "strongly supported by source rubrics"},
+    {"id": "down_syndrome_bill.must_not", "case_id": "down_syndrome_bill", "operator": "MUST_NOT", "action": "vote for the diagnosis-selective abortion prohibition", "statement": "The legislator MUST NOT vote for the diagnosis-selective abortion prohibition.", "standing": "defensible but contested"},
+    {"id": "down_syndrome_bill.may", "case_id": "down_syndrome_bill", "operator": "MAY", "action": "vote for the diagnosis-selective abortion prohibition", "statement": "The legislator MAY vote for the diagnosis-selective abortion prohibition.", "standing": "defensible but contested"}
+  ],
+  "commitment_incompatibilities": [
+    {"commitment_ids": ["atlanta_tests.must_not", "atlanta_tests.may"], "rationale": "The teacher cannot simultaneously be forbidden and permitted to alter the same answers."},
+    {"commitment_ids": ["intern_expense.must_not", "intern_expense.may"], "rationale": "After transparent remedies fail, one verdict still prohibits the unauthorized charge while the other permits it."},
+    {"commitment_ids": ["bank_transfer.must_not", "bank_transfer.may"], "rationale": "The employee cannot simultaneously be forbidden and permitted to make the same transfer."},
+    {"commitment_ids": ["pcp_disclosure.must", "pcp_disclosure.may_remain_silent"], "rationale": "A duty to disclose through an effective channel excludes permission to remain silent for personal protection."},
+    {"commitment_ids": ["unc_disclosure.must", "unc_disclosure.may_withhold"], "rationale": "A duty of full disclosure excludes permission to withhold material details in the same review."},
+    {"commitment_ids": ["covert_medication.may", "covert_medication.must_not"], "rationale": "The safeguarded covert administration is a token of the deception categorically prohibited by the opposing verdict."},
+    {"commitment_ids": ["patton_covid.may", "patton_covid.must_not"], "rationale": "The same immediate release-or-transfer action cannot simultaneously be permitted and prohibited; individualized safeguards belong in the supporting principles."},
+    {"commitment_ids": ["down_syndrome_bill.must_not", "down_syndrome_bill.may"], "rationale": "The legislator cannot be both forbidden and permitted to vote for the same prohibition on the stated grounds."}
+  ],
+  "principles": [
+    {"id": "P01_integrity", "statement": "People in roles of trust MUST NOT falsify, conceal, or manipulate material information on which others reasonably rely.", "scope": "integrity and non-deception", "qualifiers": ["Materiality and reasonable reliance matter; not every omission or approximation is deception."], "value_loadings": {"agency": 0.10, "welfare": 0.15, "distribution": 0.20, "recognition": 0.35, "attachment": 0.10, "veracity": 1.00}},
+    {"id": "P02_serious_harm", "statement": "Agents MUST take reasonable action to prevent serious and avoidable harm when they can do so without imposing comparable harm.", "scope": "serious-harm prevention", "qualifiers": ["Probability, severity, causal efficacy, burdens, and harms to other parties constrain the duty."], "value_loadings": {"agency": 0.10, "welfare": 1.00, "distribution": 0.20, "recognition": 0.25, "attachment": 0.55, "veracity": 0.05}},
+    {"id": "P03_proportionality", "statement": "When preventing harm conflicts with a rule or right, an agent MAY depart only through action that is necessary, proportionate, least restrictive, and reviewable.", "scope": "proportionality and least-restrictive action", "qualifiers": ["An available transparent remedy normally defeats permission for a more deceptive, irreversible, or rights-invasive measure."], "value_loadings": {"agency": 0.75, "welfare": 0.55, "distribution": 0.65, "recognition": 0.35, "attachment": 0.10, "veracity": 0.15}},
+    {"id": "P04_rights_authority", "statement": "Agents MUST respect bodily, property, and liberty rights; intervention without contemporaneous consent is permissible only under legitimate authority, incapacity or grave third-party risk, and safeguards.", "scope": "rights, consent, and entrusted authority", "qualifiers": ["Need, unequal wealth, or benevolent intent alone does not create authority."], "value_loadings": {"agency": 1.00, "welfare": 0.25, "distribution": 0.45, "recognition": 0.65, "attachment": 0.05, "veracity": 0.05}},
+    {"id": "P05_correction", "statement": "Professionals responsible for an institutional product MUST prevent or correct materially misleading or unsafe content through an accurate and effective channel, scaling the remedy to the evidence.", "scope": "material correction and disclosure", "qualifiers": ["Correction can range from accurate records and an expression of concern to protected external disclosure or retraction."], "value_loadings": {"agency": 0.10, "welfare": 0.55, "distribution": 0.35, "recognition": 0.30, "attachment": 0.10, "veracity": 1.00}},
+    {"id": "P06_fair_process", "statement": "Decision-makers MUST NOT impose severe or irreversible burdens under unresolved facts when a proportionate, reversible, and individualized safeguard is available.", "scope": "fair process under uncertainty", "qualifiers": ["Urgent danger may justify interim protection, but not unsupported accusation or indiscriminate treatment."], "value_loadings": {"agency": 0.65, "welfare": 0.20, "distribution": 0.90, "recognition": 0.70, "attachment": 0.05, "veracity": 0.20}},
+    {"id": "P07_capacity_autonomy", "statement": "A competent person's informed choices MUST be respected; when capacity is absent, an authorized surrogate MAY pursue substantial benefit only through the least deceptive, independently reviewed means.", "scope": "capacity-sensitive autonomy", "qualifiers": ["The interests and rights of other affected parties remain relevant."], "value_loadings": {"agency": 1.00, "welfare": 0.55, "distribution": 0.15, "recognition": 0.75, "attachment": 0.45, "veracity": 0.25}},
+    {"id": "P08_equal_dignity", "statement": "Institutions MUST give equal concern to vulnerable persons and MUST NOT discount their interests merely because of disability, confinement, dependence, or social status.", "scope": "equal dignity and concern", "qualifiers": ["Equal concern does not erase comparable rights and risks borne by others or settle every policy response."], "value_loadings": {"agency": 0.25, "welfare": 0.45, "distribution": 0.70, "recognition": 1.00, "attachment": 0.65, "veracity": 0.10}},
+    {"id": "P09_responsibility_cost", "statement": "Those who caused, joined, or uniquely can correct a wrong MUST bear reasonable costs of correction; those without such responsibility MAY avoid extraordinary sacrifice when safer effective duty-bearers remain.", "scope": "responsibility and demandingness", "qualifiers": ["The distinction turns on causal contribution, role responsibility, unique capacity, the size of the sacrifice, and available alternatives."], "value_loadings": {"agency": 0.25, "welfare": 0.35, "distribution": 0.85, "recognition": 0.35, "attachment": 0.65, "veracity": 0.55}}
+  ],
+  "relation_matrix": {
+    "P01_integrity": {
+      "atlanta_tests.must_not": "E", "atlanta_tests.may": "C", "intern_expense.must_not": "E", "intern_expense.may": "C", "bank_transfer.must_not": "E", "bank_transfer.may": "C",
+      "paper_retraction.must_flag": "E", "paper_retraction.must_not_now": "S", "pcp_disclosure.must": "E", "pcp_disclosure.may_remain_silent": "C",
+      "unc_disclosure.must": "E", "unc_disclosure.may_withhold": "C", "covert_medication.may": "C", "covert_medication.must_not": "E", "patton_covid.may": "S",
+      "patton_covid.must_not": "S", "down_syndrome_bill.must_not": "S", "down_syndrome_bill.may": "S"
+    },
+    "P02_serious_harm": {
+      "atlanta_tests.must_not": "S", "atlanta_tests.may": "E", "intern_expense.must_not": "C", "intern_expense.may": "E", "bank_transfer.must_not": "S", "bank_transfer.may": "E",
+      "paper_retraction.must_flag": "E", "paper_retraction.must_not_now": "S", "pcp_disclosure.must": "E", "pcp_disclosure.may_remain_silent": "C",
+      "unc_disclosure.must": "E", "unc_disclosure.may_withhold": "E", "covert_medication.may": "E", "covert_medication.must_not": "C", "patton_covid.may": "E",
+      "patton_covid.must_not": "E", "down_syndrome_bill.must_not": "S", "down_syndrome_bill.may": "E"
+    },
+    "P03_proportionality": {
+      "atlanta_tests.must_not": "E", "atlanta_tests.may": "C", "intern_expense.must_not": "C", "intern_expense.may": "E", "bank_transfer.must_not": "E", "bank_transfer.may": "C",
+      "paper_retraction.must_flag": "E", "paper_retraction.must_not_now": "E", "pcp_disclosure.must": "E", "pcp_disclosure.may_remain_silent": "S",
+      "unc_disclosure.must": "E", "unc_disclosure.may_withhold": "C", "covert_medication.may": "E", "covert_medication.must_not": "C", "patton_covid.may": "E",
+      "patton_covid.must_not": "E", "down_syndrome_bill.must_not": "E", "down_syndrome_bill.may": "C"
+    },
+    "P04_rights_authority": {
+      "atlanta_tests.must_not": "S", "atlanta_tests.may": "S", "intern_expense.must_not": "S", "intern_expense.may": "S", "bank_transfer.must_not": "E", "bank_transfer.may": "C",
+      "paper_retraction.must_flag": "S", "paper_retraction.must_not_now": "S", "pcp_disclosure.must": "S", "pcp_disclosure.may_remain_silent": "S",
+      "unc_disclosure.must": "S", "unc_disclosure.may_withhold": "S", "covert_medication.may": "E", "covert_medication.must_not": "C", "patton_covid.may": "E",
+      "patton_covid.must_not": "E", "down_syndrome_bill.must_not": "E", "down_syndrome_bill.may": "C"
+    },
+    "P05_correction": {
+      "atlanta_tests.must_not": "E", "atlanta_tests.may": "C", "intern_expense.must_not": "S", "intern_expense.may": "S", "bank_transfer.must_not": "S", "bank_transfer.may": "S",
+      "paper_retraction.must_flag": "E", "paper_retraction.must_not_now": "E", "pcp_disclosure.must": "E", "pcp_disclosure.may_remain_silent": "C",
+      "unc_disclosure.must": "E", "unc_disclosure.may_withhold": "C", "covert_medication.may": "S", "covert_medication.must_not": "S", "patton_covid.may": "S",
+      "patton_covid.must_not": "S", "down_syndrome_bill.must_not": "S", "down_syndrome_bill.may": "S"
+    },
+    "P06_fair_process": {
+      "atlanta_tests.must_not": "S", "atlanta_tests.may": "S", "intern_expense.must_not": "S", "intern_expense.may": "S", "bank_transfer.must_not": "S", "bank_transfer.may": "S",
+      "paper_retraction.must_flag": "E", "paper_retraction.must_not_now": "E", "pcp_disclosure.must": "S", "pcp_disclosure.may_remain_silent": "S",
+      "unc_disclosure.must": "S", "unc_disclosure.may_withhold": "S", "covert_medication.may": "E", "covert_medication.must_not": "S", "patton_covid.may": "E",
+      "patton_covid.must_not": "E", "down_syndrome_bill.must_not": "E", "down_syndrome_bill.may": "C"
+    },
+    "P07_capacity_autonomy": {
+      "atlanta_tests.must_not": "S", "atlanta_tests.may": "S", "intern_expense.must_not": "S", "intern_expense.may": "S", "bank_transfer.must_not": "S", "bank_transfer.may": "S",
+      "paper_retraction.must_flag": "S", "paper_retraction.must_not_now": "S", "pcp_disclosure.must": "S", "pcp_disclosure.may_remain_silent": "S",
+      "unc_disclosure.must": "S", "unc_disclosure.may_withhold": "S", "covert_medication.may": "E", "covert_medication.must_not": "C", "patton_covid.may": "S",
+      "patton_covid.must_not": "S", "down_syndrome_bill.must_not": "E", "down_syndrome_bill.may": "C"
+    },
+    "P08_equal_dignity": {
+      "atlanta_tests.must_not": "S", "atlanta_tests.may": "S", "intern_expense.must_not": "S", "intern_expense.may": "S", "bank_transfer.must_not": "S", "bank_transfer.may": "S",
+      "paper_retraction.must_flag": "S", "paper_retraction.must_not_now": "S", "pcp_disclosure.must": "S", "pcp_disclosure.may_remain_silent": "S",
+      "unc_disclosure.must": "S", "unc_disclosure.may_withhold": "S", "covert_medication.may": "E", "covert_medication.must_not": "S", "patton_covid.may": "E",
+      "patton_covid.must_not": "E", "down_syndrome_bill.must_not": "S", "down_syndrome_bill.may": "E"
+    },
+    "P09_responsibility_cost": {
+      "atlanta_tests.must_not": "S", "atlanta_tests.may": "E", "intern_expense.must_not": "C", "intern_expense.may": "E", "bank_transfer.must_not": "E", "bank_transfer.may": "C",
+      "paper_retraction.must_flag": "E", "paper_retraction.must_not_now": "E", "pcp_disclosure.must": "S", "pcp_disclosure.may_remain_silent": "E",
+      "unc_disclosure.must": "E", "unc_disclosure.may_withhold": "C", "covert_medication.may": "S", "covert_medication.must_not": "S", "patton_covid.may": "E",
+      "patton_covid.must_not": "E", "down_syndrome_bill.must_not": "S", "down_syndrome_bill.may": "S"
+    }
+  },
+  "relation_rationales": [
+    {"principle_id": "P01_integrity", "commitment_ids": ["atlanta_tests.must_not", "atlanta_tests.may", "intern_expense.must_not", "intern_expense.may", "bank_transfer.must_not", "bank_transfer.may", "paper_retraction.must_flag", "pcp_disclosure.must", "pcp_disclosure.may_remain_silent", "unc_disclosure.must", "unc_disclosure.may_withhold", "covert_medication.may", "covert_medication.must_not"], "rationale": "The same reliance-based concern travels across altered test records, misclassified expenses, manipulated bank accounts, an uncertain scientific record, toxic-product disclosure, truthful testimony, and covert treatment. It supports accurate or candid action and conflicts with permissions whose action depends on material concealment."},
+    {"principle_id": "P02_serious_harm", "commitment_ids": ["atlanta_tests.may", "intern_expense.must_not", "intern_expense.may", "bank_transfer.may", "paper_retraction.must_flag", "pcp_disclosure.must", "pcp_disclosure.may_remain_silent", "unc_disclosure.must", "unc_disclosure.may_withhold", "covert_medication.may", "covert_medication.must_not", "patton_covid.may", "patton_covid.must_not", "down_syndrome_bill.may"], "rationale": "Serious-harm prevention gives a defeasible route to the difficult permissions: preserving the school community, averting an intern's or indebted family's hardship, and protecting colleagues from severe fallout. It also favors warning about unreliable research and toxic goods, ending educational harm, treating severe illness, and protecting confined patients. Because harms occur on both sides, this principle alone often underdetermines the verdict."},
+    {"principle_id": "P03_proportionality", "commitment_ids": ["atlanta_tests.must_not", "atlanta_tests.may", "intern_expense.must_not", "intern_expense.may", "bank_transfer.must_not", "bank_transfer.may", "paper_retraction.must_flag", "paper_retraction.must_not_now", "pcp_disclosure.must", "unc_disclosure.must", "unc_disclosure.may_withhold", "covert_medication.may", "covert_medication.must_not", "patton_covid.may", "patton_covid.must_not", "down_syndrome_bill.must_not", "down_syndrome_bill.may"], "rationale": "This principle distinguishes a small transparent expense exception from corrupting test records or client property; prefers an expression of concern before irreversible retraction; selects effective bounded disclosure; permits safeguarded covert treatment and emergency individualized review only as last-resort measures; and pushes against a broad motivation-policing abortion prohibition when less restrictive alternatives remain."},
+    {"principle_id": "P04_rights_authority", "commitment_ids": ["bank_transfer.must_not", "bank_transfer.may", "covert_medication.may", "covert_medication.must_not", "patton_covid.may", "patton_covid.must_not", "down_syndrome_bill.must_not", "down_syndrome_bill.may"], "rationale": "Clients did not authorize use of their property. The psychiatric patient lacks capacity and has an authorized surrogate, so the principle permits only the safeguarded exception and conflicts with an unconditional ban. The judge has emergency authority only with individualized review. Competent family medical choice makes the abortion prohibition presumptively impermissible unless a separate rights-holder argument succeeds."},
+    {"principle_id": "P05_correction", "commitment_ids": ["atlanta_tests.must_not", "atlanta_tests.may", "paper_retraction.must_flag", "paper_retraction.must_not_now", "pcp_disclosure.must", "pcp_disclosure.may_remain_silent", "unc_disclosure.must", "unc_disclosure.may_withhold"], "rationale": "Accurate institutional products connect school testing, scientific publication, textile safety, and university credit. The principle prohibits creating false educational data, requires a proportionate public warning rather than premature retraction under uncertainty, and favors effective disclosure over silence where unsafe products or sham courses persist."},
+    {"principle_id": "P06_fair_process", "commitment_ids": ["paper_retraction.must_flag", "paper_retraction.must_not_now", "covert_medication.may", "patton_covid.may", "patton_covid.must_not", "down_syndrome_bill.must_not", "down_syndrome_bill.may"], "rationale": "An expression of concern protects the scientific record without prematurely destroying a researcher's standing. Ethics oversight makes covert treatment reviewable. Rapid individual review protects confined patients without indiscriminate release. A law enforced by inferring private motivation imposes severe burdens under uncertain facts, favoring rejection and conflicting with permission to enact it."},
+    {"principle_id": "P07_capacity_autonomy", "commitment_ids": ["covert_medication.may", "covert_medication.must_not", "down_syndrome_bill.must_not", "down_syndrome_bill.may"], "rationale": "Incapacity, guardian authorization, substantial benefit, and independent safeguards make limited covert treatment permissible and conflict with an exceptionless prohibition. In the abortion case the decision-maker is competent, so private choice is protected and coercive prohibition needs an additional rights-based premise."},
+    {"principle_id": "P08_equal_dignity", "commitment_ids": ["covert_medication.may", "patton_covid.may", "patton_covid.must_not", "down_syndrome_bill.may"], "rationale": "Equal concern supports pursuing a real prospect of recovery for an institutionalized patient, protecting confined psychiatric patients from infection while also taking others' safety seriously, and treating disability-selective reasons as morally weighty. Its qualifier prevents these considerations from deciding every means or policy by themselves."},
+    {"principle_id": "P09_responsibility_cost", "commitment_ids": ["atlanta_tests.may", "intern_expense.must_not", "intern_expense.may", "bank_transfer.must_not", "bank_transfer.may", "paper_retraction.must_flag", "paper_retraction.must_not_now", "pcp_disclosure.may_remain_silent", "unc_disclosure.must", "unc_disclosure.may_withhold", "patton_covid.may", "patton_covid.must_not"], "rationale": "The teacher's special responsibility to students supplies a contested reason to intervene; the manager assigned the software and can fix the hardship cheaply; the banker has no authority to conscript clients into aid. Senior authors and participating counselors have role or causal responsibility to correct institutional records. The uninvolved employee's extreme retaliation risk grounds a contested permission not to become the sole remedy. The judge must respond to the emergency, but only through bounded individualized action."}
+  ]
+}

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Moral Cartography — Commitments & Principles</title>
+  <meta name="description" content="Browse moral dilemmas through commitments, principles, and their dialectical relations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">Moral <span>Cartography</span></a>
+    <nav aria-label="Primary navigation">
+      <button class="nav-tab active" data-view="browse">Browse</button>
+      <button class="nav-tab" data-view="compose">Compose</button>
+    </nav>
+    <div class="prototype-label">curated prototype · v0.1</div>
+  </header>
+
+  <main>
+    <section id="browse-view" class="view active">
+      <aside class="case-rail" aria-label="Dilemmas">
+        <div class="rail-intro">
+          <span class="eyebrow">Nine dilemmas · three tensions</span>
+          <h1>Begin with a case,<br>not a theory.</h1>
+          <p>Choose a commitment. See which general principles survive contact with it.</p>
+        </div>
+        <div id="family-list"></div>
+      </aside>
+
+      <article class="case-panel">
+        <div class="case-number" id="case-number"></div>
+        <span class="family-kicker" id="case-family"></span>
+        <h2 id="case-title"></h2>
+        <p class="case-summary" id="case-summary"></p>
+        <div class="action-card">
+          <span>The decision</span>
+          <p id="case-action"></p>
+        </div>
+        <div class="source-line" id="case-source"></div>
+
+        <section class="commitment-section">
+          <div class="section-heading">
+            <span>Choose a commitment</span>
+            <span class="section-rule"></span>
+          </div>
+          <div id="case-commitments" class="commitment-options"></div>
+        </section>
+
+        <details class="rubric-evidence">
+          <summary>What the philosopher-written rubrics foreground</summary>
+          <ul id="rubric-evidence"></ul>
+        </details>
+      </article>
+
+      <aside class="principle-panel">
+        <div class="principle-header">
+          <span class="eyebrow">Dialectical neighborhood</span>
+          <h3 id="principle-heading">Select a commitment</h3>
+          <p id="principle-subheading">Principles will be ordered by how they bear on the selected verdict.</p>
+        </div>
+        <div class="relation-legend" aria-label="Relation legend">
+          <span><i class="dot entails"></i> supports</span>
+          <span><i class="dot contradicts"></i> contradicts</span>
+          <span><i class="dot silent"></i> silent</span>
+        </div>
+        <div id="principle-list" class="principle-list empty-state">
+          <div class="empty-orbit"></div>
+          <p>A commitment gives the principles something to answer to.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section id="compose-view" class="view compose-view">
+      <div class="compose-intro">
+        <span class="eyebrow">Build an epistemic state</span>
+        <h1>What hangs together?</h1>
+        <p>Select initial intuitions, revise your current commitments, and assemble a theory. The score evaluates fit—not moral correctness.</p>
+      </div>
+
+      <div class="compose-grid">
+        <section class="selection-column">
+          <div class="column-heading">
+            <div><span class="step">01</span><h2>Commitments</h2></div>
+            <button class="text-button" id="clear-commitments">clear</button>
+          </div>
+          <div class="dual-legend">
+            <span><i class="check initial"></i> initial C₀ <small>(also current)</small></span>
+            <span><i class="check current"></i> current C</span>
+            <span class="hover-hint">hover to trace relations →</span>
+          </div>
+          <div id="commitment-builder" class="builder-list"></div>
+        </section>
+
+        <section class="selection-column">
+          <div class="column-heading">
+            <div><span class="step">02</span><h2>Principles</h2></div>
+            <button class="text-button" id="clear-principles">clear</button>
+          </div>
+          <p class="column-note">Your theory T. Fewer principles with broader consequences are more systematic.</p>
+          <div class="compose-relation-legend"><span><i class="dot entails"></i> supports</span><span><i class="dot contradicts"></i> contradicts</span></div>
+          <div id="principle-builder" class="builder-list principles"></div>
+        </section>
+
+        <aside class="score-column">
+          <div class="score-sticky">
+            <span class="eyebrow">Epistemic state</span>
+            <div class="main-score">
+              <svg viewBox="0 0 120 120" aria-label="Achievement score">
+                <circle class="score-track" cx="60" cy="60" r="52"></circle>
+                <circle id="score-ring" class="score-ring" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <div><strong id="achievement-score">—</strong><span>Z adapted</span></div>
+            </div>
+            <p class="score-caption" id="score-caption">Select at least one current commitment and one principle.</p>
+
+            <div class="metric-list">
+              <div class="metric-row">
+                <div><span>Account</span><button class="info" data-help="account" aria-label="Explain account">?</button></div>
+                <strong id="account-score">—</strong>
+                <div class="meter"><i id="account-meter"></i></div>
+              </div>
+              <div class="metric-row">
+                <div><span>Systematicity</span><button class="info" data-help="systematicity" aria-label="Explain systematicity">?</button></div>
+                <strong id="systematicity-score">—</strong>
+                <div class="meter"><i id="systematicity-meter"></i></div>
+              </div>
+              <div class="metric-row">
+                <div><span>Faithfulness</span><button class="info" data-help="faithfulness" aria-label="Explain faithfulness">?</button></div>
+                <strong id="faithfulness-score">—</strong>
+                <div class="meter"><i id="faithfulness-meter"></i></div>
+              </div>
+            </div>
+
+            <section class="value-profile">
+              <div class="value-profile-heading"><span>Value profile</span><small>descriptive · not in Z</small></div>
+              <div id="value-profile-bars"><p>Select principles to reveal their aggregate loading.</p></div>
+            </section>
+
+            <div id="diagnostics" class="diagnostics"></div>
+            <button id="show-calculation" class="calculation-button">Show the calculation</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <dialog id="explanation-dialog">
+    <button class="dialog-close" aria-label="Close">×</button>
+    <div id="dialog-content"></div>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
