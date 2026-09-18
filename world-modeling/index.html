@@ -4,15 +4,115 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>World Modeling in Transformers</title>
+  <meta name="description" content="An interactive explorer of TaxiGPT: watch a taxi ride across Manhattan and inspect the model's position code, goal compass and move prediction at every step.">
   <link rel="canonical" href="https://bepierre.github.io/world-modeling/">
+  <link rel="stylesheet" href="explorer.css">
 </head>
 <body>
-  <main>
-    <h1>World Modeling in Transformers</h1>
-    <p>Pierre Beckmann, Matthieu Queloz, André Freitas</p>
-    <p><a href="https://openreview.net/forum?id=BnW3Ordr8O">Paper</a> · <a href="https://github.com/bepierre/world-modeling">Code</a></p>
-    <p>An interactive TaxiGPT dashboard is coming soon.</p>
-    <p><a href="../">Back to Pierre Beckmann’s homepage</a></p>
-  </main>
+<div class="page">
+
+  <header class="masthead">
+    <div>
+      <h1>World Modeling in Transformers <span>· the TaxiGPT explorer</span></h1>
+      <div class="meta">
+        <span>Pierre Beckmann, Matthieu Queloz, André Freitas</span>
+        <a href="https://openreview.net/forum?id=BnW3Ordr8O">Paper</a>
+        <a href="https://github.com/bepierre/world-modeling">Code</a>
+        <a href="../">Pierre Beckmann's homepage</a>
+      </div>
+    </div>
+    <div class="ride-picker">
+      <label for="ride">Ride</label>
+      <select id="ride" aria-label="Choose a ride"></select>
+      <span class="tag illustrative" id="dataset-tag" title="Values generated for design review are marked as illustrative in each panel.">demo data</span>
+    </div>
+  </header>
+
+  <section class="explorer" aria-label="Ride explorer">
+    <div class="map-column">
+      <div class="map-frame" id="map">
+        <svg class="map" role="img" aria-label="Map of the ride"></svg>
+        <svg class="locator" viewBox="0 0 62 112" aria-hidden="true"></svg>
+        <div class="map-note" id="map-note"></div>
+      </div>
+      <div class="map-legend" id="map-legend">
+        <span class="k"><svg><circle cx="6" cy="6" r="3.5" fill="#1a1a1a"/></svg>origin</span>
+        <span class="k"><svg><path d="M6 0.5 L7.6 4.4 L11.8 4.6 L8.5 7.3 L9.6 11.4 L6 9.1 L2.4 11.4 L3.5 7.3 L0.2 4.6 L4.4 4.4 Z" fill="#1a1a1a"/></svg>goal</span>
+        <span class="k"><svg><defs><linearGradient id="legend-time"><stop offset="0" stop-color="#B3A89A"/><stop offset="1" stop-color="#383838"/></linearGradient></defs><line x1="0" y1="6" x2="22" y2="6" stroke="url(#legend-time)" stroke-width="2.4"/></svg>route, early → late</span>
+        <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#CC785C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#CC785C"/></svg>model's next move</span>
+        <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#5B6E8C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#5B6E8C"/></svg>forced move</span>
+        <span class="k"><svg><circle cx="6" cy="6" r="4" fill="none" stroke="#B0463A" stroke-width="2"/></svg>wrong intersection</span>
+        <span class="k"><svg><path d="M2 2 L10 10 M10 2 L2 10" stroke="#B0463A" stroke-width="2" stroke-linecap="round"/></svg>illegal move</span>
+        <span class="toggles">
+          <label><input type="checkbox" id="ov-compass" checked>compass</label>
+          <label><input type="checkbox" id="ov-wrong" checked>wrong node</label>
+          <label><input type="checkbox" id="ov-future" checked>route ahead</label>
+        </span>
+      </div>
+    </div>
+
+    <aside class="dash">
+      <section class="panel" id="panel-prediction" aria-label="Next move">
+        <div class="panel-head">
+          <h2>Next move</h2>
+          <span class="where" id="prediction-where"></span>
+        </div>
+        <div class="moves" id="moves"></div>
+        <div class="prediction-note" id="prediction-note"></div>
+      </section>
+
+      <section class="panel" id="panel-position" aria-label="Position code">
+        <div class="panel-head">
+          <h2>Position code</h2>
+          <span class="where" id="position-where"></span>
+        </div>
+        <div class="position">
+          <dl class="readouts" id="position-readouts"></dl>
+          <div>
+            <svg class="sketch" id="sketch" viewBox="0 0 250 150" aria-label="The plane spanned by the true and wrong intersection features"></svg>
+            <div class="sketch-caption" id="sketch-caption"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-compass" aria-label="Goal compass">
+        <div class="panel-head">
+          <h2>Goal compass</h2>
+          <span class="where" id="compass-where"></span>
+        </div>
+        <div class="pair">
+          <svg class="compass-dial" id="compass" viewBox="0 0 138 138" aria-label="Compass dial"></svg>
+          <dl class="readouts" id="compass-readouts"></dl>
+        </div>
+      </section>
+
+    </aside>
+  </section>
+
+  <section class="timeline-row" aria-label="Timeline">
+    <div class="transport">
+      <div class="buttons">
+        <button id="btn-start" title="First step (Home)" aria-label="First step"><svg viewBox="0 0 14 14"><path d="M2 2h2v10H2zM12 2L5 7l7 5z"/></svg></button>
+        <button id="btn-back" title="Step back (←)" aria-label="Step back"><svg viewBox="0 0 14 14"><path d="M11 2L4 7l7 5z"/></svg></button>
+        <button id="btn-play" class="play" title="Play / pause (space)" aria-label="Play"><svg viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z"/></svg></button>
+        <button id="btn-fwd" title="Step forward (→)" aria-label="Step forward"><svg viewBox="0 0 14 14"><path d="M3 2l7 5-7 5z"/></svg></button>
+        <button id="btn-end" title="Last step (End)" aria-label="Last step"><svg viewBox="0 0 14 14"><path d="M10 2h2v10h-2zM2 2l7 5-7 5z"/></svg></button>
+      </div>
+      <div class="status">
+        <span>move <b id="status-step">0</b> <span id="status-of">of 0</span></span>
+        <span id="status-goal"></span>
+        <label>speed <select id="speed" aria-label="Playback speed"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+      </div>
+    </div>
+    <div class="timeline" id="timeline"><svg></svg></div>
+  </section>
+
+  <footer class="foot">
+    <p id="foot-note">Scrub the trace or press <kbd>space</kbd>, <kbd>←</kbd>, <kbd>→</kbd> (<kbd>shift</kbd> for ten moves), <kbd>Home</kbd>, <kbd>End</kbd>. Hover an intersection in the position panel to find it on the map.</p>
+    <p><span id="foot-model"></span> Prototype with demonstration data: fields marked illustrative are generated, not measured; see <a href="data/FORMAT.md">the data format</a>.</p>
+  </footer>
+
+</div>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
