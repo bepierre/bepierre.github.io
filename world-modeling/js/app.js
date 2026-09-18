@@ -5,7 +5,7 @@ import { MapView } from "./map.js";
 import { TimelineView } from "./timeline.js";
 import { PredictionView, PositionView, CompassView } from "./panels.js";
 
-const DATA = "data/demo/";
+const DATA = new URLSearchParams(location.search).get("dataset") === "demo" ? "data/demo/" : "data/recorded-v1/";
 const STEP_MS = 260;          // one move at 1×
 const RIDE_GAP_MS = 1100;     // pause between rides when playing them all
 
@@ -158,9 +158,16 @@ function readHash() {
 }
 
 async function main() {
-  const [rawWorld, idx] = await Promise.all([loadJSON("data/manhattan.json"), loadJSON(DATA + "index.json")]);
+  const [rawWorld, idx] = await Promise.all([loadJSON(DATA === "data/demo/" ? "data/manhattan.json" : DATA + "manhattan.json"), loadJSON(DATA + "index.json")]);
   world = prepareWorld(rawWorld);
   index = idx;
+  const datasetTag = document.getElementById("dataset-tag");
+  datasetTag.textContent = idx.dataset === "demo" ? "demo data" : `${idx.rides.length} recorded rides`;
+  datasetTag.title = idx.note;
+  const dataNote = document.getElementById("data-note");
+  if (dataNote) dataNote.textContent = idx.dataset === "demo"
+    ? "Fields marked illustrative are generated, not measured."
+    : "All readouts are measured. Some map coordinates are interpolated; unavailable geographic bearings are omitted.";
   views = {
     map: new MapView(document.getElementById("map"), world),
     timeline: new TimelineView(document.getElementById("timeline")),

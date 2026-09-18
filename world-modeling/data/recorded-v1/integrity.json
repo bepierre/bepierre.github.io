@@ -1,0 +1,30 @@
+{
+  "rides": 200,
+  "states": 16787,
+  "families": {
+    "stress": 100,
+    "detour": 100
+  },
+  "outcomes": {
+    "stress:success": 82,
+    "stress:illegal": 9,
+    "stress:wrong_end": 9,
+    "detour:illegal": 25,
+    "detour:success": 65,
+    "detour:wrong_end": 10
+  },
+  "categories": {
+    "stress:fatal_slip": 3,
+    "stress:silent": 2,
+    "stress:unexplained": 1,
+    "stress:full_corruption": 2,
+    "stress:low_mass": 1,
+    "detour:full_corruption": 9,
+    "detour:fatal_slip": 10,
+    "detour:giveup": 2,
+    "detour:silent": 4
+  },
+  "largest_other_token_probability": 0.00074422,
+  "max_cached_replay_logit_error": 2.8133392333984375e-05,
+  "json_bytes": 18953243
+}

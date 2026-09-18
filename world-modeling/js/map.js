@@ -2,7 +2,7 @@
 // a small compass at the taxi, and (only while hovered) the strongest wrong intersection. Drawn in pixel
 // space from the graph's metre coordinates so stroke widths and marker sizes stay constant.
 
-import { P, MOVE_ANGLE, MILESTONE, svg, clear, timeColor, starPath, rad } from "./util.js";
+import { P, MOVES, MOVE_ANGLE, MILESTONE, svg, clear, timeColor, starPath, rad } from "./util.js";
 
 export class MapView {
   constructor(frame, world) {
@@ -149,7 +149,7 @@ export class MapView {
     // or an attempted illegal move (a stub ending in a cross: no intersection is reached)
     const pr = s.prediction;
     let heading = k > 0 ? this.bearingPx(this.routePts[k - 1], here) : (this.world.moveBearing[pr.executed] ?? 90);
-    if (pr.executed && pr.executed !== "END") {
+    if (pr.executed && MOVES.includes(pr.executed)) {
       if (pr.executed_legal) {
         const to = this.routePts[k + 1];
         heading = this.bearingPx(here, to);

@@ -25,7 +25,7 @@ export class PredictionView {
     clear(this.moves);
     this.moves.style.gridTemplateColumns = hasEffect ? "30px 1fr 60px 76px" : "30px 1fr 60px";
     el("div", { class: "hdr", text: "token" }, this.moves);
-    el("div", { class: "hdr", text: "probability over the nine tokens" }, this.moves);
+    el("div", { class: "hdr", text: ride.steps[0].prediction.probabilities ? "probability (full vocabulary)" : "probability over the nine tokens" }, this.moves);
     el("div", { class: "hdr", text: "logit", style: "text-align:right" }, this.moves);
     if (hasEffect) el("div", { class: "hdr effect", text: "compass effect", title: "Δ logit = original − compass-ablated prediction at the same state" }, this.moves);
     this.rows = {};
@@ -48,7 +48,7 @@ export class PredictionView {
   }
   render(state) {
     const s = this.ride.steps[state.step], pr = s.prediction;
-    const probs = softmax(pr.logits, TOKENS);
+    const probs = pr.probabilities || softmax(pr.logits, TOKENS);
     const legal = new Set(s.legal);
     for (const t of TOKENS) {
       const r = this.rows[t];
@@ -69,13 +69,15 @@ export class PredictionView {
       }
     }
     let msg;
-    if (pr.executed === "END") {
+    if (pr.executed === null) {
+      msg = "The generation limit was reached; no next move was selected.";
+    } else if (pr.executed === "END") {
       msg = s.node === this.ride.goal ? `The model emits <b>END</b> at the goal: the ride succeeds.` : `The model emits <b>END</b> away from the goal.`;
     } else if (!pr.executed_legal) {
       msg = `<span class="illegal">${pr.executed}</span> is illegal here: the taxi attempts it and leaves the street graph, so no intersection is reached and the ride ends.`;
-      if (s.position.decoded_node && s.position.decoded_node !== s.node) msg += ` ${pr.executed} is legal at the intersection the position code currently reads.`;
+
     } else if (pr.forced) {
-      msg = `The detour test forces <span class="forced">${pr.executed}</span>, its least-likely legal move. The model proposed <span class="own">${pr.proposed}</span>.`;
+      msg = `The detour test forces <span class="forced">${pr.executed}</span>, its least-likely legal move that leaves the goal reachable within the remaining budget. The model proposed <span class="own">${pr.proposed}</span>.`;
     } else {
       msg = `The model chooses <span class="own">${pr.executed}</span>. Legal here: ${[...legal].join(", ")}. The active intersection feature raises legal moves; the compass raises goalward ones.`;
     }
@@ -145,7 +147,7 @@ export class PositionView {
     this.wrongDd.title = `intersection ${pos.wrong_node} · hover to find it on the map`;
     const cos = pos.cos_true_wrong;
     const ang = cos === null ? null : Math.acos(Math.max(-1, Math.min(1, cos))) * 180 / Math.PI;
-    this.angleDd.innerHTML = cos === null ? "–" : `${ang.toFixed(0)}° <span class="muted">cos ${cos.toFixed(2)}${cos > 0.5 ? ", shares moves" : ""}</span>`;
+    this.angleDd.innerHTML = cos === null ? "–" : `${ang.toFixed(0)}° <span class="muted">cos ${cos.toFixed(2)}</span>`;
     this.noiseDd.innerHTML = `<span class="swatch noise"></span><b>${fmtNum(pos.noise)}</b> <span class="muted">rms</span>`;
     this.noiseDd.title = "root-mean-square projection of the residual on fixed sampled intersection directions";
     this.drawSketch({ write: pos.write, wrong: pos.wrong_activation, cos, wrongWins, noise: pos.noise });
@@ -235,8 +237,8 @@ export class CompassView {
       svg("line", { class: "tick" + (legal.has(m) ? " legal" : ""), x1: c + Math.cos(a) * (R - 5), y1: c - Math.sin(a) * (R - 5), x2: c + Math.cos(a) * R, y2: c - Math.sin(a) * R }, g);
     }
     if (s.goal_bearing_deg === null) {
-      svg("text", { class: "cardinal", x: c, y: c, text: "at goal" }, g);
-      this.decodedDd.textContent = "–"; this.actualDd.textContent = "at the goal"; this.errDd.textContent = "–";
+      svg("text", { class: "cardinal", x: c, y: c, text: s.node === this.ride.goal ? "at goal" : "no GPS" }, g);
+      this.decodedDd.textContent = "–"; this.actualDd.textContent = s.node === this.ride.goal ? "at the goal" : "coordinates unavailable"; this.errDd.textContent = "–";
       return;
     }
     const ga = rad(s.goal_bearing_deg), da = rad(s.compass.decoded_bearing_deg);
