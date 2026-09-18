@@ -35,6 +35,20 @@
       <svg class="map" role="img" aria-label="Map of the ride"></svg>
       <svg class="locator" viewBox="0 0 62 112" aria-hidden="true"></svg>
       <div class="map-note" id="map-note"></div>
+        <div class="transport">
+        <div class="buttons">
+          <button id="btn-start" title="First step (Home)" aria-label="First step"><svg viewBox="0 0 14 14"><path d="M2 2h2v10H2zM12 2L5 7l7 5z"/></svg></button>
+          <button id="btn-back" title="Step back (←)" aria-label="Step back"><svg viewBox="0 0 14 14"><path d="M11 2L4 7l7 5z"/></svg></button>
+          <button id="btn-play" class="play" title="Play / pause (space)" aria-label="Play"><svg viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z"/></svg></button>
+          <button id="btn-fwd" title="Step forward (→)" aria-label="Step forward"><svg viewBox="0 0 14 14"><path d="M3 2l7 5-7 5z"/></svg></button>
+          <button id="btn-end" title="Last step (End)" aria-label="Last step"><svg viewBox="0 0 14 14"><path d="M10 2h2v10h-2zM2 2l7 5-7 5z"/></svg></button>
+          <select id="speed" aria-label="Playback speed"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select>
+        </div>
+        <div class="status">
+          <span>move <b id="status-step">0</b> <span id="status-of">of 0</span></span>
+          <span id="status-goal"></span>
+        </div>
+      </div>
       <div class="map-legend" id="map-legend">
         <span class="k"><svg><circle cx="6" cy="6" r="3.5" fill="#1a1a1a"/></svg>origin</span>
         <span class="k"><svg><path d="M6 0.5 L7.6 4.4 L11.8 4.6 L8.5 7.3 L9.6 11.4 L6 9.1 L2.4 11.4 L3.5 7.3 L0.2 4.6 L4.4 4.4 Z" fill="#1a1a1a"/></svg>goal</span>
@@ -42,10 +56,6 @@
         <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#CC785C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#CC785C"/></svg>model's move</span>
         <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#5B6E8C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#5B6E8C"/></svg>forced move</span>
         <span class="k"><svg><path d="M2 2 L10 10 M10 2 L2 10" stroke="#B0463A" stroke-width="2" stroke-linecap="round"/></svg>illegal move</span>
-        <span class="toggles">
-          <label><input type="checkbox" id="ov-compass" checked>compass</label>
-          <label><input type="checkbox" id="ov-future" checked>route ahead</label>
-        </span>
       </div>
     </div>
 
@@ -82,20 +92,6 @@
       </div>
 
       <section class="panel timeline-panel" aria-label="Timeline">
-        <div class="transport">
-          <div class="buttons">
-            <button id="btn-start" title="First step (Home)" aria-label="First step"><svg viewBox="0 0 14 14"><path d="M2 2h2v10H2zM12 2L5 7l7 5z"/></svg></button>
-            <button id="btn-back" title="Step back (←)" aria-label="Step back"><svg viewBox="0 0 14 14"><path d="M11 2L4 7l7 5z"/></svg></button>
-            <button id="btn-play" class="play" title="Play / pause (space)" aria-label="Play"><svg viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z"/></svg></button>
-            <button id="btn-fwd" title="Step forward (→)" aria-label="Step forward"><svg viewBox="0 0 14 14"><path d="M3 2l7 5-7 5z"/></svg></button>
-            <button id="btn-end" title="Last step (End)" aria-label="Last step"><svg viewBox="0 0 14 14"><path d="M10 2h2v10h-2zM2 2l7 5-7 5z"/></svg></button>
-            <select id="speed" aria-label="Playback speed"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select>
-          </div>
-          <div class="status">
-            <span>move <b id="status-step">0</b> <span id="status-of">of 0</span></span>
-            <span id="status-goal"></span>
-          </div>
-        </div>
         <div class="timeline" id="timeline"><svg></svg></div>
       </section>
     </aside>

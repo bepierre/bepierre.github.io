@@ -158,9 +158,9 @@ export class MapView {
           if (pr.proposed && pr.proposed !== "END" && pr.proposed !== pr.executed) this.arrow(here, this.stub(here, pr.proposed, 30), "move proposed", "arrow-own");
         } else this.arrow(here, to, "move own", "arrow-own");
       } else {
-        const q = this.stub(here, pr.executed, 34);
+        const q = this.stub(here, pr.executed, 36), q0 = this.stub(here, pr.executed, 11);
         heading = this.world.moveBearing[pr.executed] ?? MOVE_ANGLE[pr.executed];
-        svg("line", { class: "move illegal", x1: here[0], y1: here[1], x2: q[0], y2: q[1] }, this.gNow);
+        svg("line", { class: "move illegal", x1: q0[0], y1: q0[1], x2: q[0], y2: q[1] }, this.gNow);
         svg("path", { class: "illegal-x", d: `M${q[0] - 5} ${q[1] - 5}L${q[0] + 5} ${q[1] + 5}M${q[0] + 5} ${q[1] - 5}L${q[0] - 5} ${q[1] + 5}` }, this.gNow);
       }
     }
@@ -178,10 +178,11 @@ export class MapView {
     svg("rect", { class: "taxi-light", x: -1.5, y: -1.2, width: 3, height: 2.4, rx: .6 }, g);
   }
   bearingPx(a, b) { return Math.atan2(-(b[1] - a[1]), b[0] - a[0]) * 180 / Math.PI; }
+  // arrows leave from the taxi's nose (11 px out) and stop short of the destination
   arrow(a, b, cls, marker) {
     const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1;
-    const t = Math.max(0, (L - 5) / L);
-    svg("line", { class: cls, x1: a[0], y1: a[1], x2: a[0] + dx * t, y2: a[1] + dy * t, "marker-end": `url(#${marker})` }, this.gNow);
+    const t0 = Math.min(0.45, 11 / L), t1 = Math.max(t0, (L - 5) / L);
+    svg("line", { class: cls, x1: a[0] + dx * t0, y1: a[1] + dy * t0, x2: a[0] + dx * t1, y2: a[1] + dy * t1, "marker-end": `url(#${marker})` }, this.gNow);
   }
   // a short segment in the direction a move label points on this street grid (no street exists for it)
   stub(a, move, len) {

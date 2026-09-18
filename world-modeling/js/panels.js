@@ -23,11 +23,13 @@ export class PredictionView {
     this.ride = ride;
     const hasEffect = ride.steps.some(s => s.compass.ablation_delta_logit);
     clear(this.moves);
-    this.moves.style.gridTemplateColumns = hasEffect ? "30px 1fr 60px 76px" : "30px 1fr 60px";
+    this.moves.style.gridTemplateColumns = hasEffect ? "30px 1fr 58px 122px" : "30px 1fr 60px";
+    // the effect column is scaled to the ride's largest |Δ logit|, so small effects stay readable
+    this.effectMax = Math.max(0.5, ...ride.steps.flatMap(s => s.compass.ablation_delta_logit ? Object.values(s.compass.ablation_delta_logit).map(Math.abs) : [0]));
     el("div", { class: "hdr", text: "token" }, this.moves);
     el("div", { class: "hdr", text: ride.steps[0].prediction.probabilities ? "probability (full vocabulary)" : "probability over the nine tokens" }, this.moves);
     el("div", { class: "hdr", text: "logit", style: "text-align:right" }, this.moves);
-    if (hasEffect) el("div", { class: "hdr effect", text: "compass effect", title: "Δ logit = original − compass-ablated prediction at the same state" }, this.moves);
+    if (hasEffect) el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit`, title: "Δ logit = original − compass-ablated prediction at the same state; the axis spans this ride's largest effect" }, this.moves);
     this.rows = {};
     for (const t of TOKENS) {
       const lbl = el("div", { class: "lbl", text: t }, this.moves);
@@ -37,10 +39,10 @@ export class PredictionView {
       let eff = null;
       if (hasEffect) {
         eff = el("div", { class: "effect" }, this.moves);
-        const s = svg("svg", { viewBox: "0 0 70 11" }, eff);
-        svg("line", { class: "zero", x1: 35, x2: 35, y1: 1, y2: 10 }, s);
-        eff.stem = svg("line", { class: "stem", x1: 35, x2: 35, y1: 5.5, y2: 5.5 }, s);
-        eff.dot = svg("circle", { class: "dot", cx: 35, cy: 5.5, r: 2.4 }, s);
+        const s = svg("svg", { viewBox: "0 0 118 11" }, eff);
+        svg("line", { class: "zero", x1: 59, x2: 59, y1: 1, y2: 10 }, s);
+        eff.stem = svg("line", { class: "stem", x1: 59, x2: 59, y1: 5.5, y2: 5.5 }, s);
+        eff.dot = svg("circle", { class: "dot", cx: 59, cy: 5.5, r: 2.4 }, s);
       }
       this.rows[t] = { lbl, track, bar, val, eff };
     }
@@ -64,7 +66,7 @@ export class PredictionView {
       r.lbl.title = isLegal ? "" : "illegal at the true intersection";
       if (r.eff) {
         const d = s.compass.ablation_delta_logit ? s.compass.ablation_delta_logit[t] : 0;
-        const x = 35 + Math.max(-33, Math.min(33, d * 20));
+        const x = 59 + Math.max(-56, Math.min(56, d / this.effectMax * 56));
         r.eff.stem.setAttribute("x2", x); r.eff.dot.setAttribute("cx", x);
         r.eff.title = `${d >= 0 ? "+" : ""}${d.toFixed(2)} logit from the compass`;
       }
@@ -253,7 +255,7 @@ export class CompassView {
     svg("line", { class: "needle", x1: c, y1: c, x2: c + Math.cos(da) * (R - 9), y2: c - Math.sin(da) * (R - 9) }, g);
     svg("path", { class: "needle-head", d: "M0 0L-4.5 7L4.5 7Z", transform: `translate(${c + Math.cos(da) * (R - 3)} ${c - Math.sin(da) * (R - 3)}) rotate(${90 - s.compass.decoded_bearing_deg})` }, g);
     svg("circle", { class: "hub", cx: c, cy: c, r: 2.5 }, g);
-    this.decodedDd.innerHTML = `<span class="swatch clay"></span>${fmtDeg(s.compass.decoded_bearing_deg)}`;
+    this.decodedDd.innerHTML = `<span class="swatch compass"></span>${fmtDeg(s.compass.decoded_bearing_deg)}`;
     this.actualDd.innerHTML = `<span class="swatch ink"></span>${fmtDeg(s.goal_bearing_deg)}`;
     this.errDd.textContent = `${Math.abs(err).toFixed(0)}°`;
   }

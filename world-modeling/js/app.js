@@ -147,9 +147,6 @@ function bindTransport() {
     else if (e.key === "PageDown" || e.key === "]") { e.preventDefault(); stepRide(1); }
     else if (e.key === "PageUp" || e.key === "[") { e.preventDefault(); stepRide(-1); }
   });
-  for (const id of ["compass", "future"]) {
-    document.getElementById(`ov-${id}`).addEventListener("change", e => { views.map.setOverlays({ [id]: e.target.checked }); render(); e.target.blur(); });
-  }
 }
 
 function readHash() {
