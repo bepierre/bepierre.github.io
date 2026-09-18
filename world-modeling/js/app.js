@@ -1,14 +1,16 @@
 // The explorer: one state object (ride, step, playing, hover), fanned out to every view on each change.
 
-import { MOVES, debounce, rad } from "./util.js";
+import { MOVES, debounce } from "./util.js";
 import { MapView } from "./map.js";
 import { TimelineView } from "./timeline.js";
 import { PredictionView, PositionView, CompassView } from "./panels.js";
 
 const DATA = "data/demo/";
+const STEP_MS = 260;          // one move at 1×
+const RIDE_GAP_MS = 1100;     // pause between rides when playing them all
 
-const state = { ride: null, rideId: null, step: 0, playing: false, speed: 1, hover: null };
-let world, index, views, timer = null;
+const state = { ride: null, rideId: null, step: 0, playing: false, playAll: false, speed: 1, hover: null };
+let world, index, views, timer = null, gapTimer = null;
 
 async function loadJSON(url) {
   const r = await fetch(url);
@@ -17,8 +19,8 @@ async function loadJSON(url) {
 }
 
 function prepareWorld(raw) {
-  // nodes keyed by id → [x, y]; the mean bearing of each move label on this street grid, for arrows
-  // that point along the streets even when no street exists (an attempted illegal move)
+  // nodes keyed by id → [x, y]; the mean bearing of each move label on this street grid, so arrows for a
+  // move without a street (an attempted illegal move) still point along the grid
   const nodes = {};
   for (const [id, xy] of Object.entries(raw.nodes)) nodes[id] = xy;
   const sums = {};
@@ -49,7 +51,22 @@ function fillPicker() {
     }
     sel.appendChild(og);
   }
-  sel.addEventListener("change", () => selectRide(sel.value, 0));
+  // hand focus back to the page after a choice so the arrow keys drive the ride, not the list
+  sel.addEventListener("change", () => { selectRide(sel.value, 0); sel.blur(); });
+  document.getElementById("ride-prev").addEventListener("click", () => stepRide(-1));
+  document.getElementById("ride-next").addEventListener("click", () => stepRide(1));
+  document.getElementById("play-all").addEventListener("click", () => {
+    if (state.playAll) { state.playAll = false; stop(); render(); }
+    else { state.playAll = true; if (!state.playing) play(); else render(); }
+  });
+}
+
+function rideIndex() { return Math.max(0, index.rides.findIndex(r => r.id === state.rideId)); }
+async function stepRide(d) {
+  const i = (rideIndex() + d + index.rides.length) % index.rides.length;
+  const keepPlaying = state.playing;
+  await selectRide(index.rides[i].id, 0);
+  if (keepPlaying) play();
 }
 
 async function selectRide(id, step = 0) {
@@ -67,26 +84,25 @@ async function selectRide(id, step = 0) {
 function render() {
   if (!state.ride) return;
   for (const v of Object.values(views)) v.render(state);
-  const n = state.ride.steps.length - 1, s = state.ride.steps[state.step];
+  const r = state.ride, gen = r.generation, n = r.steps.length - 1, s = r.steps[state.step];
   document.getElementById("status-step").textContent = state.step;
   document.getElementById("status-of").textContent = `of ${n}`;
   document.getElementById("status-goal").textContent = s.dist_to_goal === 0 ? "at the goal" : `${s.dist_to_goal} to goal`;
-  const r = state.ride, gen = r.generation;
   document.getElementById("map-note").innerHTML =
     `<b>${r.family === "stress" ? "Stress ride" : "Detour ride"}</b> · ${r.family === "stress" ? "sampled at T = 1" : `greedy, forced with p = ${gen.forcing.p}`}<br>` +
     `origin ${r.shortest_hops} moves from the goal · ${r.n_moves} moves · <span class="outcome-${r.outcome}">${r.outcome_label}</span>${r.category_label ? ` · ${r.category_label}` : ""}`;
-  document.getElementById("foot-model").textContent = `Rides from ${r.model.checkpoint}, ${r.model.architecture}.`;
+  document.getElementById("foot-model").textContent = `Rides from ${r.model.checkpoint}, ${r.model.architecture};`;
   const playBtn = document.getElementById("btn-play");
   playBtn.innerHTML = state.playing
     ? '<svg viewBox="0 0 14 14"><path d="M3 2h3v10H3zM8 2h3v10H8z"/></svg>'
     : '<svg viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z"/></svg>';
   playBtn.setAttribute("aria-label", state.playing ? "Pause" : "Play");
+  document.getElementById("play-all").classList.toggle("on", state.playAll);
   history.replaceState(null, "", `#ride=${state.rideId}&step=${state.step}`);
 }
 
 function setStep(k) {
-  const n = state.ride.steps.length - 1;
-  state.step = Math.max(0, Math.min(n, k));
+  state.step = Math.max(0, Math.min(state.ride.steps.length - 1, k));
   render();
 }
 
@@ -94,15 +110,23 @@ function play() {
   if (state.playing) return;
   if (state.step >= state.ride.steps.length - 1) state.step = 0;
   state.playing = true;
-  const tick = () => {
-    if (state.step >= state.ride.steps.length - 1) { stop(); render(); return; }
+  timer = setInterval(() => {
+    if (state.step >= state.ride.steps.length - 1) {
+      clearInterval(timer); timer = null;
+      if (state.playAll) { gapTimer = setTimeout(() => { gapTimer = null; state.playing = false; stepRide(1); }, RIDE_GAP_MS); render(); }
+      else { state.playing = false; render(); }
+      return;
+    }
     setStep(state.step + 1);
-  };
-  timer = setInterval(tick, 260 / state.speed);
+  }, STEP_MS / state.speed);
   render();
 }
-function stop() { state.playing = false; if (timer) { clearInterval(timer); timer = null; } }
-function toggle() { if (state.playing) { stop(); render(); } else play(); }
+function stop() {
+  state.playing = false;
+  if (timer) { clearInterval(timer); timer = null; }
+  if (gapTimer) { clearTimeout(gapTimer); gapTimer = null; }
+}
+function toggle() { if (state.playing) { state.playAll = false; stop(); render(); } else play(); }
 
 function bindTransport() {
   document.getElementById("btn-play").addEventListener("click", toggle);
@@ -110,7 +134,8 @@ function bindTransport() {
   document.getElementById("btn-end").addEventListener("click", () => { stop(); setStep(Infinity); });
   document.getElementById("btn-back").addEventListener("click", () => { stop(); setStep(state.step - 1); });
   document.getElementById("btn-fwd").addEventListener("click", () => { stop(); setStep(state.step + 1); });
-  document.getElementById("speed").addEventListener("change", e => { state.speed = +e.target.value; if (state.playing) { stop(); play(); } });
+  const speed = document.getElementById("speed");
+  speed.addEventListener("change", e => { state.speed = +e.target.value; if (state.playing) { stop(); play(); } speed.blur(); });
   document.addEventListener("keydown", e => {
     if (e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
     const ten = e.shiftKey ? 10 : 1;
@@ -119,9 +144,11 @@ function bindTransport() {
     else if (e.key === "ArrowLeft") { e.preventDefault(); stop(); setStep(state.step - ten); }
     else if (e.key === "Home") { e.preventDefault(); stop(); setStep(0); }
     else if (e.key === "End") { e.preventDefault(); stop(); setStep(Infinity); }
+    else if (e.key === "PageDown" || e.key === "]") { e.preventDefault(); stepRide(1); }
+    else if (e.key === "PageUp" || e.key === "[") { e.preventDefault(); stepRide(-1); }
   });
-  for (const id of ["compass", "wrong", "future"]) {
-    document.getElementById(`ov-${id}`).addEventListener("change", e => { views.map.setOverlays({ [id]: e.target.checked }); render(); });
+  for (const id of ["compass", "future"]) {
+    document.getElementById(`ov-${id}`).addEventListener("change", e => { views.map.setOverlays({ [id]: e.target.checked }); render(); e.target.blur(); });
   }
 }
 
@@ -148,7 +175,6 @@ async function main() {
   window.addEventListener("resize", debounce(() => { views.map.resize(); views.timeline.resize(); render(); }, 120));
   const h = readHash();
   await selectRide(h.ride || index.rides[0].id, h.step);
-  // a shared link pasted into an open tab: follow it
   window.addEventListener("hashchange", () => {
     const g = readHash();
     if (!g.ride) return;
