@@ -212,7 +212,6 @@ export class CompassView {
   constructor(root) {
     this.dial = root.querySelector("#compass");
     this.dl = root.querySelector("#compass-readouts");
-    this.note = root.querySelector("#compass-note");
     this.where = root.querySelector("#compass-where");
     clear(this.dl);
     for (const [key, label] of [["decodedDd", "decoded"], ["actualDd", "to the goal"], ["errDd", "error"]]) {
@@ -224,9 +223,6 @@ export class CompassView {
     this.ride = ride;
     const t3 = tag(ride.provenance, ["compass.decoded_bearing_deg"]);
     this.where.innerHTML = `layer ${ride.layers.compass_decode}${t3 ? " · " + t3 : ""}`;
-    const hasEffect = ride.steps.some(s => s.compass.ablation_delta_logit);
-    this.note.textContent = "A circular feature encodes the bearing to the goal and raises the logits of goalward moves"
-      + (hasEffect ? `; its effect, from removing the compass plane at layer ${ride.layers.compass_ablation}, is the column beside each move.` : ".");
   }
   render(state) {
     const s = this.ride.steps[state.step];
