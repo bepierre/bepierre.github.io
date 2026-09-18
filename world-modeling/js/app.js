@@ -73,6 +73,16 @@ async function selectRide(id, step = 0) {
   const entry = index.rides.find(r => r.id === id) || index.rides[0];
   const ride = await loadJSON(DATA + entry.file);
   ride.moveBearing = world.moveBearing;
+  // intersections without historical coordinates sit at an interpolated map position; the export leaves
+  // their goal bearing empty, so take it from the same position the map draws, and say it is approximate
+  const g = world.nodes[ride.goal];
+  for (const s of ride.steps) {
+    const p = world.nodes[s.node];
+    if (s.goal_bearing_deg === null && s.node !== ride.goal && p && g) {
+      s.goal_bearing_deg = Math.round(Math.atan2(g[1] - p[1], g[0] - p[0]) * 1800 / Math.PI) / 10;
+      s.goal_bearing_status = "approximate";
+    }
+  }
   stop();
   state.ride = ride; state.rideId = entry.id; state.hover = null;
   state.step = Math.max(0, Math.min(ride.steps.length - 1, step));
