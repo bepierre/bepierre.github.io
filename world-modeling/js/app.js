@@ -74,7 +74,7 @@ async function selectRide(id, step = 0) {
   const ride = await loadJSON(DATA + entry.file);
   ride.moveBearing = world.moveBearing;
   // intersections without historical coordinates sit at an interpolated map position; the export leaves
-  // their goal bearing empty, so take it from the same position the map draws, and say it is approximate
+  // their goal bearing empty, so take it from the same position the map draws
   const g = world.nodes[ride.goal];
   for (const s of ride.steps) {
     const p = world.nodes[s.node];

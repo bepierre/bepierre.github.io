@@ -253,9 +253,7 @@ export class CompassView {
     svg("path", { class: "needle-head", d: "M0 0L-4.5 7L4.5 7Z", transform: `translate(${c + Math.cos(da) * (R - 3)} ${c - Math.sin(da) * (R - 3)}) rotate(${90 - s.compass.decoded_bearing_deg})` }, g);
     svg("circle", { class: "hub", cx: c, cy: c, r: 2.5 }, g);
     this.decodedDd.innerHTML = `<span class="swatch compass"></span>${fmtDeg(s.compass.decoded_bearing_deg)}`;
-    const approx = s.goal_bearing_status === "approximate";
-    this.actualDd.innerHTML = `<span class="swatch ink"></span>${approx ? "≈ " : ""}${fmtDeg(s.goal_bearing_deg)}`;
-    this.actualDd.title = approx ? "this intersection has no historical coordinates; bearing taken from its interpolated map position" : "";
+    this.actualDd.innerHTML = `<span class="swatch ink"></span>${fmtDeg(s.goal_bearing_deg)}`;
     this.errDd.textContent = `${Math.abs(err).toFixed(0)}°`;
   }
 }
