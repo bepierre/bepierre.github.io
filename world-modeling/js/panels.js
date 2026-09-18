@@ -8,8 +8,8 @@ function tag(prov, fields) {
   const kinds = fields.map(f => [f, prov[f] || ""]);
   const ill = kinds.filter(([, v]) => !v.startsWith("recorded") && !v.startsWith("derived")).map(([f]) => f.split(".").pop().replace(/_/g, " "));
   const kind = ill.length === 0 ? "recorded" : ill.length === kinds.length ? "illustrative" : "mixed";
-  const title = kind === "recorded" ? "recorded or derived from the recording" : `illustrative: ${ill.join(", ")}`;
-  return `<span class="tag ${kind}" title="${title}">${kind === "mixed" ? "partly illustrative" : kind}</span>`;
+  if (kind === "recorded") return "";     // measured data needs no label; the dataset note in the header says so
+  return `<span class="tag ${kind}" title="illustrative: ${ill.join(", ")}">${kind === "mixed" ? "partly illustrative" : kind}</span>`;
 }
 
 // ── next move ─────────────────────────────────────────────────────────────────
@@ -44,7 +44,8 @@ export class PredictionView {
       }
       this.rows[t] = { lbl, track, bar, val, eff };
     }
-    this.where.innerHTML = `${ride.generation.temperature > 0 ? "sampled at T = 1" : "greedy"} · ${tag(ride.provenance, ["prediction.logits", "compass.ablation_delta_logit"])}`;
+    const t1 = tag(ride.provenance, ["prediction.logits", "compass.ablation_delta_logit"]);
+    this.where.innerHTML = `${ride.generation.temperature > 0 ? "sampled at T = 1" : "greedy"}${t1 ? " · " + t1 : ""}`;
   }
   render(state) {
     const s = this.ride.steps[state.step], pr = s.prediction;
@@ -125,7 +126,8 @@ export class PositionView {
   }
   setRide(ride) {
     this.ride = ride;
-    this.where.innerHTML = `layer ${ride.layers.position_write} · ${tag(ride.provenance, ["position.write", "position.wrong_activation", "position.cos_true_wrong", "position.noise"])}`;
+    const t2 = tag(ride.provenance, ["position.write", "position.wrong_activation", "position.cos_true_wrong", "position.noise"]);
+    this.where.innerHTML = `layer ${ride.layers.position_write}${t2 ? " · " + t2 : ""}`;
   }
   render(state) {
     const s = this.ride.steps[state.step], pos = s.position;
@@ -160,9 +162,9 @@ export class PositionView {
   drawSketch(d) {
     const g = this.sketch;
     clear(g);
-    const ox = 16, oy = 78, scale = 150 / 800;
-    svg("line", { class: "axis-true", x1: ox, y1: oy, x2: 226, y2: oy }, g);
-    svg("text", { class: "lab", x: 226, y: oy + 12, "text-anchor": "end", text: "true feature" }, g);
+    const ox = 14, oy = 92, scale = 165 / 800;
+    svg("line", { class: "axis-true", x1: ox, y1: oy, x2: 228, y2: oy }, g);
+    svg("text", { class: "lab", x: 228, y: oy + 12, "text-anchor": "end", text: "true feature" }, g);
     if (!d) return;
     let theta = d.cos === null ? 60 : Math.acos(Math.max(-1, Math.min(1, d.cos))) * 180 / Math.PI;
     theta = Math.max(8, Math.min(120, theta));
@@ -218,7 +220,8 @@ export class CompassView {
   }
   setRide(ride) {
     this.ride = ride;
-    this.where.innerHTML = `layer ${ride.layers.compass_decode} · ${tag(ride.provenance, ["compass.decoded_bearing_deg"])}`;
+    const t3 = tag(ride.provenance, ["compass.decoded_bearing_deg"]);
+    this.where.innerHTML = `layer ${ride.layers.compass_decode}${t3 ? " · " + t3 : ""}`;
     const hasEffect = ride.steps.some(s => s.compass.ablation_delta_logit);
     this.note.textContent = "A circular feature encodes the bearing to the goal and raises the logits of goalward moves"
       + (hasEffect ? `; its effect, from removing the compass plane at layer ${ride.layers.compass_ablation}, is the column beside each move.` : ".");
