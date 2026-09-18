@@ -37,7 +37,8 @@ export class PredictionView {
       const bar = el("div", { class: "bar" }, track);
       const val = el("div", { class: "val" }, this.moves);
       let eff = null;
-      if (hasEffect) {
+      if (hasEffect && t === "END") el("div", {}, this.moves);      // the compass acts on moves, not on stopping
+      else if (hasEffect) {
         eff = el("div", { class: "effect" }, this.moves);
         const s = svg("svg", { viewBox: "0 0 118 11" }, eff);
         svg("line", { class: "zero", x1: 59, x2: 59, y1: 1, y2: 10 }, s);
