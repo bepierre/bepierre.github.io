@@ -165,12 +165,12 @@ async function main() {
   if (dataNote) dataNote.textContent = idx.dataset === "demo"
     ? "Fields marked illustrative are generated, not measured."
     : "All readouts are measured. Some map coordinates are interpolated; unavailable geographic bearings are omitted.";
-  views = {
+  views = {   // the timeline last: it takes whatever height the panels above it leave
     map: new MapView(document.getElementById("map"), world),
-    timeline: new TimelineView(document.getElementById("timeline")),
     prediction: new PredictionView(document.getElementById("panel-prediction")),
     position: new PositionView(document.getElementById("panel-position")),
     compass: new CompassView(document.getElementById("panel-compass")),
+    timeline: new TimelineView(document.getElementById("timeline")),
   };
   views.timeline.onScrub = k => { stop(); setStep(k); };
   views.position.onHover = which => { state.hover = which; render(); };

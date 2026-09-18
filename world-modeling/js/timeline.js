@@ -13,7 +13,14 @@ export class TimelineView {
     this.svg = container.querySelector("svg");
     this.ride = null;
     this.onScrub = () => {};
+    this.lastState = null;
     this.bind();
+    // the box's size depends on the panels above it; redraw whenever it changes
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(() => {
+        if (this.ride && (this.container.clientWidth !== this.W || this.container.clientHeight !== H)) { this.draw(); if (this.lastState) this.render(this.lastState); }
+      }).observe(this.container);
+    }
   }
 
   bind() {
@@ -47,7 +54,7 @@ export class TimelineView {
   draw() {
     clear(this.svg);
     this.W = this.container.clientWidth || 500;
-    H = this.svg.clientHeight || 124;
+    H = this.container.clientHeight || 124;
     this.svg.setAttribute("viewBox", `0 0 ${this.W} ${H}`);
     const steps = this.ride.steps, n = this.n;
     this.xmax = n <= 100 ? 100 : 128;
@@ -119,6 +126,8 @@ export class TimelineView {
 
   render(state) {
     if (!this.ride) return;
+    this.lastState = state;
+    if (this.container.clientWidth !== this.W || this.container.clientHeight !== H) this.draw();
     const x = this.x(state.step);
     this.cursor.setAttribute("x1", x); this.cursor.setAttribute("x2", x);
     this.cursorHead.setAttribute("transform", `translate(${x} ${this.y(this.ymax) - 7})`);
