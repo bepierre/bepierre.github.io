@@ -266,6 +266,7 @@ svg text { font-family: var(--font); }
 .timeline .illegal-stem { stroke: var(--bad); stroke-width: 1; }
 .timeline .illegal-x { stroke: var(--bad); stroke-width: 1.6; stroke-linecap: round; }
 .timeline .end-mark { fill: var(--ink); }
+.timeline .end-mark-off { fill: none; stroke: var(--ink); stroke-width: 1.2; }
 .timeline .legend { font-size: 10.5px; }
 .timeline .legend .t { fill: var(--good); }
 .timeline .legend .w { fill: var(--bad); }
@@ -306,11 +307,45 @@ h2 .help { margin-left: 6px; vertical-align: 2px; }
 kbd { font: inherit; font-size: 10px; border: var(--hair); border-radius: 3px; padding: 0 4px; color: var(--ink); }
 
 /* ── smaller screens ─────────────────────────────────────────────────────────── */
-@media (max-width: 1180px) {
-  :root { --dash-w: 440px; }
-  .pair-row { grid-template-columns: 1fr; }
+/* ── resizing: the map gives way first; the panel column keeps its width until the map would be too
+   small, then the type shrinks a step, then the column narrows, and only under 900px does the layout stack.
+   Short windows drop the caption, then the trace. ─────────────────────────────────────────────────────── */
+@media (max-width: 1300px) and (min-width: 901px) {
+  .masthead .meta span { display: none; }
 }
-@media (max-width: 960px) {
+@media (max-width: 1180px) and (min-width: 901px) {
+  :root { --fs-body: 12px; --fs-small: 10.5px; --fs-title: 17px; --dash-w: 460px; }
+  .moves .track { height: 8px; }
+  .compass-dial { width: 92px; height: 92px; }
+  .graphic { height: 110px; }
+}
+@media (max-width: 1040px) and (min-width: 901px) {
+  :root { --dash-w: 420px; --gap: 12px; }
+  .page { padding: 8px 14px 6px; }
+  .moves { grid-template-columns: 26px 1fr 56px !important; }
+  .moves .effect, .moves .hdr.effect { display: none; }      /* the compass-effect column goes first */
+  .sketch-caption { display: none; }
+}
+@media (max-height: 840px) and (min-width: 901px) {
+  :root { --fs-body: 12px; --fs-small: 10.5px; --fs-title: 17px; }
+  .page { padding: 8px 18px 6px; gap: 8px; }
+  .dash { gap: 6px; }
+  .moves { row-gap: 1px; }
+  .moves .track { height: 7px; }
+  .readouts { gap: 1px 10px; }
+  .prediction-note { min-height: 0; }
+  .sketch-caption { display: none; }
+  .graphic { height: 98px; }
+  .compass-dial { width: 90px; height: 90px; }
+  .masthead .intro { font-size: var(--fs-small); }
+  .timeline { min-height: 80px; }
+  .foot { display: none; }
+}
+@media (max-height: 660px) and (min-width: 901px) {
+  .timeline-panel { display: none; }                          /* the trace is the first panel to go */
+  .dash { grid-template-rows: auto auto auto; align-content: start; }
+}
+@media (max-width: 900px) {
   .masthead { grid-template-columns: minmax(0, 1fr); }
   .ride-picker { justify-self: stretch; flex-wrap: wrap; min-width: 0; }
   .ride-picker select { min-width: 0; flex: 1; }
@@ -320,30 +355,11 @@ kbd { font: inherit; font-size: 10px; border: var(--hair); border-radius: 3px; p
   .dash { grid-template-rows: none; }
   .pair-row { grid-template-columns: 1fr 1fr; }
   .timeline-panel { align-self: start; height: 180px; }
+  .foot { display: none; }
 }
 @media (max-width: 620px) {
   .pair-row { grid-template-columns: 1fr; }
   .ride-picker select { max-width: 100%; }
-}
-@media (max-height: 840px) and (min-width: 961px) {
-  :root { --fs-body: 12px; --fs-small: 10.5px; --fs-title: 17px; }
-  .page { padding: 8px 18px 6px; gap: 8px; }
-  .dash { gap: 8px; }
-  .moves .track { height: 8px; }
-  .moves { row-gap: 1px; }
-  .sketch-caption { display: none; }
-  .graphic { height: 98px; }
-  .compass-dial { width: 90px; height: 90px; }
-  .masthead .intro { font-size: var(--fs-small); }
-  .dash { gap: 6px; }
-  .moves .track { height: 7px; }
-  .readouts { gap: 1px 10px; }
-  .prediction-note { min-height: 0; }
-  .timeline { min-height: 80px; }
-  .foot { display: none; }
-}
-@media (max-width: 1300px) and (min-width: 961px) {
-  .masthead .meta span { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .moves .bar, .map-frame .hover-ring { transition: none; }

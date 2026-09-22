@@ -2,7 +2,7 @@
 // activation across the ride, with the route's own time colour running along the axis, plus position noise
 // on its own right-hand scale. It is also the scrubber.
 
-import { P, MILESTONE, svg, clear, timeColor } from "./util.js";
+import { P, MILESTONE, svg, clear, timeColor, starPath } from "./util.js";
 
 const M = { l: 34, r: 30, t: 20, b: 20 };
 let H = 124;
@@ -102,7 +102,9 @@ export class TimelineView {
       const cx = this.x(n), cy = this.y(this.ymax * 0.96);
       svg("path", { class: "illegal-x", d: `M${cx - 3.5} ${cy - 3.5}L${cx + 3.5} ${cy + 3.5}M${cx + 3.5} ${cy - 3.5}L${cx - 3.5} ${cy + 3.5}` }, this.svg);
     } else if (steps[n].prediction.executed === "END") {
-      svg("circle", { class: "end-mark", cx: this.x(n), cy: this.y(this.ymax * 0.96), r: 3 }, this.svg);
+      // END at the goal: the goal's star, as on the map; END elsewhere: a hollow ring
+      if (steps[n].node === this.ride.goal) svg("path", { class: "end-mark", d: starPath(5.5), transform: `translate(${this.x(n)} ${this.y(this.ymax * 0.94)})` }, this.svg);
+      else svg("circle", { class: "end-mark-off", cx: this.x(n), cy: this.y(this.ymax * 0.96), r: 3 }, this.svg);
     }
 
     // the time bar along the axis: sand → charcoal to the end of the ride, grid beyond
