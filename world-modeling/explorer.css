@@ -100,6 +100,8 @@ svg text { font-family: var(--font); }
 .ride-picker button svg { width: 12px; height: 12px; fill: var(--ink); }
 .ride-picker button:hover { border-color: var(--sand); background: var(--grid-soft); }
 .ride-picker button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.ride-picker .tour-btn { margin-left: 6px; color: var(--clay); border-color: var(--card); }
+.ride-picker .tour-btn:hover { border-color: var(--clay); background: var(--clay-soft); }
 .ride-picker .demo { color: var(--clay); font-size: var(--fs-small); margin-left: 4px; cursor: help; white-space: nowrap; flex: none; }
 
 /* ── explorer: the map fills the left, everything else sits in one right-hand column ───────── */

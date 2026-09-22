@@ -208,11 +208,13 @@ async function main() {
   await selectRide(h.ride || (index.rides.some(r => r.id === DEFAULT_RIDE) ? DEFAULT_RIDE : index.rides[0].id), h.step);
   // the guided tour runs on every visit until it has been completed or skipped once (?tour=1 replays it)
   const params = new URLSearchParams(location.search);
-  if ((!tourSeen() && !params.has("notour")) || params.has("tour")) {
+  const tour = () => {
     stop();
     if (state.step === 0) setStep(Math.min(30, state.ride.steps.length - 1));   // a mid-ride state has more to show
     startTour();
-  }
+  };
+  document.getElementById("tour-btn").addEventListener("click", e => { e.currentTarget.blur(); tour(); });
+  if ((!tourSeen() && !params.has("notour")) || params.has("tour")) tour();
   window.addEventListener("hashchange", () => {
     const g = readHash();
     if (!g.ride) return;
