@@ -7,6 +7,7 @@ import { P, MOVES, MOVE_ANGLE, MILESTONE, svg, clear, timeColor, starPath, rad }
 export class MapView {
   constructor(frame, world) {
     this.frame = frame;
+    this.stage = frame.querySelector(".map-stage") || frame;   // the box the map itself fills
     this.svg = frame.querySelector("svg.map");
     this.locator = frame.querySelector("svg.locator");
     this.world = world;
@@ -51,7 +52,7 @@ export class MapView {
 
   // Fit the route and the goal into the frame.
   fit() {
-    const W = this.frame.clientWidth || 600, H = this.frame.clientHeight || 500;
+    const W = this.stage.clientWidth || 600, H = this.stage.clientHeight || 500;
     const pts = this.ride.steps.map(s => this.world.nodes[s.node]).filter(Boolean);
     pts.push(this.world.nodes[this.ride.goal]);
     let minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity;

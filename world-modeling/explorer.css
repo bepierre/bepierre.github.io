@@ -93,7 +93,8 @@ svg text { font-family: var(--font); }
 .pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-width: 0; }
 
 /* ── the map ───────────────────────────────────────────────────────────────────── */
-.map-frame { position: relative; border: var(--hair); background: var(--paper); overflow: hidden; min-height: 0; }
+.map-frame { position: relative; border: var(--hair); background: var(--paper); overflow: hidden; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); }
+.map-stage { position: relative; min-height: 0; }
 .map-frame svg.map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .map-frame .streets { stroke: var(--grid); stroke-width: 1.1; fill: none; stroke-linecap: round; }
 .map-frame .route-future { stroke: var(--sand); stroke-opacity: .45; stroke-width: 1.6; fill: none; stroke-dasharray: 3 4; }
@@ -351,7 +352,7 @@ kbd { font: inherit; font-size: 10px; border: var(--hair); border-radius: 3px; p
   .ride-picker select { min-width: 0; flex: 1; }
   .page { height: auto; min-height: 100vh; padding: 12px 14px 8px; }
   .explorer { grid-template-columns: 1fr; }
-  .map-frame { aspect-ratio: 1 / 1; max-height: 70vh; }
+  .map-stage { aspect-ratio: 1 / 1; max-height: 70vh; }
   .dash { grid-template-rows: none; }
   .pair-row { grid-template-columns: 1fr 1fr; }
   .timeline-panel { align-self: start; height: 180px; }
@@ -359,7 +360,18 @@ kbd { font: inherit; font-size: 10px; border: var(--hair); border-radius: 3px; p
 }
 @media (max-width: 620px) {
   .pair-row { grid-template-columns: 1fr; }
+  .ride-picker { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; }
   .ride-picker select { max-width: 100%; }
+  .ride-picker button.text { grid-column: 1 / -1; }
+  /* the controls and the legend leave the map and stack under it */
+  .map-frame { grid-template-rows: auto auto auto; }
+  .transport { position: static; border: 0; border-top: var(--hair); border-radius: 0; padding: 6px 8px; grid-auto-flow: column; justify-content: space-between; align-items: center; background: none; }
+  .transport .status { white-space: normal; flex-wrap: wrap; justify-content: flex-end; gap: 2px 8px; text-align: right; }
+  .map-legend { position: static; padding: 4px 8px 6px; gap: 3px 10px; }
+  .map-legend .k { padding: 0; }
+  .graphic { height: auto; }
+  .sketch { max-width: 300px; margin: 0 auto; }
+  .compass-dial { margin: 0 auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .moves .bar, .map-frame .hover-ring { transition: none; }
