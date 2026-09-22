@@ -216,6 +216,12 @@ export class CompassView {
     this.dial = root.querySelector("#compass");
     this.dl = root.querySelector("#compass-readouts");
     this.where = root.querySelector("#compass-where");
+    this.onHover = () => {};
+    // hovering the dial or its readouts draws the two bearings across the map
+    for (const e of [this.dial, this.dl]) {
+      e.addEventListener("mouseenter", () => this.onHover("compass"));
+      e.addEventListener("mouseleave", () => this.onHover(null));
+    }
     clear(this.dl);
     for (const [key, label] of [["decodedDd", "decoded"], ["actualDd", "to the goal"], ["errDd", "error"]]) {
       el("dt", { text: label }, this.dl);

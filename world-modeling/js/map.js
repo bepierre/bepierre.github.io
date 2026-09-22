@@ -135,7 +135,15 @@ export class MapView {
     }
     if (state.hover === "true") svg("circle", { class: "hover-ring on", cx: here[0], cy: here[1], r: 13, stroke: P.good }, this.gNow);
 
-    // the compass at the taxi: decoded bearing (clay pointer) and the actual bearing to the goal (ink tick)
+    // hovering the compass panel: the decoded bearing (plum) and the bearing to the goal (ink) as rays
+    if (state.hover === "compass" && s.goal_bearing_deg !== null) {
+      const ray = (deg, cls, len) => svg("line", { class: cls, x1: here[0], y1: here[1], x2: here[0] + Math.cos(rad(deg)) * len, y2: here[1] - Math.sin(rad(deg)) * len }, this.gNow);
+      const g = this.px(this.ride.goal);
+      const toGoal = Math.hypot(g[0] - here[0], g[1] - here[1]);
+      ray(s.goal_bearing_deg, "ray actual", toGoal);
+      ray(s.compass.decoded_bearing_deg, "ray decoded", Math.max(120, toGoal));
+    }
+    // the compass at the taxi: decoded bearing (plum pointer) and the actual bearing to the goal (ink tick)
     if (this.overlays.compass && s.goal_bearing_deg !== null) {
       const R = 21;
       svg("circle", { class: "compass-ring", cx: here[0], cy: here[1], r: R }, this.gNow);
