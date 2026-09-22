@@ -155,7 +155,7 @@ export class PositionView {
     for (const e of [this.wrongDt, this.wrongDd]) e.classList.toggle("on", state.hover === "wrong");
     this.trueDd.title = `intersection ${s.node} · hover to find it on the map`;
     if (pos.write === null) {
-      this.trueDd.innerHTML = `<span class="swatch good"></span><span class="muted">origin state, not measured</span>`;
+      this.trueDd.innerHTML = `<span class="swatch good"></span><span class="muted">not measured</span>`;
       this.wrongDd.innerHTML = "–"; this.angleDd.textContent = "–"; this.noiseDd.textContent = "–";
       this.wrongDd.title = "";
       this.drawSketch(null);

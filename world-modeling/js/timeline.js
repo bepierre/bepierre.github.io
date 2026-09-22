@@ -109,7 +109,7 @@ export class TimelineView {
 
     // the time bar along the axis: sand → charcoal to the end of the ride, grid beyond
     svg("line", { class: "timebar-rest", x1: this.x(n), x2: this.x(this.xmax), y1: y0, y2: y0 }, this.svg);
-    for (let k = 0; k < n; k++) svg("line", { class: "timebar", x1: this.x(k), x2: this.x(k + 1) + 0.3, y1: y0, y2: y0, stroke: timeColor(k + 0.5, n) }, this.svg);
+    svg("line", { class: "timebar", x1: this.x(0), x2: this.x(n), y1: y0, y2: y0 }, this.svg);   // the ride's span; grid beyond it
     if (this.ride.family === "detour") {
       for (let k = 0; k < n; k++) if (steps[k].prediction.forced) svg("line", { class: "forced-tick", x1: this.x(k), x2: this.x(k), y1: y0 + 5, y2: y0 + 9 }, this.svg);
     }
