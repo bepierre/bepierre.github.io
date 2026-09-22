@@ -50,7 +50,7 @@ export const HELP = {
   },
   prediction: {
     title: "Next move",
-    body: `<p>The model gives each possible next move a score, called a logit. Two mechanisms help shape these scores: the active intersection feature favors legal moves, while the goal compass favors moves toward the destination. The bars show the resulting probabilities.</p>`,
+    body: `<p>At each step, the model decides which move to take next, or whether to stop with END. The bars show the probability it assigns to each choice. Red marks directions with no street at the taxi’s current intersection; the selected move is highlighted.</p>`,
   },
   effect: {
     title: "Compass effect",
