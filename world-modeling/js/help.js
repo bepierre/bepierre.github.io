@@ -84,7 +84,7 @@ export const HELP = {
   },
   trace: {
     title: "Position tracking over time",
-    body: `<p>Green follows the true-position write; red follows the strongest wrong feature, whose identity can change. Superposition helps explain why they often rise and fall together: activating the true feature also activates wrong features superposed with it. Noise uses the right-hand scale. Click or drag to move through the ride.</p>`,
+    body: `<p>This plot follows the true and strongest wrong intersection features as the taxi moves. They often rise and fall together because of superposition: activating the true feature also activates wrong features aligned with it.</p>`,
   },
   stress: {
     title: "The stress test",
