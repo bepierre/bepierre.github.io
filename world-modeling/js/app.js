@@ -105,6 +105,7 @@ function render() {
     `origin ${r.shortest_hops} moves from the goal · ${r.n_moves} moves · <span class="outcome-${r.outcome}">${r.outcome_label}</span>${r.category_label ? ` · ${r.category_label}<span id="help-category"></span>` : ""}`;
   note.querySelector("#help-family").appendChild(helpButton(r.family));
   if (r.category && HELP[`category_${r.category}`]) note.querySelector("#help-category").appendChild(helpButton(`category_${r.category}`));
+  document.getElementById("legend-forced").hidden = r.family !== "detour";   // stress rides force nothing
   document.getElementById("foot-model").textContent = `Rides from ${r.model.checkpoint}, ${r.model.architecture};`;
   const playBtn = document.getElementById("btn-play");
   playBtn.innerHTML = state.playing

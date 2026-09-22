@@ -111,6 +111,10 @@ export class PositionView {
     this.onHover = () => {};
     this.hover = null;
     this.build();
+    // redraw the sketch when its box changes size, so the geometry follows and the labels stay put
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(() => { if (this.lastSketch !== undefined) this.drawSketch(this.lastSketch); }).observe(this.sketch);
+    }
   }
   build() {
     // persistent rows, so a hovered element survives re-renders and keeps its mouseleave
@@ -174,18 +178,23 @@ export class PositionView {
   }
   // Fig. 3 (a) made exact for two measured projections: with e_true = (1, 0) and e_wrong at the measured angle,
   // the residual's in-plane point is fixed by write = p·e_true and wrong = p·e_wrong.
+  // Drawn in pixel space (the viewBox is the box's own size), so the labels keep the page's text size
+  // whatever the column width; only the geometry scales.
   drawSketch(d) {
     const g = this.sketch;
     clear(g);
-    const ox = 14, oy = 92, scale = 165 / 800;
-    svg("line", { class: "axis-true", x1: ox, y1: oy, x2: 228, y2: oy }, g);
-    svg("text", { class: "lab", x: 228, y: oy + 12, "text-anchor": "end", text: "true feature" }, g);
+    this.lastSketch = d;
+    const W = g.clientWidth || 236, Hh = g.clientHeight || 118;
+    g.setAttribute("viewBox", `0 0 ${W} ${Hh}`);
+    const ox = 14, oy = Hh - 26, scale = (W - 70) / 800;
+    svg("line", { class: "axis-true", x1: ox, y1: oy, x2: W - 8, y2: oy }, g);
+    svg("text", { class: "lab", x: W - 8, y: oy + 12, "text-anchor": "end", text: "true feature" }, g);
     if (!d) return;
     let theta = d.cos === null ? 60 : Math.acos(Math.max(-1, Math.min(1, d.cos))) * 180 / Math.PI;
     theta = Math.max(8, Math.min(120, theta));
     const t = rad(theta);
     if (d.cos !== null) {
-      const reach = Math.min(200, (oy - 5) / Math.max(0.05, Math.sin(t)), (236 - ox - 4) / Math.max(0.05, Math.abs(Math.cos(t))));
+      const reach = Math.min(200, (oy - 5) / Math.max(0.05, Math.sin(t)), (W - ox - 4) / Math.max(0.05, Math.abs(Math.cos(t))));
       svg("line", { class: "axis-wrong", x1: ox, y1: oy, x2: ox + Math.cos(t) * reach, y2: oy - Math.sin(t) * reach }, g);
       const lr = Math.min(reach, (oy - 12) / Math.max(0.05, Math.sin(t)));
       svg("text", { class: "lab bad", x: ox + Math.cos(t) * lr + 5, y: oy - Math.sin(t) * lr + (theta > 70 ? 9 : -3), text: "wrong feature" }, g);
@@ -214,7 +223,7 @@ export class PositionView {
     if (d.cos !== null) {
       svg("line", { class: "remainder", x1: px, y1: oy, x2: px, y2: py }, g);
       arrow(ox, oy, px, py, `resultant ${d.wrongWins ? "bad" : "good"}`, d.wrongWins ? "arrow-bad" : "arrow-good");
-      const right = px < 120;
+      const right = px < W / 2;
       svg("text", { class: `lab ${d.wrongWins ? "bad" : "good"}`, x: right ? px + 7 : px - 7, y: py - 6, "text-anchor": right ? "start" : "end", text: d.wrongWins ? "wrong node most active" : "true node most active" }, g);
     }
   }

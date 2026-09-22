@@ -143,6 +143,7 @@ svg text { font-family: var(--font); }
   font-size: var(--fs-small); color: var(--muted); pointer-events: none;
 }
 .map-legend .k { display: inline-flex; align-items: center; gap: 5px; background: rgba(255,255,255,.85); padding: 1px 3px; border-radius: 2px; }
+.map-legend .k[hidden] { display: none; }
 .map-legend svg { width: 22px; height: 12px; overflow: visible; }
 
 /* ── dashboard panels ──────────────────────────────────────────────────────────── */
@@ -214,7 +215,7 @@ svg text { font-family: var(--font); }
 .sketch .resultant { stroke-width: 2.6; stroke-linecap: round; }
 .sketch .resultant.good { stroke: var(--good); }
 .sketch .resultant.bad { stroke: var(--bad); }
-.sketch .lab { font-size: 10.5px; fill: var(--muted); }
+.sketch .lab { font-size: var(--fs-small); fill: var(--muted); }
 .sketch .noise-disc { fill: var(--muted); fill-opacity: .12; stroke: var(--muted); stroke-width: .7; stroke-dasharray: 2 2; }
 .sketch .boundary { stroke: var(--sand); stroke-width: 1; stroke-dasharray: 1.5 3; }
 .sketch .lab.bad { fill: var(--bad); }
@@ -227,7 +228,7 @@ svg text { font-family: var(--font); }
 
 .compass-dial { width: 112px; height: 112px; display: block; }
 .compass-dial .ring { fill: none; stroke: var(--grid); stroke-width: 1; }
-.compass-dial .cardinal { font-size: 10px; fill: var(--muted); text-anchor: middle; dominant-baseline: middle; }
+.compass-dial .cardinal { font-size: 10.5px; fill: var(--muted); text-anchor: middle; dominant-baseline: middle; }
 .compass-dial .tick { stroke: var(--grid); stroke-width: 1.5; }
 .compass-dial .tick.legal { stroke: var(--charcoal); }
 .compass-dial .needle { stroke: var(--compass); stroke-width: 2.2; stroke-linecap: round; }
