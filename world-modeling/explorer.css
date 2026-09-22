@@ -345,6 +345,8 @@ h2 .help { margin-left: 6px; vertical-align: 2px; }
 .tour-count { font-size: var(--fs-small); color: var(--muted); }
 .tour-title { font-size: 15px; font-weight: 600; margin: 2px 0 6px; }
 .tour-body { margin: 0 0 12px; }
+.tour-body p { margin: 0; }
+.tour-body p + p { margin-top: 10px; }
 .tour-nav { display: flex; align-items: center; gap: 8px; }
 .tour-spacer { flex: 1; }
 .tour-nav button { font: inherit; font-size: var(--fs-small); border: var(--hair); background: var(--paper); border-radius: 3px; padding: 5px 10px; cursor: pointer; color: var(--ink); }

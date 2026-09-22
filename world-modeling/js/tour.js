@@ -25,21 +25,27 @@ const STEPS = [
     place: "left",
   },
   {
-    target: "#panel-prediction",
+    target: "#moves > .hdr:not(.effect), #moves > .lbl, #moves > .track, #moves > .val",
     title: "Next move",
-    body: `At each step, the model decides which move to take next, or whether to stop with END. The bars show the probability it assigns to each choice. Red marks directions with no street at the taxi’s current intersection. The compass-effect column compares the model’s scores with and without its goal compass.`,
+    body: `At each step, the model decides which move to take next, or whether to stop with END. The bars show the probability it assigns to each choice. Red marks directions with no street at the taxi’s current intersection.`,
     place: "left",
   },
   {
     target: "#panel-position",
     title: "Position code",
-    body: `Each intersection has a feature inside the model. Imagine a taxi driver drawing a map in a small notebook. As the page fills up, they draw new parts of the map on top of the earlier ones. Later, an X marking their position lands on two overlapping parts, and they can confuse which place they are in. Similarly, TaxiGPT can confuse its current intersection with another whose feature is superposed with it.`,
+    body: `<p>Each intersection has a feature inside the model. The model activates the current intersection’s feature to represent where it is; the strength of this activation is the position write. Activating one feature can also activate others (because of superposition). If the true-position signal is weak or there is a lot of noise, a wrong feature can become most active.</p><p>Imagine a taxi driver learning their way around Manhattan and drawing the streets in a small notebook. At first, there is plenty of room. But as they discover more of the city, the page fills up. Rather than leave streets out, they start drawing new parts of the map on top of the ones already there. Later, when they mark their position with an X, it lands on two overlapping parts of the map. They can then confuse which of the two places they are actually in. Similarly, TaxiGPT can confuse its current intersection with another whose feature is superposed with it.</p>`,
     place: "left",
   },
   {
     target: "#panel-compass",
     title: "Goal compass",
     body: `The goal compass is a circular feature that encodes the angle from the current intersection to the destination. The model uses it to guide its moves toward the goal.`,
+    place: "left",
+  },
+  {
+    target: "#moves > .effect",
+    title: "Compass effect",
+    body: `We compare the model’s scores with and without the compass. A dot to the right means the compass raises that move’s score; a dot to the left means it lowers it.`,
     place: "left",
   },
   {
@@ -66,7 +72,7 @@ function build() {
     <div class="tour-card">
       <div class="tour-count"></div>
       <h3 class="tour-title"></h3>
-      <p class="tour-body"></p>
+      <div class="tour-body"></div>
       <div class="tour-nav">
         <button type="button" class="tour-skip">Skip the tour</button>
         <span class="tour-spacer"></span>
@@ -110,7 +116,13 @@ function place() {
   const s = STEPS[idx], t = document.querySelector(s.target);
   const hole = root.querySelector(".tour-hole"), card = root.querySelector(".tour-card");
   const vw = window.innerWidth, vh = window.innerHeight, m = 12;
-  let r = t ? t.getBoundingClientRect() : { left: vw / 2, top: vh / 2, width: 0, height: 0, right: vw / 2, bottom: vh / 2 };
+  const rects = [...document.querySelectorAll(s.target)].map(el => el.getBoundingClientRect());
+  let r = { left: vw / 2, top: vh / 2, width: 0, height: 0, right: vw / 2, bottom: vh / 2 };
+  if (rects.length) {
+    r = { left: Math.min(...rects.map(b => b.left)), top: Math.min(...rects.map(b => b.top)),
+          right: Math.max(...rects.map(b => b.right)), bottom: Math.max(...rects.map(b => b.bottom)) };
+    r.width = r.right - r.left; r.height = r.bottom - r.top;
+  }
   const pad = 8;
   hole.setAttribute("x", r.left - pad); hole.setAttribute("y", r.top - pad);
   hole.setAttribute("width", r.width + 2 * pad); hole.setAttribute("height", r.height + 2 * pad);
