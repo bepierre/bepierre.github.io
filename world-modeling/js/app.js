@@ -112,7 +112,6 @@ function render() {
   if (r.category && HELP[`category_${r.category}`]) note.querySelector("#help-category").appendChild(helpButton(`category_${r.category}`));
   document.getElementById("legend-forced").hidden = r.family !== "detour";   // stress rides force nothing
   document.getElementById("legend-illegal").hidden = r.outcome !== "illegal";  // only rides that end off the graph
-  document.getElementById("foot-model").textContent = `Rides from ${r.model.checkpoint}, ${r.model.architecture};`;
   const playBtn = document.getElementById("btn-play");
   playBtn.innerHTML = state.playing
     ? '<svg viewBox="0 0 14 14"><path d="M3 2h3v10H3zM8 2h3v10H8z"/></svg>'
@@ -182,10 +181,6 @@ async function main() {
   const [rawWorld, idx] = await Promise.all([loadJSON(DATA === "data/demo/" ? "data/manhattan.json" : DATA + "manhattan.json"), loadJSON(DATA + "index.json")]);
   world = prepareWorld(rawWorld);
   index = idx;
-  const dataNote = document.getElementById("data-note");
-  if (dataNote) dataNote.textContent = idx.dataset === "demo"
-    ? "Fields marked illustrative are generated, not measured."
-    : "All readouts are measured. Some map coordinates are interpolated; unavailable geographic bearings are omitted.";
   views = {   // the timeline last: it takes whatever height the panels above it leave
     map: new MapView(document.getElementById("map"), world),
     prediction: new PredictionView(document.getElementById("panel-prediction")),

@@ -57,8 +57,8 @@ svg text { font-family: var(--font); }
 
 /* ── page frame: header, explorer, one-line footer; fits 1440×900 and 1280×800 without scrolling ─ */
 .page {
-  height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
-  padding: 12px 22px 8px; gap: 10px;
+  height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr);
+  padding: 12px 22px 12px; gap: 10px;
 }
 /* the header shares the explorer's two columns: title and intro over the map, the ride picker over the panels */
 .masthead { display: grid; grid-template-columns: minmax(0, 1fr) var(--dash-w); align-items: start; gap: 8px var(--gap); }
