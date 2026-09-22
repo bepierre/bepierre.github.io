@@ -106,6 +106,7 @@ function render() {
   note.querySelector("#help-family").appendChild(helpButton(r.family));
   if (r.category && HELP[`category_${r.category}`]) note.querySelector("#help-category").appendChild(helpButton(`category_${r.category}`));
   document.getElementById("legend-forced").hidden = r.family !== "detour";   // stress rides force nothing
+  document.getElementById("legend-illegal").hidden = r.outcome !== "illegal";  // only rides that end off the graph
   document.getElementById("foot-model").textContent = `Rides from ${r.model.checkpoint}, ${r.model.architecture};`;
   const playBtn = document.getElementById("btn-play");
   playBtn.innerHTML = state.playing
