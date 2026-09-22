@@ -75,16 +75,16 @@ export class PredictionView {
     }
     let msg;
     if (pr.executed === null) {
-      msg = "The generation limit was reached; no next move was selected.";
+      msg = "The ride has reached its move limit.";
     } else if (pr.executed === "END") {
       msg = s.node === this.ride.goal ? `The model emits <b>END</b> at the goal: the ride succeeds.` : `The model emits <b>END</b> away from the goal.`;
     } else if (!pr.executed_legal) {
-      msg = `<span class="illegal">${pr.executed}</span> is illegal here: the taxi attempts it and leaves the street graph, so no intersection is reached and the ride ends.`;
+      msg = `<span class="illegal">${pr.executed}</span> has no street here. The ride ends with an illegal move.`;
 
     } else if (pr.forced) {
-      msg = `The detour test forces <span class="forced">${pr.executed}</span>, its least-likely legal move that leaves the goal reachable within the remaining budget. The model proposed <span class="own">${pr.proposed}</span>.`;
+      msg = `Forced: <span class="forced">${pr.executed}</span>. The model proposed <span class="own">${pr.proposed}</span>.`;
     } else {
-      msg = `The model chooses <span class="own">${pr.executed}</span>. Legal here: ${[...legal].join(", ")}. The active intersection feature raises legal moves; the compass raises goalward ones.`;
+      msg = `The model chooses <span class="own">${pr.executed}</span>.`;
     }
     this.note.innerHTML = msg;
   }
@@ -145,7 +145,7 @@ export class PositionView {
       this.wrongDd.innerHTML = "–"; this.angleDd.textContent = "–"; this.noiseDd.textContent = "–";
       this.wrongDd.title = "";
       this.drawSketch(null);
-      this.caption.textContent = "The origin state is the goal token's position; the paper's readouts start at the first move.";
+      this.caption.textContent = "Position readouts begin after the first move.";
       return;
     }
     const wrongWins = pos.wrong_activation > pos.write;
@@ -156,11 +156,11 @@ export class PositionView {
     const ang = cos === null ? null : Math.acos(Math.max(-1, Math.min(1, cos))) * 180 / Math.PI;
     this.angleDd.innerHTML = cos === null ? "–" : `${ang.toFixed(0)}° <span class="muted">cos ${cos.toFixed(2)}</span>`;
     this.noiseDd.innerHTML = `<span class="swatch noise"></span><b>${fmtNum(pos.noise)}</b> <span class="muted">rms</span>`;
-    this.noiseDd.title = "root-mean-square projection of the residual on fixed sampled intersection directions";
+    this.noiseDd.title = "Background activity across intersection features";
     this.drawSketch({ write: pos.write, wrong: pos.wrong_activation, cos, wrongWins, noise: pos.noise });
     this.caption.textContent = wrongWins
-      ? "Noise has pushed the residual past the wrong feature: it is now the most active intersection, and moves legal there become likely."
-      : "The residual writes along the true feature; noise adds a remainder. A wrong, overlapping feature can become the most active one.";
+      ? "The wrong intersection’s feature is more active than the true one."
+      : "The true intersection’s feature is still the most active.";
   }
   // Fig. 3 (a) made exact for two measured projections: with e_true = (1, 0) and e_wrong at the measured angle,
   // the residual's in-plane point is fixed by write = p·e_true and wrong = p·e_wrong.

@@ -190,8 +190,8 @@ async function main() {
   views.position.onHover = which => { state.hover = which; render(); };
   fillPicker();
   bindTransport();
-  for (const [id, key] of [["help-taxigpt", "taxigpt"], ["help-inside", "inside"], ["help-prediction", "prediction"], ["help-position", "position"],
-                           ["help-compass", "compass"], ["help-forced", "forced"], ["help-illegal", "illegal"], ["help-trace", "trace"]]) {
+  for (const [id, key] of [["help-taxigpt", "taxigpt"], ["help-prediction", "prediction"], ["help-position", "position"],
+                           ["help-compass", "compass"], ["help-trace", "trace"]]) {
     attachHelp(`#${id}`, key);
   }
   window.addEventListener("resize", debounce(() => { views.map.resize(); views.timeline.resize(); render(); }, 120));
