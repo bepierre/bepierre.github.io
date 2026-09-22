@@ -1,8 +1,0 @@
-/* Variant "tint": a warm off-white ground, like the Claude app; map and column are white cards with a
-   soft shadow; the play button takes the clay accent. Everything else unchanged. */
-:root { --page: #F4F2ED; --card-shadow: 0 1px 2px rgba(56, 56, 56, .05), 0 8px 24px rgba(120, 108, 92, .12); --play: var(--clay); }
-.map-frame { border-color: #E4DFD6; border-radius: 8px; }
-.dash { border-color: #E4DFD6; box-shadow: var(--card-shadow); }
-.transport { background: rgba(255,255,255,.94); }
-.transport button.play:hover { background: #B8684E; }
-.foot { border-top-color: #E4DFD6; }

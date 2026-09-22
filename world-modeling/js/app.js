@@ -7,17 +7,6 @@ import { PredictionView, PositionView, CompassView } from "./panels.js";
 import { attachHelp, helpButton, HELP } from "./help.js";
 
 const DATA = new URLSearchParams(location.search).get("dataset") === "demo" ? "data/demo/" : "data/recorded-v1/";
-// design variants for review: a picker in the header (or ?theme=<name>) loads themes/<name>.css on top of
-// the default look; the choice is remembered in this browser until the picker is removed
-function applyTheme(name) {
-  document.getElementById("theme-css")?.remove();
-  if (name && /^[a-z0-9-]+$/.test(name)) { const l = document.createElement("link"); l.id = "theme-css"; l.rel = "stylesheet"; l.href = `themes/${name}.css`; document.head.appendChild(l); }
-  try { localStorage.setItem("explorer-theme", name || ""); } catch (_) { /* storage may be unavailable */ }
-  const sel = document.getElementById("theme"); if (sel) sel.value = name || "";
-}
-let savedTheme = new URLSearchParams(location.search).get("theme");
-if (savedTheme === null) { try { savedTheme = localStorage.getItem("explorer-theme") || ""; } catch (_) { savedTheme = ""; } }
-applyTheme(savedTheme);
 const DEFAULT_RIDE = "stress-0001";   // the landing ride: a long successful ride that shows most of the island
 const STEP_MS = 260;          // one move at 1×
 const RIDE_GAP_MS = 1100;     // pause between rides when playing them all
@@ -203,9 +192,6 @@ async function main() {
   views.prediction.onHover = which => { state.hover = which; render(); };
   fillPicker();
   bindTransport();
-  const themeSel = document.getElementById("theme");
-  themeSel.value = savedTheme || "";
-  themeSel.addEventListener("change", () => { applyTheme(themeSel.value); themeSel.blur(); });
   for (const [id, key] of [["help-taxigpt", "taxigpt"], ["help-prediction", "prediction"], ["help-position", "position"],
                            ["help-compass", "compass"], ["help-trace", "trace"]]) {
     attachHelp(`#${id}`, key);

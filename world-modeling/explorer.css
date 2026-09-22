@@ -26,9 +26,10 @@
   --good-soft: #E6EEE3;
   --bad: #B0463A;
   --paper: #FFFFFF;
-  --page: #FFFFFF;         /* the ground behind the map and the panel column (themes tint it) */
-  --play: var(--ink);      /* the play button */
-  --card-shadow: none;
+  --page: #F4F2ED;         /* a warm off-white ground; the map and the panel column sit on it as white cards */
+  --play: var(--clay);     /* the play button */
+  --card: #E4DFD6;         /* card edge */
+  --card-shadow: 0 1px 2px rgba(56, 56, 56, .05), 0 8px 24px rgba(120, 108, 92, .12);
 
   --font: "Source Sans 3", "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
   --fs-body: 13px;
@@ -87,7 +88,6 @@ svg text { font-family: var(--font); }
 .ride-picker button svg { width: 12px; height: 12px; fill: var(--ink); }
 .ride-picker button:hover { border-color: var(--sand); background: var(--grid-soft); }
 .ride-picker button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
-.ride-picker .theme-pick { flex: 0 0 auto; max-width: 120px; padding-right: 22px; color: var(--muted); }
 .ride-picker .demo { color: var(--clay); font-size: var(--fs-small); margin-left: 4px; cursor: help; white-space: nowrap; flex: none; }
 
 /* ── explorer: the map fills the left, everything else sits in one right-hand column ───────── */
@@ -97,13 +97,13 @@ svg text { font-family: var(--font); }
 .dash { display: grid; grid-template-rows: auto auto auto minmax(70px, 142px); align-content: space-between; gap: 18px; min-width: 0; min-height: 0; overflow: hidden; }
 /* the column sits in one rounded frame, white like the map, so it reads as a single instrument */
 /* white like the map, set apart by a slightly firmer border and a soft warm shadow */
-.dash { border: 1px solid var(--sand); border-radius: 8px; padding: 10px 12px 12px; background: var(--paper); box-shadow: 0 1px 2px rgba(56, 56, 56, .06), 0 6px 20px rgba(179, 168, 154, .18); }
+.dash { border: 1px solid var(--card); border-radius: 8px; padding: 10px 12px 12px; background: var(--paper); box-shadow: var(--card-shadow); }
 .dash-head { display: flex; align-items: baseline; gap: 8px; border-bottom: var(--hair); padding-bottom: 4px; font-weight: 600; }
 .dash-head .where { margin-left: auto; font-weight: 400; color: var(--muted); font-size: var(--fs-small); white-space: nowrap; }
 .pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-width: 0; }
 
 /* ── the map ───────────────────────────────────────────────────────────────────── */
-.map-frame { position: relative; border: var(--hair); background: var(--paper); overflow: hidden; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); box-shadow: var(--card-shadow); }
+.map-frame { position: relative; border: 1px solid var(--card); border-radius: 8px; background: var(--paper); overflow: hidden; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); box-shadow: var(--card-shadow); }
 .map-stage { position: relative; min-height: 0; }
 .map-frame svg.map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .map-frame .streets { stroke: var(--grid); stroke-width: 1.1; fill: none; stroke-linecap: round; }
@@ -248,7 +248,7 @@ svg text { font-family: var(--font); }
 .timeline-panel { gap: 4px; min-height: 0; grid-template-rows: auto minmax(0, 1fr); }
 .transport {
   position: absolute; right: 8px; bottom: 8px; display: grid; gap: 5px; justify-items: end;
-  background: rgba(255,255,255,.9); border: var(--hair); border-radius: 3px; padding: 6px 8px;
+  background: rgba(255,255,255,.94); border: var(--hair); border-radius: 3px; padding: 6px 8px;
 }
 .transport .buttons { display: flex; gap: 3px; align-items: center; }
 .transport button {
@@ -259,7 +259,7 @@ svg text { font-family: var(--font); }
 .transport button:hover { border-color: var(--sand); background: var(--grid-soft); }
 .transport button.play { width: 40px; background: var(--play); border-color: var(--play); }
 .transport button.play svg { fill: #fff; }
-.transport button.play:hover { background: var(--charcoal); }
+.transport button.play:hover { background: #B8684E; }
 .transport select { font: inherit; font-size: var(--fs-small); border: var(--hair); background: var(--paper); border-radius: 3px; padding: 3px 4px; color: var(--ink); margin-left: 4px; height: 26px; }
 .transport .status { display: flex; gap: 10px; align-items: baseline; color: var(--muted); font-size: var(--fs-small); white-space: nowrap; }
 .transport .status b { color: var(--ink); font-weight: 600; font-size: var(--fs-body); font-variant-numeric: tabular-nums; }
@@ -321,7 +321,7 @@ h2 .help { margin-left: 6px; vertical-align: 2px; }
 .layer-sketch .lab { font-size: 9.5px; fill: var(--muted); }
 
 /* ── footer ──────────────────────────────────────────────────────────────────── */
-.foot { color: var(--muted); font-size: var(--fs-small); border-top: var(--hair); padding-top: 6px; }
+.foot { color: var(--muted); font-size: var(--fs-small); border-top: 1px solid var(--card); padding-top: 6px; }
 .foot p { margin: 0; }
 kbd { font: inherit; font-size: 10px; border: var(--hair); border-radius: 3px; padding: 0 4px; color: var(--ink); }
 
