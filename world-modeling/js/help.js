@@ -41,7 +41,7 @@ const COMPASS_MARKS = [{ layer: 16, label: "compass read", color: "#6E5C7A" }, {
 export const HELP = {
   taxigpt: {
     title: "What TaxiGPT is",
-    body: `<p>TaxiGPT learns to predict moves from random walks through Manhattan, without being given the map. It learns to meander like its training rides rather than always taking the shortest route. We find that it represents intersections and streets, tracks its position, and uses a goal compass to navigate.</p>`,
+    body: `<p>TaxiGPT is given an origin (●) and a destination (★), then generates moves one token at a time: for example, N, N, E means north, north, east. It must reach the destination and emit END. It learns from random walks without being given the map, so it tends to meander rather than always take the shortest route.</p>`,
   },
   inside: {
     title: "Inside the model",
