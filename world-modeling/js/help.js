@@ -58,7 +58,7 @@ export const HELP = {
   },
   position: {
     title: "Position code",
-    body: `<p>Each intersection has a feature in the model’s position subspace. The model activates these features to represent where it is. They are stored in superposition: like drawing a map on a page too small to keep all intersections separate, their representations overlap. When the true-position signal is weak or noisy, a wrong intersection’s feature can become most active.</p>`,
+    body: `<p>Each intersection has a feature inside the model. To represent where it is, the model activates the feature for its current intersection. These features share a limited space, so activating one can also activate others: this is superposition. If the true-position signal is weak or noisy, a wrong feature can become most active.</p><p>Imagine drawing all of Manhattan on a page too small to keep the intersections separate. Marking the taxi’s position would also mark nearby overlapping intersections. Similarly, the model can activate several intersection features at once, even though the taxi is only at one of them. The overlap is inside the model; those intersections need not be neighbors on the street map.</p>`,
     sketch: POSITION_MARKS,
   },
   wrong: {
