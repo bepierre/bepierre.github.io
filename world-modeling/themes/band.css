@@ -1,0 +1,17 @@
+/* Variant "band": a charcoal title band across the top, pale sand ground below, white cards; the play
+   button in the cab's yellow so the eye finds it at once. */
+:root { --page: #F6F4EF; --card-shadow: 0 1px 2px rgba(56, 56, 56, .05), 0 8px 24px rgba(120, 108, 92, .12); --play: #D9A73A; }
+.page { padding-top: 0; }
+.masthead { background: var(--charcoal); color: #fff; margin: 0 -22px; padding: 12px 22px 12px; }
+.masthead h1 span, .masthead .intro, .masthead .meta { color: #D8D3CA; }
+.masthead .meta a { color: #fff; border-bottom-color: #8C8378; }
+.masthead .help { background: transparent; color: #D8D3CA; border-color: #8C8378; }
+.ride-picker select, .ride-picker button { background: #fff; color: var(--ink); border-color: #fff; }
+.map-frame { border-color: #E4DFD6; border-radius: 8px; }
+.dash { border-color: #E4DFD6; box-shadow: var(--card-shadow); }
+.transport { background: rgba(255,255,255,.94); }
+.transport button.play { border-color: #B8871F; }
+.transport button.play svg { fill: var(--ink); }
+.transport button.play:hover { background: #C9962E; }
+.foot { border-top-color: #E4DFD6; }
+@media (max-width: 960px) { .masthead { margin: 0 -14px; padding: 12px 14px; } }

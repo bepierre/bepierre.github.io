@@ -1,0 +1,9 @@
+/* Variant "cool": a pale grey-blue ground, cards white with a crisper edge and a shorter shadow; the
+   play button in clay. Slightly more "instrument", less "paper". */
+:root { --page: #EEF0F3; --grid: #D8DCE2; --grid-soft: #E9ECF0; --card-shadow: 0 1px 3px rgba(40, 48, 60, .10); --play: var(--clay); }
+.map-frame { border-color: #D0D5DD; border-radius: 6px; }
+.dash { border-color: #D0D5DD; border-radius: 6px; box-shadow: var(--card-shadow); }
+.map-frame .streets { stroke: #D6DAE0; }
+.transport { background: rgba(255,255,255,.94); }
+.transport button.play:hover { background: #B8684E; }
+.foot { border-top-color: #D0D5DD; }

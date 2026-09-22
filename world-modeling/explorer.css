@@ -26,6 +26,9 @@
   --good-soft: #E6EEE3;
   --bad: #B0463A;
   --paper: #FFFFFF;
+  --page: #FFFFFF;         /* the ground behind the map and the panel column (themes tint it) */
+  --play: var(--ink);      /* the play button */
+  --card-shadow: none;
 
   --font: "Source Sans 3", "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
   --fs-body: 13px;
@@ -38,7 +41,7 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+html, body { margin: 0; padding: 0; background: var(--page); color: var(--ink); }
 body {
   font-family: var(--font); font-size: var(--fs-body); line-height: 1.35;
   font-feature-settings: "tnum" 1, "kern" 1;
@@ -99,7 +102,7 @@ svg text { font-family: var(--font); }
 .pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-width: 0; }
 
 /* ── the map ───────────────────────────────────────────────────────────────────── */
-.map-frame { position: relative; border: var(--hair); background: var(--paper); overflow: hidden; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); }
+.map-frame { position: relative; border: var(--hair); background: var(--paper); overflow: hidden; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); box-shadow: var(--card-shadow); }
 .map-stage { position: relative; min-height: 0; }
 .map-frame svg.map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .map-frame .streets { stroke: var(--grid); stroke-width: 1.1; fill: none; stroke-linecap: round; }
@@ -253,7 +256,7 @@ svg text { font-family: var(--font); }
 }
 .transport button svg { width: 12px; height: 12px; fill: var(--ink); }
 .transport button:hover { border-color: var(--sand); background: var(--grid-soft); }
-.transport button.play { width: 40px; background: var(--ink); border-color: var(--ink); }
+.transport button.play { width: 40px; background: var(--play); border-color: var(--play); }
 .transport button.play svg { fill: #fff; }
 .transport button.play:hover { background: var(--charcoal); }
 .transport select { font: inherit; font-size: var(--fs-small); border: var(--hair); background: var(--paper); border-radius: 3px; padding: 3px 4px; color: var(--ink); margin-left: 4px; height: 26px; }
