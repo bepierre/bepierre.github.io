@@ -79,7 +79,7 @@ export const HELP = {
   },
   compass: {
     title: "Goal compass",
-    body: `<p>The model uses a goal compass to encode the angle from its current intersection to the destination and guide its moves toward the goal. The plum needle shows the direction read from the model; the black line and star show where the goal lies. Steering the compass changes where the taxi goes.</p>`,
+    body: `<p>The model uses a goal compass to encode the angle from its current intersection to the destination and guide its moves toward the goal. Steering the compass changes where the taxi goes.</p>`,
     sketch: COMPASS_MARKS,
   },
   trace: {
