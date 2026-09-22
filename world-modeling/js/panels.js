@@ -33,9 +33,9 @@ export class PredictionView {
     el("div", { class: "hdr", text: ride.steps[0].prediction.probabilities ? "probability (full vocabulary)" : "probability over the nine tokens" }, this.moves);
     el("div", { class: "hdr", text: "logit", style: "text-align:right" }, this.moves);
     if (hasEffect) {
-      const h = el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit`, title: "Δ logit = original − compass-ablated prediction at the same state; the axis spans this ride's largest effect" }, this.moves);
+      const h = el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit` }, this.moves);
       h.appendChild(helpButton("effect"));
-      h.addEventListener("mouseenter", () => this.onHover("compass"));
+      h.addEventListener("mouseenter", () => this.onHover("effect"));
       h.addEventListener("mouseleave", () => this.onHover(null));
     }
     this.rows = {};
@@ -48,7 +48,7 @@ export class PredictionView {
       if (hasEffect && t === "END") el("div", {}, this.moves);      // the compass acts on moves, not on stopping
       else if (hasEffect) {
         eff = el("div", { class: "effect" }, this.moves);
-        eff.addEventListener("mouseenter", () => this.onHover("compass"));
+        eff.addEventListener("mouseenter", () => this.onHover("effect"));
         eff.addEventListener("mouseleave", () => this.onHover(null));
         const s = svg("svg", { viewBox: "0 0 118 11" }, eff);
         svg("line", { class: "zero", x1: 59, x2: 59, y1: 1, y2: 10 }, s);
@@ -61,7 +61,7 @@ export class PredictionView {
     this.where.innerHTML = `${ride.generation.temperature > 0 ? "sampled at T = 1" : "greedy"}${t1 ? " · " + t1 : ""}`;
   }
   render(state) {
-    this.moves.classList.toggle("compass-lit", state.hover === "compass");
+    this.moves.classList.toggle("compass-lit", state.hover === "effect");
     const s = this.ride.steps[state.step], pr = s.prediction;
     const probs = pr.probabilities || softmax(pr.logits, TOKENS);
     const legal = new Set(s.legal);
@@ -223,6 +223,7 @@ export class PositionView {
 // ── goal compass ──────────────────────────────────────────────────────────────
 export class CompassView {
   constructor(root) {
+    this.root = root;
     this.dial = root.querySelector("#compass");
     this.dl = root.querySelector("#compass-readouts");
     this.where = root.querySelector("#compass-where");
@@ -244,7 +245,7 @@ export class CompassView {
     this.where.innerHTML = `layer ${ride.layers.compass_decode}${t3 ? " · " + t3 : ""}`;
   }
   render(state) {
-    this.dial.classList.toggle("lit", state.hover === "compass");
+    this.root.classList.toggle("lit", state.hover === "effect");   // hovering the effect column points at this panel
     const s = this.ride.steps[state.step];
     const g = this.dial; clear(g);
     const c = 56, R = 41;    // 15 px of margin around the ring keeps the cardinal letters inside the box
