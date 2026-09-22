@@ -58,7 +58,7 @@ export const HELP = {
   },
   position: {
     title: "Position code",
-    body: `<p>The model tracks where it is using a look-back window over past positions. The position write measures how strongly it activates the current intersection’s feature. Intersection features share space in the model, which we call superposition. When the write is weak and noise is high, a wrong intersection can become most active.</p>`,
+    body: `<p>Each intersection has a feature in the model’s position subspace. The model activates these features to represent where it is. They are stored in superposition: like drawing a map on a page too small to keep all intersections separate, their representations overlap. When the true-position signal is weak or noisy, a wrong intersection’s feature can become most active.</p>`,
     sketch: POSITION_MARKS,
   },
   wrong: {
