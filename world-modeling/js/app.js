@@ -186,6 +186,7 @@ async function main() {
   views.timeline.onScrub = k => { stop(); setStep(k); };
   views.position.onHover = which => { state.hover = which; render(); };
   views.compass.onHover = which => { state.hover = which; render(); };
+  views.prediction.onHover = which => { state.hover = which; render(); };
   fillPicker();
   bindTransport();
   for (const [id, key] of [["help-taxigpt", "taxigpt"], ["help-prediction", "prediction"], ["help-position", "position"],

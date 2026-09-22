@@ -16,9 +16,11 @@ function tag(prov, fields) {
 // ── next move ─────────────────────────────────────────────────────────────────
 export class PredictionView {
   constructor(root) {
+    this.root = root;
     this.moves = root.querySelector("#moves");
     this.note = root.querySelector("#prediction-note");
     this.where = root.querySelector("#prediction-where");
+    this.onHover = () => {};
   }
   setRide(ride) {
     this.ride = ride;
@@ -30,7 +32,12 @@ export class PredictionView {
     el("div", { class: "hdr", text: "token" }, this.moves);
     el("div", { class: "hdr", text: ride.steps[0].prediction.probabilities ? "probability (full vocabulary)" : "probability over the nine tokens" }, this.moves);
     el("div", { class: "hdr", text: "logit", style: "text-align:right" }, this.moves);
-    if (hasEffect) el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit`, title: "Δ logit = original − compass-ablated prediction at the same state; the axis spans this ride's largest effect" }, this.moves).appendChild(helpButton("effect"));
+    if (hasEffect) {
+      const h = el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit`, title: "Δ logit = original − compass-ablated prediction at the same state; the axis spans this ride's largest effect" }, this.moves);
+      h.appendChild(helpButton("effect"));
+      h.addEventListener("mouseenter", () => this.onHover("compass"));
+      h.addEventListener("mouseleave", () => this.onHover(null));
+    }
     this.rows = {};
     for (const t of TOKENS) {
       const lbl = el("div", { class: "lbl", text: t }, this.moves);
@@ -41,6 +48,8 @@ export class PredictionView {
       if (hasEffect && t === "END") el("div", {}, this.moves);      // the compass acts on moves, not on stopping
       else if (hasEffect) {
         eff = el("div", { class: "effect" }, this.moves);
+        eff.addEventListener("mouseenter", () => this.onHover("compass"));
+        eff.addEventListener("mouseleave", () => this.onHover(null));
         const s = svg("svg", { viewBox: "0 0 118 11" }, eff);
         svg("line", { class: "zero", x1: 59, x2: 59, y1: 1, y2: 10 }, s);
         eff.stem = svg("line", { class: "stem", x1: 59, x2: 59, y1: 5.5, y2: 5.5 }, s);
@@ -52,6 +61,7 @@ export class PredictionView {
     this.where.innerHTML = `${ride.generation.temperature > 0 ? "sampled at T = 1" : "greedy"}${t1 ? " · " + t1 : ""}`;
   }
   render(state) {
+    this.moves.classList.toggle("compass-lit", state.hover === "compass");
     const s = this.ride.steps[state.step], pr = s.prediction;
     const probs = pr.probabilities || softmax(pr.logits, TOKENS);
     const legal = new Set(s.legal);
@@ -234,9 +244,10 @@ export class CompassView {
     this.where.innerHTML = `layer ${ride.layers.compass_decode}${t3 ? " · " + t3 : ""}`;
   }
   render(state) {
+    this.dial.classList.toggle("lit", state.hover === "compass");
     const s = this.ride.steps[state.step];
     const g = this.dial; clear(g);
-    const c = 52, R = 41;
+    const c = 56, R = 41;    // 15 px of margin around the ring keeps the cardinal letters inside the box
     svg("circle", { class: "ring", cx: c, cy: c, r: R }, g);
     for (const [name, a] of [["N", 90], ["E", 0], ["S", 270], ["W", 180]]) {
       svg("text", { class: "cardinal", x: c + Math.cos(rad(a)) * (R + 8), y: c - Math.sin(rad(a)) * (R + 8), text: name }, g);
