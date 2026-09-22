@@ -54,7 +54,7 @@ export const HELP = {
   },
   effect: {
     title: "Compass effect",
-    body: `<p>How much does the compass influence each move? We compare the model’s scores with and without the compass. A dot to the right means the compass raises that move’s score; a dot to the left means it lowers it. This separate measurement does not change the recorded ride.</p>`,
+    body: `<p>How much does the compass influence each move? We compare the model’s scores with and without the compass. A dot to the right means the compass raises that move’s score; a dot to the left means it lowers it.</p>`,
   },
   position: {
     title: "Position code",
