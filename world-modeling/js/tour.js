@@ -21,7 +21,7 @@ const STEPS = [
   {
     target: ".dash-head",
     title: "Inside the model",
-    body: `Inside its residual stream, the model represents intersections and the direction to its goal. It uses these representations to track where it is and choose where to go. The residual stream carries information from layer to layer; the panels let you follow this information as the taxi moves.`,
+    body: `Inside the model’s residual stream, we find representations used by two world-modeling capacities: a position code for localizing itself and a goal compass for navigating toward its destination. The panels show how these representations change as the taxi moves.`,
     place: "left",
   },
   {
