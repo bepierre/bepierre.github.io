@@ -4,7 +4,7 @@
 
 import { P, MILESTONE, svg, clear, timeColor, starPath } from "./util.js";
 
-const M = { l: 34, r: 30, t: 20, b: 26 };
+const M = { l: 34, r: 30, t: 8, b: 22 };
 let H = 124;
 
 export class TimelineView {
@@ -84,10 +84,6 @@ export class TimelineView {
         svg("text", { class: "tick-text", x: xr + 5, y: this.yn(v) + 3.5, text: v }, this.svg);
       }
     }
-    const xt = this.xmax === 100 ? [0, 50, 100] : [0, 60, 120];
-    xt.forEach((v, i) => {
-      svg("text", { class: "tick-text", x: this.x(v), y: H - 3, "text-anchor": i === 0 ? "start" : i === xt.length - 1 ? "end" : "middle", text: i === 0 ? `${v} moves` : v }, this.svg);
-    });
     // the origin state carries no position readout
     svg("rect", { class: "unmeasured", x: this.x(0), y: this.y(this.ymax), width: Math.max(0, this.x(1) - this.x(0)), height: y0 - this.y(this.ymax) }, this.svg);
 
@@ -111,17 +107,17 @@ export class TimelineView {
     svg("line", { class: "timebar-rest", x1: this.x(n), x2: this.x(this.xmax), y1: y0, y2: y0 }, this.svg);
     svg("line", { class: "timebar", x1: this.x(0), x2: this.x(n), y1: y0, y2: y0 }, this.svg);   // the ride's span; grid beyond it
     if (this.ride.family === "detour") {
-      for (let k = 0; k < n; k++) if (steps[k].prediction.forced) svg("line", { class: "forced-tick", x1: this.x(k), x2: this.x(k), y1: y0 + 5, y2: y0 + 9 }, this.svg);
+      for (let k = 0; k < n; k++) if (steps[k].prediction.forced) svg("line", { class: "forced-tick", x1: this.x(k), x2: this.x(k), y1: y0 + 2, y2: y0 + 6 }, this.svg);
     }
 
     // legend along the top, in the figure's words
     const lg = svg("g", { class: "legend" }, this.svg);
-    let lx = M.l + 4;
+    let lx = M.l;
     const items = [["true node write", "t"], ["strongest wrong node", "w"]];
     if (this.hasNoise) items.push(["noise, right scale", "n"]);
     if (this.ride.family === "detour") items.push(["forced move", "f"]);
     for (const [label, cls] of items) {
-      const t = svg("text", { class: cls, x: lx, y: M.t - 9, text: label }, lg);
+      const t = svg("text", { class: cls, x: lx, y: H - 4, text: label }, lg);
       lx += (t.getComputedTextLength ? t.getComputedTextLength() : label.length * 5.2) + 10;
     }
 

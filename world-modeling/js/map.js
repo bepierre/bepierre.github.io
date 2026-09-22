@@ -100,7 +100,7 @@ export class MapView {
     this.segs = [];
     for (let k = 0; k < n; k++) {
       const a = this.routePts[k], b = this.routePts[k + 1];
-      this.segs.push(svg("path", { class: "route-seg", d: `M${a[0]} ${a[1]}L${b[0]} ${b[1]}`, stroke: timeColor(k + 0.5, n) }, this.gRoute));
+      this.segs.push(svg("path", { class: "route-seg", d: `M${a[0]} ${a[1]}L${b[0]} ${b[1]}` }, this.gRoute));
     }
     // origin, goal, the 20-move squares
     const o = this.routePts[0];
