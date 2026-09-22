@@ -188,7 +188,6 @@ export class MapView {
     const g = svg("g", { transform: `translate(${p[0]} ${p[1]}) rotate(${-heading})` }, this.gNow);
     svg("rect", { class: "taxi-body", x: -9, y: -5, width: 18, height: 10, rx: 2.5 }, g);
     svg("rect", { class: "taxi-cabin", x: -4, y: -3.2, width: 7, height: 6.4, rx: 1 }, g);
-    svg("rect", { class: "taxi-light", x: -1.5, y: -1.2, width: 3, height: 2.4, rx: .6 }, g);
   }
   bearingPx(a, b) { return Math.atan2(-(b[1] - a[1]), b[0] - a[0]) * 180 / Math.PI; }
   // arrows leave from the taxi's nose (11 px out) and stop short of the destination

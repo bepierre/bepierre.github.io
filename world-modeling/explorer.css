@@ -106,8 +106,7 @@ svg text { font-family: var(--font); }
 .map-frame .origin { fill: var(--ink); stroke: #fff; stroke-width: 1.2; }
 .map-frame .goal { fill: var(--ink); stroke: #fff; stroke-width: 1; }
 .map-frame .taxi-body { fill: var(--charcoal); stroke: #fff; stroke-width: 1.3; stroke-linejoin: round; }
-.map-frame .taxi-cabin { fill: #fff; fill-opacity: .9; }
-.map-frame .taxi-light { fill: var(--clay); }
+.map-frame .taxi-cabin { fill: #fff; }
 .map-frame .move { fill: none; stroke-width: 2.6; stroke-linecap: round; }
 .map-frame .move.own { stroke: var(--clay); }
 .map-frame .move.forced { stroke: var(--slate); }
