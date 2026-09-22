@@ -63,7 +63,7 @@ export const HELP = {
   },
   wrong: {
     title: "Strongest wrong intersection",
-    body: `<p>The most active intersection feature other than the true one. It can change at each step. When it exceeds the true feature, the position readout is wrong, though the next move may still be legal. Hover to find this intersection on the map.</p>`,
+    body: `<p>The most active feature for an intersection other than the taxi’s actual position. Hover to see that intersection on the map.</p>`,
   },
   angle: {
     title: "Feature angle",
