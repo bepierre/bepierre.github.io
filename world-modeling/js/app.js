@@ -98,10 +98,10 @@ function render() {
   const r = state.ride, gen = r.generation, n = r.steps.length - 1, s = r.steps[state.step];
   document.getElementById("status-step").textContent = state.step;
   document.getElementById("status-of").textContent = `of ${n}`;
-  document.getElementById("status-goal").textContent = s.dist_to_goal === 0 ? "at the goal" : `${s.dist_to_goal} to goal`;
+  document.getElementById("status-goal").textContent = s.dist_to_goal === 0 ? "at the goal" : `${s.dist_to_goal} moves from goal`;
   const note = document.getElementById("map-note");
   note.innerHTML =
-    `<b>${r.family === "stress" ? "Stress ride" : "Detour ride"}</b> · ${r.family === "stress" ? "sampled at T = 1" : `greedy, forced with p = ${gen.forcing.p}`}<span id="help-family"></span><br>` +
+    `<b>${r.family === "stress" ? "Stress ride" : "Detour ride"}</b> · ${r.family === "stress" ? "moves sampled from the model’s predictions" : "the model’s choices are sometimes overridden"}<span id="help-family"></span><br>` +
     `origin ${r.shortest_hops} moves from the goal · ${r.n_moves} moves · <span class="outcome-${r.outcome}">${r.outcome_label}</span>${r.category_label ? ` · ${r.category_label}<span id="help-category"></span>` : ""}`;
   note.querySelector("#help-family").appendChild(helpButton(r.family));
   if (r.category && HELP[`category_${r.category}`]) note.querySelector("#help-category").appendChild(helpButton(`category_${r.category}`));

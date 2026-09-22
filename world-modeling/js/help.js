@@ -58,7 +58,7 @@ export const HELP = {
   },
   position: {
     title: "Position code",
-    body: `<p>Each intersection has a feature inside the model. To represent where it is, the model activates the feature for its current intersection. These features share a limited space, so activating one can also activate others: this is superposition. If the true-position signal is weak or noisy, a wrong feature can become most active.</p><p>Imagine drawing all of Manhattan on a page too small to keep the intersections separate. Marking the taxi’s position would also mark nearby overlapping intersections. Similarly, the model can activate several intersection features at once, even though the taxi is only at one of them. The overlap is inside the model; those intersections need not be neighbors on the street map.</p>`,
+    body: `<p>The model represents each intersection by a direction in its internal activity, which we call an intersection feature. The model activates the current intersection’s feature to represent where it is. We call the strength of this activation the position write. These features share a limited space, so activating one can also activate others: this is superposition. If the true-position signal is weak or noisy, a wrong feature can become most active.</p><p>Imagine drawing all of Manhattan on a page too small to keep the intersections separate. Marking the taxi’s position would also mark nearby overlapping intersections. Similarly, the model can activate several intersection features at once, even though the taxi is only at one of them. The overlap is inside the model; those intersections need not be neighbors on the street map.</p>`,
     sketch: POSITION_MARKS,
   },
   wrong: {
@@ -92,7 +92,7 @@ export const HELP = {
   },
   detour: {
     title: "The detour test",
-    body: `<p>The test repeatedly forces the taxi to take a legal move the model considers unlikely, while keeping the goal reachable within the remaining budget. Otherwise, the model takes its highest-scoring choice. These detours create long, unlikely rides that weaken the position write and can lead to illegal moves.</p>`,
+    body: `<p>The test sometimes overrides the model’s choice with its least likely legal move, provided the goal can still be reached before the move limit. These repeated detours can leave the taxi far from its goal late in the ride, when keeping track of its position becomes harder.</p>`,
   },
   forced: {
     title: "Forced move",
@@ -104,19 +104,19 @@ export const HELP = {
   },
   category_fatal_slip: {
     title: "Fatal superposition slip",
-    body: `<p>A wrong intersection becomes most active while remaining close to the true feature in direction, and the model emits an illegal move. In the paper, removing the wrong feature or strengthening the true-position write reduces illegal-move probability.</p>`,
+    body: `<p>A wrong intersection feature becomes more active than the true one, and the model makes an illegal move. The two features have a small angle between them, so activating the true feature also activates the wrong one.</p>`,
   },
   category_silent: {
     title: "Silent slip",
-    body: `<p>The true intersection remains most active, yet the model emits an illegal move. Other active intersection features can still favor moves that are legal elsewhere but not here. In the paper, removing position noise strongly reduces the probability of illegal moves in these states.</p>`,
+    body: `<p>The true intersection remains most active, yet the model makes an illegal move. Other active intersection features can still favor moves that are legal elsewhere but not here.</p>`,
   },
   category_full_corruption: {
     title: "Full corruption",
-    body: `<p>The true-position write is weak, and the strongest wrong feature lies far from it in feature space. Removing that feature alone helps less than clearing position noise or restoring the write: more than one competing intersection contributes to the failure.</p>`,
+    body: `<p>The true intersection’s feature is weakly active, and a wrong feature at a large angle becomes most active. The model’s position code no longer reliably identifies where the taxi is.</p>`,
   },
   category_giveup: {
     title: "Give-up slip",
-    body: `<p>Deep in a ride, with the goal still far away, a give-up feature becomes active and encourages the model to stop. Activity in the residual stream grows and position noise is high. Illegal moves can still occur; removing position noise makes them less likely.</p>`,
+    body: `<p>Late in a ride, while the goal is still far away, the model activates a feature that encourages it to stop. The position code is also noisy in this regime, and illegal moves can still occur.</p>`,
   },
 };
 
