@@ -45,20 +45,20 @@ export const HELP = {
   },
   inside: {
     title: "Inside the model",
-    body: `<p>These readouts come from the residual stream, the vector passed from layer to layer. We extract intersection features and the goal compass using diff-means: differences between average activations across groups of rides. The next-move logits are the model’s output.</p>`,
+    body: `<p>Inside its residual stream, the model represents intersections and the direction to its goal. It uses these representations to track where it is and choose where to go. The residual stream carries information from layer to layer; this dashboard lets you follow parts of that information as the taxi moves.</p>`,
     sketch: [...POSITION_MARKS, COMPASS_MARKS[0]],
   },
   prediction: {
     title: "Next move",
-    body: `<p>Two complementary mechanisms shape the model’s move predictions. The active intersection feature increases the logits of legal moves and decreases those of illegal ones. The goal compass increases the logits of moves toward the goal and decreases those of moves away from it.</p>`,
+    body: `<p>The model gives each possible next move a score, called a logit. Two mechanisms help shape these scores: the active intersection feature favors legal moves, while the goal compass favors moves toward the destination. The bars show the resulting probabilities.</p>`,
   },
   effect: {
     title: "Compass effect",
-    body: `<p>We remove the compass at the current state and compare the prediction with the original. The effect is the original logit minus the ablated logit: a dot to the right means the compass increased that move’s logit. This separate measurement does not change the recorded ride.</p>`,
+    body: `<p>How much does the compass influence each move? We compare the model’s scores with and without the compass. A dot to the right means the compass raises that move’s score; a dot to the left means it lowers it. This separate measurement does not change the recorded ride.</p>`,
   },
   position: {
     title: "Position code",
-    body: `<p>The model localizes itself by reading active intersection features in a look-back window of past residual streams. The position write measures how strongly the true intersection’s feature is active. These features are stored in superposition: when the write is weak and noise is high, a wrong intersection can become most active.</p>`,
+    body: `<p>The model tracks where it is using a look-back window over past positions. The position write measures how strongly it activates the current intersection’s feature. Intersection features share space in the model, which we call superposition. When the write is weak and noise is high, a wrong intersection can become most active.</p>`,
     sketch: POSITION_MARKS,
   },
   wrong: {
@@ -71,7 +71,7 @@ export const HELP = {
   },
   noise: {
     title: "Noise",
-    body: `<p>Activity beyond the true-position write varies across visits and spreads across many intersection directions, which is why we interpret it as noise. The displayed measure summarizes activity along sampled intersection directions. In the paper, noise grows with ride depth while the write weakens with distance to the goal.</p>`,
+    body: `<p>Alongside the true intersection’s activation, there is activity spread across other intersection features. Much of it varies between visits to the same place, which is why we interpret it as noise. The displayed value summarizes this activity. More noise makes it easier for a wrong feature to become most active.</p>`,
   },
   sketch: {
     title: "The feature plane",
@@ -79,7 +79,7 @@ export const HELP = {
   },
   compass: {
     title: "Goal compass",
-    body: `<p>The goal compass encodes the bearing from the current intersection to the goal. The plum needle shows the model’s decoded bearing; the black line and star point toward the goal. Steering the compass changes where the model goes; removing it preserves move legality but strongly reduces goal-reaching.</p>`,
+    body: `<p>The goal compass represents which direction the destination lies in. The plum needle shows the direction read from the model; the black line and star point toward the goal. Steering the compass changes where the taxi goes. Removing it leaves moves mostly legal but makes reaching the goal much harder.</p>`,
     sketch: COMPASS_MARKS,
   },
   trace: {
@@ -88,11 +88,11 @@ export const HELP = {
   },
   stress: {
     title: "The stress test",
-    body: `<p>The model generates rides between sampled origin–destination pairs at temperature 1. These pairs start farther apart than in training, making the task challenging. In the paper, the model reaches the goal on 81% of pairs and makes an off-graph move on 8.5% of rides.</p>`,
+    body: `<p>The taxi starts farther from its destination than is typical in training. It chooses moves according to the model’s predicted probabilities. As the ride gets longer, the goal may still be far away: this challenges the model’s ability to keep track of its position.</p>`,
   },
   detour: {
     title: "The detour test",
-    body: `<p>With probability 0.75, the test imposes the least-likely legal move that keeps the goal reachable within the remaining budget; otherwise the model predicts greedily. Repeated forcing creates deep-and-far, unlikely rides on which the position write weakens. In the paper’s diagnostic run, about a quarter of rides end in an illegal move.</p>`,
+    body: `<p>The test repeatedly forces the taxi to take a legal move the model considers unlikely, while keeping the goal reachable within the remaining budget. Otherwise, the model takes its highest-scoring choice. These detours create long, unlikely rides that weaken the position write and can lead to illegal moves.</p>`,
   },
   forced: {
     title: "Forced move",
@@ -108,7 +108,7 @@ export const HELP = {
   },
   category_silent: {
     title: "Silent slip",
-    body: `<p>The true intersection remains most active, yet the model emits an illegal move. Co-active wrong features can still raise illegal-move logits. The classification checks for a co-active feature where the highest-logit illegal move is legal; it need not be the move sampled. Removing position noise strongly reduces illegal probability in these states.</p>`,
+    body: `<p>The true intersection remains most active, yet the model emits an illegal move. Other active intersection features can still favor moves that are legal elsewhere but not here. In the paper, removing position noise strongly reduces the probability of illegal moves in these states.</p>`,
   },
   category_full_corruption: {
     title: "Full corruption",
@@ -116,7 +116,7 @@ export const HELP = {
   },
   category_giveup: {
     title: "Give-up slip",
-    body: `<p>Deep in a ride, with the goal still far away, a give-up feature becomes active and promotes stopping. The residual is enlarged and position noise is high. Illegal moves can still occur in this regime; clearing position noise substantially reduces their probability.</p>`,
+    body: `<p>Deep in a ride, with the goal still far away, a give-up feature becomes active and encourages the model to stop. Activity in the residual stream grows and position noise is high. Illegal moves can still occur; removing position noise makes them less likely.</p>`,
   },
 };
 
