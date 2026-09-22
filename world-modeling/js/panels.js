@@ -2,6 +2,7 @@
 // Each panel renders from the current step; one provenance tag per panel comes from the ride file.
 
 import { MOVES, TOKENS, MOVE_ANGLE, svg, clear, el, softmax, rad, wrap, fmtDeg, fmtNum, fmtPct } from "./util.js";
+import { helpButton } from "./help.js";
 
 // one tag for a panel: recorded / illustrative / mixed, with the field list in the tooltip
 function tag(prov, fields) {
@@ -29,7 +30,7 @@ export class PredictionView {
     el("div", { class: "hdr", text: "token" }, this.moves);
     el("div", { class: "hdr", text: ride.steps[0].prediction.probabilities ? "probability (full vocabulary)" : "probability over the nine tokens" }, this.moves);
     el("div", { class: "hdr", text: "logit", style: "text-align:right" }, this.moves);
-    if (hasEffect) el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit`, title: "Δ logit = original − compass-ablated prediction at the same state; the axis spans this ride's largest effect" }, this.moves);
+    if (hasEffect) el("div", { class: "hdr effect", text: `compass effect, ± ${this.effectMax.toFixed(1)} logit`, title: "Δ logit = original − compass-ablated prediction at the same state; the axis spans this ride's largest effect" }, this.moves).appendChild(helpButton("effect"));
     this.rows = {};
     for (const t of TOKENS) {
       const lbl = el("div", { class: "lbl", text: t }, this.moves);
@@ -104,8 +105,9 @@ export class PositionView {
   build() {
     // persistent rows, so a hovered element survives re-renders and keeps its mouseleave
     clear(this.dl);
-    const row = (label, hoverKey, cls) => {
+    const row = (label, hoverKey, cls, helpKey) => {
       const dt = el("dt", { text: label }, this.dl);
+      if (helpKey) dt.appendChild(helpButton(helpKey));
       const dd = el("dd", {}, this.dl);
       if (hoverKey) {
         for (const e of [dt, dd]) {
@@ -122,9 +124,9 @@ export class PositionView {
       return [dt, dd];
     };
     [this.trueDt, this.trueDd] = row("true intersection", "true", "good-row");
-    [this.wrongDt, this.wrongDd] = row("strongest wrong", "wrong", "bad-row");
-    [, this.angleDd] = row("feature angle");
-    [, this.noiseDd] = row("noise");
+    [this.wrongDt, this.wrongDd] = row("strongest wrong", "wrong", "bad-row", "wrong");
+    [, this.angleDd] = row("feature angle", null, null, "angle");
+    [, this.noiseDd] = row("noise", null, null, "noise");
     this.root.addEventListener("mouseleave", () => { if (this.hover) this.onHover(null); });
   }
   setRide(ride) {

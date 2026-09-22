@@ -13,13 +13,16 @@
 
   <header class="masthead">
     <div class="title">
-      <h1>World Modeling in Transformers <span>· the TaxiGPT explorer</span></h1>
-      <div class="meta">
-        <span>Pierre Beckmann, Matthieu Queloz, André Freitas</span>
-        <a href="https://openreview.net/forum?id=BnW3Ordr8O">Paper</a>
-        <a href="https://github.com/bepierre/world-modeling">Code</a>
-        <a href="../">Homepage</a>
+      <div class="title-row">
+        <h1>World Modeling in Transformers <span>· the TaxiGPT explorer</span></h1>
+        <div class="meta">
+          <span>Pierre Beckmann, Matthieu Queloz, André Freitas</span>
+          <a href="https://arxiv.org/abs/2609.21748">Paper</a>
+          <a href="https://github.com/bepierre/world-modeling">Code</a>
+          <a href="../">Homepage</a>
+        </div>
       </div>
+      <p class="intro" id="intro">TaxiGPT is a transformer trained on taxi rides across Manhattan, as sequences of turns, never a map. We find an internal map inside it: intersection features, the streets between them, and the mechanisms the model uses to localize itself and navigate to the goal. The ride is on the left; what the model's internal state says at each step is on the right.<span id="help-taxigpt"></span></p>
     </div>
     <div class="ride-picker">
       <button id="ride-prev" class="icon" title="Previous ride" aria-label="Previous ride"><svg viewBox="0 0 14 14"><path d="M9.5 2L4.5 7l5 5z"/></svg></button>
@@ -54,15 +57,16 @@
         <span class="k"><svg><path d="M6 0.5 L7.6 4.4 L11.8 4.6 L8.5 7.3 L9.6 11.4 L6 9.1 L2.4 11.4 L3.5 7.3 L0.2 4.6 L4.4 4.4 Z" fill="#1a1a1a"/></svg>goal</span>
         <span class="k"><svg><defs><linearGradient id="legend-time"><stop offset="0" stop-color="#B3A89A"/><stop offset="1" stop-color="#383838"/></linearGradient></defs><line x1="0" y1="6" x2="22" y2="6" stroke="url(#legend-time)" stroke-width="2.4"/></svg>route, early → late</span>
         <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#CC785C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#CC785C"/></svg>model's move</span>
-        <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#5B6E8C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#5B6E8C"/></svg>forced move</span>
-        <span class="k"><svg><path d="M2 2 L10 10 M10 2 L2 10" stroke="#B0463A" stroke-width="2" stroke-linecap="round"/></svg>illegal move</span>
+        <span class="k"><svg><line x1="1" y1="6" x2="17" y2="6" stroke="#5B6E8C" stroke-width="2.4"/><path d="M15 2.5 L21 6 L15 9.5 Z" fill="#5B6E8C"/></svg>forced move<span id="help-forced"></span></span>
+        <span class="k"><svg><path d="M2 2 L10 10 M10 2 L2 10" stroke="#B0463A" stroke-width="2" stroke-linecap="round"/></svg>illegal move<span id="help-illegal"></span></span>
       </div>
     </div>
 
     <aside class="dash">
+      <div class="dash-head"><span>Inside the model</span><span id="help-inside"></span><span class="where">readouts from the residual stream, layer named per panel</span></div>
       <section class="panel" id="panel-prediction" aria-label="Next move">
         <div class="panel-head">
-          <h2>Next move</h2>
+          <h2>Next move<span id="help-prediction"></span></h2>
           <span class="where" id="prediction-where"></span>
         </div>
         <div class="moves" id="moves"></div>
@@ -72,7 +76,7 @@
       <div class="pair-row">
         <section class="panel" id="panel-position" aria-label="Position code">
           <div class="panel-head">
-            <h2>Position code</h2>
+            <h2>Position code<span id="help-position"></span></h2>
             <span class="where" id="position-where"></span>
           </div>
           <div class="graphic"><svg class="sketch" id="sketch" viewBox="0 0 236 118" aria-label="The plane spanned by the true and wrong intersection features"></svg></div>
@@ -82,7 +86,7 @@
 
         <section class="panel" id="panel-compass" aria-label="Goal compass">
           <div class="panel-head">
-            <h2>Goal compass</h2>
+            <h2>Goal compass<span id="help-compass"></span></h2>
             <span class="where" id="compass-where"></span>
           </div>
           <div class="graphic"><svg class="compass-dial" id="compass" viewBox="0 0 104 104" aria-label="Compass dial"></svg></div>
@@ -91,7 +95,7 @@
       </div>
 
       <section class="panel timeline-panel" aria-label="Timeline">
-        <div class="timeline" id="timeline"><svg></svg></div>
+        <div class="timeline" id="timeline"><svg></svg><span class="timeline-help" id="help-trace"></span></div>
       </section>
     </aside>
   </section>

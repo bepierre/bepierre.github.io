@@ -4,6 +4,7 @@ import { MOVES, debounce } from "./util.js";
 import { MapView } from "./map.js";
 import { TimelineView } from "./timeline.js";
 import { PredictionView, PositionView, CompassView } from "./panels.js";
+import { attachHelp, helpButton, HELP } from "./help.js";
 
 const DATA = new URLSearchParams(location.search).get("dataset") === "demo" ? "data/demo/" : "data/recorded-v1/";
 const STEP_MS = 260;          // one move at 1×
@@ -98,9 +99,12 @@ function render() {
   document.getElementById("status-step").textContent = state.step;
   document.getElementById("status-of").textContent = `of ${n}`;
   document.getElementById("status-goal").textContent = s.dist_to_goal === 0 ? "at the goal" : `${s.dist_to_goal} to goal`;
-  document.getElementById("map-note").innerHTML =
-    `<b>${r.family === "stress" ? "Stress ride" : "Detour ride"}</b> · ${r.family === "stress" ? "sampled at T = 1" : `greedy, forced with p = ${gen.forcing.p}`}<br>` +
-    `origin ${r.shortest_hops} moves from the goal · ${r.n_moves} moves · <span class="outcome-${r.outcome}">${r.outcome_label}</span>${r.category_label ? ` · ${r.category_label}` : ""}`;
+  const note = document.getElementById("map-note");
+  note.innerHTML =
+    `<b>${r.family === "stress" ? "Stress ride" : "Detour ride"}</b> · ${r.family === "stress" ? "sampled at T = 1" : `greedy, forced with p = ${gen.forcing.p}`}<span id="help-family"></span><br>` +
+    `origin ${r.shortest_hops} moves from the goal · ${r.n_moves} moves · <span class="outcome-${r.outcome}">${r.outcome_label}</span>${r.category_label ? ` · ${r.category_label}<span id="help-category"></span>` : ""}`;
+  note.querySelector("#help-family").appendChild(helpButton(r.family));
+  if (r.category && HELP[`category_${r.category}`]) note.querySelector("#help-category").appendChild(helpButton(`category_${r.category}`));
   document.getElementById("foot-model").textContent = `Rides from ${r.model.checkpoint}, ${r.model.architecture};`;
   const playBtn = document.getElementById("btn-play");
   playBtn.innerHTML = state.playing
@@ -186,6 +190,10 @@ async function main() {
   views.position.onHover = which => { state.hover = which; render(); };
   fillPicker();
   bindTransport();
+  for (const [id, key] of [["help-taxigpt", "taxigpt"], ["help-inside", "inside"], ["help-prediction", "prediction"], ["help-position", "position"],
+                           ["help-compass", "compass"], ["help-forced", "forced"], ["help-illegal", "illegal"], ["help-trace", "trace"]]) {
+    attachHelp(`#${id}`, key);
+  }
   window.addEventListener("resize", debounce(() => { views.map.resize(); views.timeline.resize(); render(); }, 120));
   const h = readHash();
   await selectRide(h.ride || index.rides[0].id, h.step);

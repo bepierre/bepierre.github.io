@@ -56,7 +56,10 @@ svg text { font-family: var(--font); }
   padding: 12px 22px 8px; gap: 10px;
 }
 .masthead { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px var(--gap); }
-.masthead .title { display: flex; align-items: baseline; gap: 4px 14px; flex-wrap: wrap; min-width: 0; }
+.masthead .title { display: grid; gap: 2px; min-width: 0; }
+.masthead .title-row { display: flex; align-items: baseline; gap: 4px 14px; flex-wrap: wrap; }
+.masthead .intro { margin: 0; color: var(--muted); max-width: 92ch; }
+.masthead .intro .help { margin-left: 6px; }
 .masthead h1 { font-size: var(--fs-title); font-weight: 600; margin: 0; letter-spacing: -0.005em; overflow-wrap: anywhere; }
 .masthead h1 span { font-weight: 400; color: var(--muted); }
 .masthead .meta { display: flex; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: var(--fs-small); }
@@ -82,7 +85,9 @@ svg text { font-family: var(--font); }
 
 /* ── explorer: the map fills the left, everything else sits in one right-hand column ───────── */
 .explorer { display: grid; grid-template-columns: minmax(0, 1fr) var(--dash-w); gap: var(--gap); min-height: 0; }
-.dash { display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: 12px; min-width: 0; min-height: 0; }
+.dash { display: grid; grid-template-rows: auto auto auto minmax(0, 1fr); gap: 12px; min-width: 0; min-height: 0; }
+.dash-head { display: flex; align-items: baseline; gap: 8px; border-bottom: var(--hair); padding-bottom: 4px; font-weight: 600; }
+.dash-head .where { margin-left: auto; font-weight: 400; color: var(--muted); font-size: var(--fs-small); white-space: nowrap; }
 .pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; min-width: 0; }
 
 /* ── the map ───────────────────────────────────────────────────────────────────── */
@@ -263,6 +268,33 @@ svg text { font-family: var(--font); }
 .timeline .legend .n { fill: var(--muted); }
 .timeline .legend .m { fill: var(--muted); }
 .timeline .unmeasured { fill: var(--grid-soft); }
+
+/* ── help buttons and popovers ────────────────────────────────────────────── */
+.help {
+  display: inline-grid; place-items: center; width: 14px; height: 14px; margin-left: 5px; padding: 0; vertical-align: 1px;
+  border: 1px solid var(--sand); border-radius: 50%; background: var(--paper); color: var(--muted);
+  font-size: 10px; font-weight: 600; line-height: 1; cursor: help;
+}
+.help:hover, .help.on { border-color: var(--ink); color: var(--ink); }
+h2 .help { margin-left: 6px; vertical-align: 2px; }
+.map-legend .help { pointer-events: auto; }
+.hdr .help { margin-left: 4px; vertical-align: 0; }
+.readouts dt .help { margin-left: 4px; }
+.timeline-help { position: absolute; left: 0; top: 0; }
+.map-note .help { pointer-events: auto; }
+.help-pop {
+  position: fixed; z-index: 20; width: 340px; max-width: calc(100vw - 16px); background: var(--paper);
+  border: 1px solid var(--sand); border-radius: 3px; padding: 10px 12px 12px; box-shadow: 0 6px 18px rgba(26, 26, 26, .10);
+  font-size: var(--fs-body); line-height: 1.4;
+}
+.help-pop[hidden] { display: none; }
+.help-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.help-close { border: 0; background: none; color: var(--muted); font-size: 16px; line-height: 1; padding: 0 2px; cursor: pointer; }
+.help-close:hover { color: var(--ink); }
+.help-body p { margin: 0 0 8px; }
+.help-body p:last-of-type { margin-bottom: 0; }
+.help-body .layer-sketch { display: block; margin: 10px auto 0; max-width: 100%; height: auto; }
+.layer-sketch .lab { font-size: 9.5px; fill: var(--muted); }
 
 /* ── footer ──────────────────────────────────────────────────────────────────── */
 .foot { color: var(--muted); font-size: var(--fs-small); border-top: var(--hair); padding-top: 6px; }
