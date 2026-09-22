@@ -79,7 +79,7 @@ export const HELP = {
   },
   compass: {
     title: "Goal compass",
-    body: `<p>The model uses a goal compass to encode the angle from its current intersection to the destination and guide its moves toward the goal.</p>`,
+    body: `<p>The goal compass is a circular feature that encodes the angle from the current intersection to the destination. The model uses it to guide its moves toward the goal.</p>`,
     sketch: COMPASS_MARKS,
   },
   trace: {

@@ -9,68 +9,49 @@ const DONE_KEY = "explorer-tour-done";
 const STEPS = [
   {
     target: "#intro",
-    title: "A model that learned Manhattan from taxi rides",
-    body: `TaxiGPT is a transformer trained by Vafa et al. on sequences of taxi turns across Manhattan. It
-      never sees a map. The paper asks whether it builds one anyway, and finds that it does: intersections
-      and streets are encoded inside it, and it uses them to keep track of where it is and to head for the
-      goal. This page lets you watch that happen, one move at a time.`,
+    title: "A model that learns an internal map",
+    body: `TaxiGPT is trained on random walks through Manhattan, without being given the map. It receives an origin (●) and a destination (★), then predicts moves such as N, N, E: north, north, east. We find that it learns an internal map and uses it to localize itself and navigate. Here you can follow a ride and look inside the model at each step.`,
   },
   {
     target: "#map",
     title: "The ride",
-    body: `The dot is where the ride started and the star is the goal. The yellow cab is the taxi at the
-      current move, the dark line is the route so far, and the clay arrow is the move the model picks next.
-      On detour rides a slate arrow marks a move forced on the model instead. If the model picks a turn
-      with no street, the ride ends there with a red cross.`,
+    body: `The taxi travels from the origin (●) toward the goal (★). The route shows where it has been, and the arrow shows its next move. It tends to meander, like its training rides. In the detour test, some moves are forced instead. A red cross marks an illegal move: there is no street in that direction.`,
     place: "right",
   },
   {
     target: ".dash-head",
     title: "Inside the model",
-    body: `Everything on this side is read from the model's internal state at the same move: the residual
-      stream, decoded with features fitted on other rides. Each panel says which layer of the 48 it reads.`,
+    body: `Inside its residual stream, the model represents intersections and the direction to its goal. It uses these representations to track where it is and choose where to go. The residual stream carries information from layer to layer; the panels let you follow this information as the taxi moves.`,
     place: "left",
   },
   {
     target: "#panel-prediction",
-    title: "The next move",
-    body: `The model's actual output: a probability for each of the eight turns and for END. Turns in red
-      are illegal at the true intersection. Two mechanisms write into these scores: the active intersection
-      feature favours legal moves, and the goal compass favours moves toward the goal. The last column shows
-      how much the compass pushed each move.`,
+    title: "Next move",
+    body: `At each step, the model decides which move to take next, or whether to stop with END. The bars show the probability it assigns to each choice. Red marks directions with no street at the taxi’s current intersection. The compass-effect column compares the model’s scores with and without its goal compass.`,
     place: "left",
   },
   {
     target: "#panel-position",
-    title: "The position code",
-    body: `Every intersection has its own feature direction inside the model. The write is how strongly the
-      true one is active. The map is stored in superposition, so directions overlap, and a wrong
-      intersection can become the most active one when the write is weak and there is noise. That is how
-      an off-graph move happens. Hover a readout to see that intersection on the map.`,
+    title: "Position code",
+    body: `Each intersection has a feature inside the model. The position write measures how strongly the true intersection’s feature is active. Activating one feature can also activate others (because of superposition). If the true-position signal is weak or there is a lot of noise, a wrong feature can become most active and the model can lose track of where it is.`,
     place: "left",
   },
   {
     target: "#panel-compass",
-    title: "The goal compass",
-    body: `A circular feature that encodes the bearing to the goal. The plum needle is the bearing read
-      from the model; the black line ending in a star is the true bearing. Hover the dial to see both drawn
-      on the map.`,
+    title: "Goal compass",
+    body: `The goal compass is a circular feature that encodes the angle from the current intersection to the destination. The model uses it to guide its moves toward the goal.`,
     place: "left",
   },
   {
     target: ".timeline-panel",
     title: "Position tracking over time",
-    body: `The true intersection's write (green) and the strongest wrong intersection (red) at every move,
-      with noise in grey. Where red crosses green, the model reads the wrong place. Click or drag here to
-      move through the ride.`,
+    body: `This plot follows the true and strongest wrong intersection features as the taxi moves. They often rise and fall together because of superposition: activating the true feature also activates wrong features aligned with it. Click or drag along the plot to inspect a particular step.`,
     place: "left",
   },
   {
     target: ".transport",
-    title: "Play, step, explore",
-    body: `Press play, or step with the arrow keys and the space bar. Choose other rides at the top right:
-      stress rides sampled from the model, and detour rides where it is pushed off course. Every ? opens a
-      longer explanation. Enjoy the ride.`,
+    title: "Explore the rides",
+    body: `Press play to watch a ride, or use the arrow keys to step through it. Space pauses or resumes playback. Choose another ride from the menu: stress rides start farther from the goal than in training, while detour rides include forced moves. The ? buttons explain what each panel shows.`,
     place: "top",
     last: true,
   },
