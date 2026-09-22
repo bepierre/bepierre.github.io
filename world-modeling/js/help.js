@@ -63,7 +63,7 @@ export const HELP = {
   },
   wrong: {
     title: "Strongest wrong intersection",
-    body: `<p>The most active feature for an intersection other than the taxi’s actual position. Hover to see that intersection on the map.</p>`,
+    body: `<p>The most active feature for an intersection other than the taxi’s actual position.</p>`,
   },
   angle: {
     title: "Feature angle",
