@@ -4,7 +4,7 @@
 
 import { P, MILESTONE, svg, clear, timeColor } from "./util.js";
 
-const M = { l: 34, r: 30, t: 24, b: 22 };
+const M = { l: 34, r: 30, t: 20, b: 20 };
 let H = 124;
 
 export class TimelineView {
@@ -44,7 +44,12 @@ export class TimelineView {
     this.svg.addEventListener("pointerleave", () => { this.hoverLine.classList.remove("on"); });
   }
 
-  setRide(ride) { this.ride = ride; this.n = ride.steps.length - 1; this.draw(); }
+  setRide(ride) {
+    this.ride = ride; this.n = ride.steps.length - 1;
+    const w = document.getElementById("trace-where");
+    if (w) w.textContent = `layer ${ride.layers.position_write}`;
+    this.draw();
+  }
 
   x(k) { return M.l + (k / this.xmax) * (this.W - M.l - M.r); }
   xInv(px) { return (px - M.l) / (this.W - M.l - M.r) * this.xmax; }
@@ -110,12 +115,12 @@ export class TimelineView {
 
     // legend along the top, in the figure's words
     const lg = svg("g", { class: "legend" }, this.svg);
-    let lx = 22;
-    const items = [[`layer ${this.ride.layers.position_write}:`, "m"], ["true node write", "t"], ["strongest wrong node (may change each step)", "w"]];
+    let lx = M.l + 4;
+    const items = [["true node write", "t"], ["strongest wrong node", "w"]];
     if (this.hasNoise) items.push(["noise, right scale", "n"]);
     if (this.ride.family === "detour") items.push(["forced move", "f"]);
     for (const [label, cls] of items) {
-      const t = svg("text", { class: cls, x: lx, y: M.t - 13, text: label }, lg);
+      const t = svg("text", { class: cls, x: lx, y: M.t - 9, text: label }, lg);
       lx += (t.getComputedTextLength ? t.getComputedTextLength() : label.length * 5.2) + 10;
     }
 

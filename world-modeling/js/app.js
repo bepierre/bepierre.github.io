@@ -172,9 +172,6 @@ async function main() {
   const [rawWorld, idx] = await Promise.all([loadJSON(DATA === "data/demo/" ? "data/manhattan.json" : DATA + "manhattan.json"), loadJSON(DATA + "index.json")]);
   world = prepareWorld(rawWorld);
   index = idx;
-  const datasetTag = document.getElementById("dataset-tag");
-  datasetTag.textContent = idx.dataset === "demo" ? "demo data" : `${idx.rides.length} recorded rides`;
-  datasetTag.title = idx.note;
   const dataNote = document.getElementById("data-note");
   if (dataNote) dataNote.textContent = idx.dataset === "demo"
     ? "Fields marked illustrative are generated, not measured."
