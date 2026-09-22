@@ -5,6 +5,7 @@ import { MapView } from "./map.js";
 import { TimelineView } from "./timeline.js";
 import { PredictionView, PositionView, CompassView } from "./panels.js";
 import { attachHelp, helpButton, HELP } from "./help.js";
+import { startTour, tourSeen } from "./tour.js";
 
 const DATA = new URLSearchParams(location.search).get("dataset") === "demo" ? "data/demo/" : "data/recorded-v1/";
 const DEFAULT_RIDE = "stress-0001";   // the landing ride: a long successful ride that shows most of the island
@@ -205,6 +206,14 @@ async function main() {
   window.addEventListener("resize", debounce(() => { views.map.resize(); views.timeline.resize(); render(); }, 120));
   const h = readHash();
   await selectRide(h.ride || (index.rides.some(r => r.id === DEFAULT_RIDE) ? DEFAULT_RIDE : index.rides[0].id), h.step);
+  // the guided tour: once per browser on a fresh landing (no ride in the link), or from the header link
+  const tour = () => {
+    stop();
+    if (state.step === 0) setStep(Math.min(30, state.ride.steps.length - 1));   // a mid-ride state has more to show
+    startTour();
+  };
+  document.getElementById("tour-link").addEventListener("click", e => { e.preventDefault(); tour(); });
+  if (!tourSeen() && !h.ride && !new URLSearchParams(location.search).has("notour")) tour();
   window.addEventListener("hashchange", () => {
     const g = readHash();
     if (!g.ride) return;
