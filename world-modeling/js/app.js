@@ -11,7 +11,7 @@ const DEFAULT_RIDE = "stress-0001";   // the landing ride: a long successful rid
 const STEP_MS = 260;          // one move at 1×
 const RIDE_GAP_MS = 1100;     // pause between rides when playing them all
 
-const state = { ride: null, rideId: null, step: 0, playing: false, playAll: false, speed: 1, hover: null };
+const state = { ride: null, rideId: null, step: 0, playing: false, playAll: false, speed: 1, hover: null, hinted: false };
 let world, index, views, timer = null, gapTimer = null;
 
 async function loadJSON(url) {
@@ -57,6 +57,8 @@ function fillPicker() {
   sel.addEventListener("change", () => { selectRide(sel.value, 0); sel.blur(); });
   document.getElementById("ride-prev").addEventListener("click", () => stepRide(-1));
   document.getElementById("ride-next").addEventListener("click", () => stepRide(1));
+  document.getElementById("hint-next").addEventListener("click", async () => { await stepRide(1); play(); });
+  sel.addEventListener("focus", () => { document.getElementById("ride-hint").hidden = true; });
   document.getElementById("play-all").addEventListener("click", () => {
     if (state.playAll) { state.playAll = false; stop(); render(); }
     else { state.playAll = true; if (!state.playing) play(); else render(); }
@@ -86,7 +88,8 @@ async function selectRide(id, step = 0) {
     }
   }
   stop();
-  state.ride = ride; state.rideId = entry.id; state.hover = null;
+  state.ride = ride; state.rideId = entry.id; state.hover = null; state.hinted = false;
+  document.getElementById("ride-hint").hidden = true;
   state.step = Math.max(0, Math.min(ride.steps.length - 1, step));
   document.getElementById("ride").value = entry.id;
   for (const v of Object.values(views)) v.setRide(ride);
@@ -115,6 +118,9 @@ function render() {
     : '<svg viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z"/></svg>';
   playBtn.setAttribute("aria-label", state.playing ? "Pause" : "Play");
   document.getElementById("play-all").classList.toggle("on", state.playAll);
+  const hint = document.getElementById("ride-hint");
+  if (state.step === n && !state.playAll && !state.hinted) { state.hinted = true; hint.hidden = false; }
+  else if (state.step < n && !hint.hidden) hint.hidden = true;
   history.replaceState(null, "", `#ride=${state.rideId}&step=${state.step}`);
 }
 
