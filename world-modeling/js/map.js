@@ -100,11 +100,7 @@ export class MapView {
     svg("circle", { class: "origin", cx: o[0], cy: o[1], r: 4.2 }, this.gMarks);
     const g = this.px(this.ride.goal);
     svg("path", { class: "goal", d: starPath(8), transform: `translate(${g[0]} ${g[1]})` }, this.gMarks);
-    this.milestones = [];
-    for (let k = MILESTONE; k < n; k += MILESTONE) {
-      const p = this.routePts[k];
-      this.milestones.push(svg("rect", { class: "milestone", x: p[0] - 3, y: p[1] - 3, width: 6, height: 6, fill: timeColor(k, n) }, this.gMarks));
-    }
+    this.milestones = [];      // the paper's 20-move squares are not drawn on the web version
   }
 
   setOverlays(o) { Object.assign(this.overlays, o); }
@@ -183,11 +179,14 @@ export class MapView {
     }
   }
 
-  // a small top-down taxi, nose along the heading (degrees, math convention)
+  // a small top-down yellow cab, nose along the heading (degrees, math convention): four wheel stubs,
+  // a body with a rounder nose, and the windscreen and rear window as two dark bands
   taxi(p, heading) {
-    const g = svg("g", { transform: `translate(${p[0]} ${p[1]}) rotate(${-heading})` }, this.gNow);
-    svg("rect", { class: "taxi-body", x: -9, y: -5, width: 18, height: 10, rx: 2.5 }, g);
-    svg("rect", { class: "taxi-cabin", x: -4, y: -3.2, width: 7, height: 6.4, rx: 1 }, g);
+    const g = svg("g", { class: "taxi", transform: `translate(${p[0]} ${p[1]}) rotate(${-heading})` }, this.gNow);
+    for (const [x, y] of [[-6.5, -6.6], [3.3, -6.6], [-6.5, 4.6], [3.3, 4.6]]) svg("rect", { class: "taxi-wheel", x, y, width: 3.2, height: 2, rx: .6 }, g);
+    svg("path", { class: "taxi-body", d: "M-9 -4.2 Q-9 -5.5 -7.5 -5.5 L7 -5.5 Q10 -5.5 10 -3 L10 3 Q10 5.5 7 5.5 L-7.5 5.5 Q-9 5.5 -9 4.2 Z" }, g);
+    svg("rect", { class: "taxi-window", x: 2.4, y: -3.6, width: 2.4, height: 7.2, rx: .6 }, g);
+    svg("rect", { class: "taxi-window", x: -5.2, y: -3.6, width: 2, height: 7.2, rx: .6 }, g);
   }
   bearingPx(a, b) { return Math.atan2(-(b[1] - a[1]), b[0] - a[0]) * 180 / Math.PI; }
   // arrows leave from the taxi's nose (11 px out) and stop short of the destination

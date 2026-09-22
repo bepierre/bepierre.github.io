@@ -110,7 +110,6 @@ export class TimelineView {
     // the time bar along the axis: sand → charcoal to the end of the ride, grid beyond
     svg("line", { class: "timebar-rest", x1: this.x(n), x2: this.x(this.xmax), y1: y0, y2: y0 }, this.svg);
     for (let k = 0; k < n; k++) svg("line", { class: "timebar", x1: this.x(k), x2: this.x(k + 1) + 0.3, y1: y0, y2: y0, stroke: timeColor(k + 0.5, n) }, this.svg);
-    for (let k = MILESTONE; k < n; k += MILESTONE) svg("rect", { class: "milestone", x: this.x(k) - 3, y: y0 - 3, width: 6, height: 6, fill: timeColor(k, n) }, this.svg);
     if (this.ride.family === "detour") {
       for (let k = 0; k < n; k++) if (steps[k].prediction.forced) svg("line", { class: "forced-tick", x1: this.x(k), x2: this.x(k), y1: y0 + 5, y2: y0 + 9 }, this.svg);
     }
