@@ -7,6 +7,7 @@ import { PredictionView, PositionView, CompassView } from "./panels.js";
 import { attachHelp, helpButton, HELP } from "./help.js";
 
 const DATA = new URLSearchParams(location.search).get("dataset") === "demo" ? "data/demo/" : "data/recorded-v1/";
+const DEFAULT_RIDE = "stress-0001";   // the landing ride: a long successful ride that shows most of the island
 const STEP_MS = 260;          // one move at 1×
 const RIDE_GAP_MS = 1100;     // pause between rides when playing them all
 
@@ -197,7 +198,7 @@ async function main() {
   }
   window.addEventListener("resize", debounce(() => { views.map.resize(); views.timeline.resize(); render(); }, 120));
   const h = readHash();
-  await selectRide(h.ride || index.rides[0].id, h.step);
+  await selectRide(h.ride || (index.rides.some(r => r.id === DEFAULT_RIDE) ? DEFAULT_RIDE : index.rides[0].id), h.step);
   window.addEventListener("hashchange", () => {
     const g = readHash();
     if (!g.ride) return;

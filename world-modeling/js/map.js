@@ -62,10 +62,17 @@ export class MapView {
     const cx = (minx + maxx) / 2, cy = (miny + maxy) / 2;
     this.view = { k, x0: cx - (W / 2) / k, y1: cy + (H / 2) / k, w: W, h: H };
     this.svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-    this.locView.setAttribute("x", this.locX(this.view.x0));
-    this.locView.setAttribute("y", this.locY(this.view.y1));
-    this.locView.setAttribute("width", ((W / k) * this.locScale.k).toFixed(1));
-    this.locView.setAttribute("height", ((H / k) * this.locScale.k).toFixed(1));
+    // the window rectangle, clamped inside the locator so its edges never fall outside the little box
+    // (the map window is often wider than the island at this scale)
+    const LW = 62, LH = 112, m = 0.5;
+    let lx = +this.locX(this.view.x0), ly = +this.locY(this.view.y1);
+    let lw = (W / k) * this.locScale.k, lh = (H / k) * this.locScale.k;
+    const x2 = Math.min(LW - m, lx + lw), y2 = Math.min(LH - m, ly + lh);
+    lx = Math.max(m, lx); ly = Math.max(m, ly);
+    this.locView.setAttribute("x", lx.toFixed(1));
+    this.locView.setAttribute("y", ly.toFixed(1));
+    this.locView.setAttribute("width", Math.max(2, x2 - lx).toFixed(1));
+    this.locView.setAttribute("height", Math.max(2, y2 - ly).toFixed(1));
   }
   px(id) { const n = this.world.nodes[id]; return n ? this.pt(n) : null; }
   pt([x, y]) { return [(x - this.view.x0) * this.view.k, (this.view.y1 - y) * this.view.k]; }
