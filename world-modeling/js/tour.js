@@ -33,7 +33,7 @@ const STEPS = [
   {
     target: "#panel-position",
     title: "Position code",
-    body: `Each intersection has a feature inside the model. The position write measures how strongly the true intersection’s feature is active. Activating one feature can also activate others (because of superposition). If the true-position signal is weak or there is a lot of noise, a wrong feature can become most active and the model can lose track of where it is.`,
+    body: `Each intersection has a feature inside the model. Imagine a taxi driver drawing a map in a small notebook. As the page fills up, they draw new parts of the map on top of the earlier ones. Later, an X marking their position lands on two overlapping parts, and they can confuse which place they are in. Similarly, TaxiGPT can confuse its current intersection with another whose feature is superposed with it.`,
     place: "left",
   },
   {
