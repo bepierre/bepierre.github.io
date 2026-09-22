@@ -56,17 +56,84 @@
           <!-- Publications -->
           <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
 
-          <!-- World Modeling in Transformers -->
+          <!-- Section: Mechanistic Interpretability -->
           <tr>
-            <td colspan="2" style="padding:20px;vertical-align:middle">
-              <a href="world-modeling/"><span class="papertitle">World Modeling in Transformers</span></a><br>
-              <strong>Pierre Beckmann</strong>, Matthieu Queloz, André Freitas<br>
-              <em>Preprint</em><br>
-              <a href="world-modeling/">project page</a> /
-              <a href="https://arxiv.org/abs/2609.21748">paper</a> /
-              <a href="https://github.com/bepierre/world-modeling">code</a>
+            <td style="padding:16px;width:100%" colspan="2">
+              <h2>Mechanistic Interpretability</h2>
             </td>
           </tr>
+
+          <tr>
+            <td style="padding:16px;width:30%;vertical-align:middle">
+              <div class="carousel" onclick="cycleImage(this)" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
+                <img src="images/world-modeling/1_internal_map.svg" width="100%" style="display:block;">
+                <img src="images/world-modeling/2_superposition.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/3_affordance.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/4_localization.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/5_goal_compass.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/6_compass_causal.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/7_two_mechanisms.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/8_weak_write_and_noise.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/9_noise_intervention.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/10_affordance_packing.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/11_stress_ride_a.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/12_stress_ride_b.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/13_failure_modes.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/14_write_drivers.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/15_crowding_surprise.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/16_noise_depth.svg" width="100%" style="display:none;">
+                <img src="images/world-modeling/17_growth.svg" width="100%" style="display:none;">
+              </div>
+            </td>
+            <td style="padding:20px;width:65%;vertical-align:middle">
+              <a href="https://arxiv.org/abs/2609.21748">
+                <span class="papertitle">World Modeling in Transformers</span>
+              </a>
+              <br>
+              <strong>Pierre Beckmann</strong>,
+              <a href="https://www.matthieuqueloz.com/">Matthieu Queloz</a>,
+              <a href="https://andrefreitas.org/">André Freitas</a>
+              <br>
+              <em>arXiv preprint</em>
+              <br>
+              <a href="https://arxiv.org/abs/2609.21748">arXiv</a> /
+              <a href="world-modeling/">interactive explorer</a> /
+              <a href="https://github.com/bepierre/world-modeling">code</a>
+              <p></p>
+              <p>
+                Vafa et al. found that a GPT model trained on taxi rides through Manhattan still behaved in a way that implied an incoherent map. We look inside the model and find a faithful internal map and a goal compass. What sometimes leads the model astray is that it stores the map in superposition, like a taxi driver who runs out of space on the page when drawing a map.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px;width:30%;vertical-align:middle">
+              <div class="carousel" onclick="cycleImage(this)" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
+                <img src="images/probing/probing_1.png" width="100%" style="display:block;">
+                <img src="images/probing/probing_2.png" width="100%" style="display:none;">
+                <img src="images/probing/probing_3.png" width="100%" style="display:none;">
+              </div>
+            </td>
+            <td style="padding:20px;width:65%;vertical-align:middle">
+              <a href="https://arxiv.org/abs/2605.13339">
+                <span class="papertitle">Probing Persona-Dependent Preferences in Language Models</span>
+              </a>
+              <br>
+              Oscar Gilg,
+              <strong>Pierre Beckmann</strong>,
+              <a href="https://danielpaleka.com/">Daniel Paleka</a>,
+              <a href="https://patrickbutlin.com/">Patrick Butlin</a>
+              <br>
+              <em>arXiv preprint</em>
+              <br>
+              <a href="https://arxiv.org/abs/2605.13339">arXiv</a>
+              <p></p>
+              <p>
+                Using linear probes on residual-stream activations, we find a preference vector that tracks a model's preferences across prompts and situations &mdash; and show this representation is largely shared across personas, predicting and steering choices even for an adversarial persona.
+              </p>
+            </td>
+          </tr>
+
 
           <!-- Section: Philosophy of AI -->
           <tr>
@@ -276,41 +343,6 @@
               <p></p>
               <p>
                 A neuro-symbolic framework that automatically identifies formal reasoning strategies from natural language problems and dynamically selects specialized logical solvers via autoformalization interfaces.
-              </p>
-            </td>
-          </tr>
-
-          <!-- Section: Mechanistic Interpretability -->
-          <tr>
-            <td style="padding:16px;width:100%" colspan="2">
-              <h2>Mechanistic Interpretability</h2>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:16px;width:30%;vertical-align:middle">
-              <div class="carousel" onclick="cycleImage(this)" style="cursor:pointer;width:100%;height:200px;overflow:hidden;">
-                <img src="images/probing/probing_1.png" width="100%" style="display:block;">
-                <img src="images/probing/probing_2.png" width="100%" style="display:none;">
-                <img src="images/probing/probing_3.png" width="100%" style="display:none;">
-              </div>
-            </td>
-            <td style="padding:20px;width:65%;vertical-align:middle">
-              <a href="https://arxiv.org/abs/2605.13339">
-                <span class="papertitle">Probing Persona-Dependent Preferences in Language Models</span>
-              </a>
-              <br>
-              Oscar Gilg,
-              <strong>Pierre Beckmann</strong>,
-              <a href="https://danielpaleka.com/">Daniel Paleka</a>,
-              <a href="https://patrickbutlin.com/">Patrick Butlin</a>
-              <br>
-              <em>arXiv preprint</em>
-              <br>
-              <a href="https://arxiv.org/abs/2605.13339">arXiv</a>
-              <p></p>
-              <p>
-                Using linear probes on residual-stream activations, we find a preference vector that tracks a model's preferences across prompts and situations &mdash; and show this representation is largely shared across personas, predicting and steering choices even for an adversarial persona.
               </p>
             </td>
           </tr>
