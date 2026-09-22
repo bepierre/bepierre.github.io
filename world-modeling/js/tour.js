@@ -15,7 +15,7 @@ const STEPS = [
   {
     target: "#map",
     title: "The ride",
-    body: `The taxi travels from the origin (●) toward the goal (★). The route shows where it has been, and the arrow shows its next move. It tends to meander, like its training rides. In the detour test, some moves are forced instead. A red cross marks an illegal move: there is no street in that direction.`,
+    body: `The taxi travels from the origin (●) toward the goal (★). The route shows where it has been, and the arrow shows its next move. It tends to meander, like its training rides. In the detour test, some moves are forced instead. A red cross marks an illegal move (there is no street in that direction).`,
     place: "right",
   },
   {
