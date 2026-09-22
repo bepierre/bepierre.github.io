@@ -67,11 +67,11 @@ export const HELP = {
   },
   angle: {
     title: "Feature angle",
-    body: `<p>The angle between the true and strongest wrong intersection features. Features close in direction tend to share legal moves: this affordance packing limits the consequences of confusing them. Larger angles tend to mean fewer shared legal moves. This is an angle in feature space, not a distance on the map.</p>`,
+    body: `<p>Intersection features share space inside the model: this is superposition. The angle shows how closely the true and wrong features align. At a small angle, activating the true feature also strongly activates the wrong one. This is an angle inside the model, not on the street map.</p>`,
   },
   noise: {
     title: "Noise",
-    body: `<p>Alongside the true intersection’s activation, there is activity spread across other intersection features. Much of it varies between visits to the same place, which is why we interpret it as noise. The displayed value summarizes this activity. More noise makes it easier for a wrong feature to become most active.</p>`,
+    body: `<p>Activity spread across other intersection features can interfere with the signal for the taxi’s true position. This value summarizes that background activity: more noise makes it easier to confuse intersections.</p>`,
   },
   sketch: {
     title: "The feature plane",
