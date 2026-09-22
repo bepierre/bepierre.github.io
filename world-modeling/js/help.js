@@ -36,7 +36,7 @@ function layerSketch(marks) {
   return s;
 }
 const POSITION_MARKS = [{ layer: 18, label: "position read", color: P.good }];
-const COMPASS_MARKS = [{ layer: 16, label: "compass read", color: "#6E5C7A" }, { layer: 18, label: "compass removed", color: P.muted }];
+const COMPASS_MARKS = [{ layer: 16, label: "compass read", color: "#6E5C7A" }];
 
 export const HELP = {
   taxigpt: {
@@ -67,7 +67,7 @@ export const HELP = {
   },
   angle: {
     title: "Feature angle",
-    body: `<p>Intersection features share space inside the model: this is superposition. The angle shows how closely the true and wrong features align. At a small angle, activating the true feature also strongly activates the wrong one. This is an angle inside the model, not on the street map.</p>`,
+    body: `<p>The angle between the true intersection’s feature and the strongest wrong feature. Because intersection features are stored in superposition, activating the true feature also activates wrong features aligned with it. The smaller the angle, the stronger this effect.</p>`,
   },
   noise: {
     title: "Noise",
@@ -83,7 +83,7 @@ export const HELP = {
     sketch: COMPASS_MARKS,
   },
   trace: {
-    title: "Activation trace",
+    title: "Position tracking over time",
     body: `<p>Green follows the true-position write; red follows the strongest wrong feature, whose identity can change. Superposition helps explain why they often rise and fall together: activating the true feature also activates wrong features superposed with it. Noise uses the right-hand scale. Click or drag to move through the ride.</p>`,
   },
   stress: {
