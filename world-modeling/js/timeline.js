@@ -4,7 +4,7 @@
 
 import { P, MILESTONE, svg, clear, timeColor, starPath } from "./util.js";
 
-const M = { l: 34, r: 30, t: 20, b: 20 };
+const M = { l: 34, r: 30, t: 20, b: 26 };
 let H = 124;
 
 export class TimelineView {
@@ -86,7 +86,7 @@ export class TimelineView {
     }
     const xt = this.xmax === 100 ? [0, 50, 100] : [0, 60, 120];
     xt.forEach((v, i) => {
-      svg("text", { class: "tick-text", x: this.x(v), y: H - 4, "text-anchor": i === 0 ? "start" : i === xt.length - 1 ? "end" : "middle", text: i === 0 ? `${v} moves` : v }, this.svg);
+      svg("text", { class: "tick-text", x: this.x(v), y: H - 3, "text-anchor": i === 0 ? "start" : i === xt.length - 1 ? "end" : "middle", text: i === 0 ? `${v} moves` : v }, this.svg);
     });
     // the origin state carries no position readout
     svg("rect", { class: "unmeasured", x: this.x(0), y: this.y(this.ymax), width: Math.max(0, this.x(1) - this.x(0)), height: y0 - this.y(this.ymax) }, this.svg);
