@@ -117,7 +117,7 @@ svg text { font-family: var(--font); }
 .map-frame .hover-ring.on { opacity: 1; }
 .map-frame .compass-ring { fill: none; stroke: var(--sand); stroke-width: .8; stroke-opacity: .9; }
 .map-frame .compass-decoded { fill: var(--compass); }
-.map-frame .ray.decoded { stroke: var(--compass); stroke-width: 2; stroke-linecap: round; }
+.map-frame .ray.decoded { stroke: var(--compass); stroke-width: 1.4; }
 .map-frame .ray.actual { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 4 3; }
 .compass-dial, #compass-readouts { cursor: crosshair; }
 .map-frame .compass-actual { stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; }
