@@ -71,7 +71,7 @@ export const HELP = {
   },
   noise: {
     title: "Noise",
-    body: `<p>Activity spread across other intersection features can interfere with the signal for the taxi’s true position. This value summarizes that background activity: more noise makes it easier to confuse intersections.</p>`,
+    body: `<p>The position code, where the intersection features lie, also contains noise. More noise can make a wrong intersection’s feature more active than the true one.</p>`,
   },
   sketch: {
     title: "The feature plane",
