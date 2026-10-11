@@ -1,13 +1,13 @@
 /* Pierre Beckmann — personal site */
 :root{--ink:#1d2229;--ink2:#4b5563;--mute:#7b8494;--rule:#e5e8ee;--accent:#6e5a9e;--paper:#ffffff;--font:"Source Sans 3",-apple-system,"Helvetica Neue",Arial,sans-serif}
 html{color-scheme:light;scroll-behavior:smooth;background:#fff}
-body{background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17.5px;line-height:1.5;margin:0}
+body{overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17.5px;line-height:1.5;margin:0}
 .wrap{max-width:780px;margin:0 auto;padding:64px 28px 120px}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 header{display:grid;grid-template-columns:1fr 290px;gap:40px;align-items:center}
 h1{margin:0 0 22px;line-height:0}
-h1 img.sig{height:58px;width:auto;display:block;margin-left:-6px}
+h1 img.sig{height:58px;width:auto;max-width:100%;display:block;margin-left:-6px}
 header p{margin:0 0 12px;max-width:34em}
 .links{color:var(--ink2);font-size:16px;margin-top:18px}
 .profile{position:relative;width:290px;aspect-ratio:996/988;border-radius:2px;overflow:hidden}
@@ -35,6 +35,7 @@ h2.sec{margin-top:64px;padding-top:22px;border-top:1px solid var(--rule)}
 .meta em{font-style:italic;color:inherit}
 .meta p{margin:10px 0 0;color:var(--ink2);font-size:16.5px;max-width:36em}
 @media (max-width:640px){
+  h1 img.sig{height:auto;width:100%;margin-left:0}
   header{grid-template-columns:1fr}
   .profile{order:-1;width:220px}
   .entry{grid-template-columns:1fr}

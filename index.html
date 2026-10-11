@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
-    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=20261008b">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=20261011">
   </head>
   <body>
     <div class="wrap">
@@ -26,7 +26,7 @@
                   <a href="data/PierreBeckmann-CV.pdf">CV</a> &nbsp;/&nbsp;
                   <a href="https://orcid.org/0000-0001-9247-4841">ORCID</a></p>
         </div>
-        <div class="profile" aria-label="Pierre Beckmann">
+        <div class="profile" aria-label="Pierre Beckmann" style="cursor:pointer">
           <img src="images/profile.png" alt="Pierre Beckmann" style="opacity:1">
           <img alt="" style="opacity:0">
           <img alt="" style="opacity:0">
@@ -439,8 +439,14 @@
       function paint(){for(var k=1;k<im.length;k++){im[k].style.opacity=Math.max(0,Math.min(1,1-Math.abs(t*3-k))).toFixed(3);}}
       function step(now){var x=Math.min(1,(now-t0)/dur);t=from+(to-from)*ease(x);paint();if(x<1)raf=requestAnimationFrame(step);else{raf=null;if(t===0){seq=(seq+1)%SEQ.length;load(seq);}}}
       function go(target,ms){from=t;to=target;dur=ms*Math.abs(to-from)||1;t0=performance.now();if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(step);}
-      box.addEventListener('mouseenter',function(){go(1,2200);});
-      box.addEventListener('mouseleave',function(){go(0,1400);});
+      var TOUCH = window.matchMedia && window.matchMedia('(hover:none)').matches;
+      if (TOUCH){
+        var shown=false;
+        box.addEventListener('click',function(){ shown=!shown; go(shown?1:0, shown?2200:1400); });
+      } else {
+        box.addEventListener('mouseenter',function(){go(1,2200);});
+        box.addEventListener('mouseleave',function(){go(0,1400);});
+      }
     })();
     </script>
       <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ef743161170d4efa97176ab729df5eee"}'></script><!-- End Cloudflare Web Analytics -->
